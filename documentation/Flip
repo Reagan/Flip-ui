@@ -1,0 +1,31 @@
++ Flip UI library
+
+Flip UI library is an ever growing library of custom  professional UI components for use by J2ME developers. 
+
+Current components included in Flip are:
+
++ Animated Splash screen 
+
++ Search component 
+	search when minimized
+	contains hooks to receiver component
+
++ Dynamic grid 
+	loading message
+	lazy loading for displayed components
+	staggered loading
+	layout modes - vertical layout mode
+	horizontal layout mode with equal dimension components
+	horizontal layout mode with varying width dimension components
+	allow custom components
+	linked with other component (search textfield)
+	allow selection 
+	highlighting
+	title component
+	title String
+	included rater component
+
++ Linked Image
++ Rater component
++ Dynamic loading Image component
++ Gallery viewer with previous and next options
