@@ -6,6 +6,12 @@ Current components included in Flip are:
 
 + Animated Splash screen 
 
+- has loading sequence component
+	- Image based 
+	- Text based 
+	* implements a monitor interface to capture loading messages
+	* loading sequence component implements an update interface that updates the splash screen
+	
 + Search component 
 	search when minimized
 	contains hooks to receiver component
