@@ -1,4 +1,4 @@
- package it.qubixic.component;
+ package it.qubixic.component.SplashScreen;
 
 import it.qubixic.utils.Point;
 import java.util.Vector;
