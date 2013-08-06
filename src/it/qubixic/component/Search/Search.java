@@ -34,6 +34,20 @@ public class Search extends TextField {
     }
 
     /**
+     * Creates an instance of a search field component
+     * with a set of custom configurations
+     * @param searchFieldLabel The label for the search field
+     * @param searchFieldText The default text contained within the search field text
+     * @param maxChars The max number of chars that can be entered in the search field text
+     * @param searchFieldConstraints The type of input that can be entered onto the 
+     * search field text field
+     */
+    public Search(String searchFieldLabel, String searchFieldText, 
+            int maxChars, int searchFieldConstraints) {
+        super(searchFieldLabel, searchFieldText, maxChars, searchFieldConstraints);
+    }
+    
+    /**
      * Creates an instance of a search field label and the type of 
      * text that the search field can contain
      * @param searchFieldLabel
