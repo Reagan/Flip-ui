@@ -1,6 +1,7 @@
 package it.qubixic.component.grid;
 
 import it.qubixic.component.grid.layout.ComponentLayoutType;
+import it.qubixic.component.grid.thumbnail.Thumbnail;
 import java.util.Vector;
 import javax.microedition.lcdui.CustomItem;
 import javax.microedition.lcdui.Graphics;

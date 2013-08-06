@@ -4,6 +4,6 @@ import javax.microedition.lcdui.Graphics;
 
 public interface Layout {
     void drawElements(Graphics g) ;
-    int getItemsPerRow() ; 
+    int getItemsPerRow(int thumbnailWidth) ; 
     int getRows(int itemsPerRow); 
 }

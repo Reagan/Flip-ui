@@ -1,5 +1,6 @@
 package it.qubixic.component.grid.thumbnail;
 
+import it.qubixic.component.theme.Theme;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -8,10 +9,10 @@ public abstract class Thumbnail implements IThumbnail {
     private ThumbnailCaption caption ;
     private Image imagePart;    
     private boolean selected = false;    
-    public static final int WIDTH = 100 ;
-    public static final int HEIGHT = 100 ;
-    public int topX = 0 ; 
-    public int topY = 0 ;
+    private int width = 100 ;
+    private int height = 100 ;
+    private int topX = 0 ; 
+    private int topY = 0 ;
     protected boolean focused = false ;
     
     public Thumbnail() {}
@@ -29,9 +30,21 @@ public abstract class Thumbnail implements IThumbnail {
         return imagePart;
     }
     
+    public boolean getFocussed () {
+        return focused ;
+    }
+    
+    public void setFocussed (boolean state) {
+        this.focused = state ;
+    }   
+    
     public ThumbnailCaption getCaption () {
         return caption ;
     }    
+    
+    public void setCaption (ThumbnailCaption caption) {
+        this.caption = caption ;
+    }
     
     public boolean isSelected() {
         return selected;
@@ -42,12 +55,20 @@ public abstract class Thumbnail implements IThumbnail {
     }
 
     public int getHeight() {
-        return HEIGHT ;
+        return height ;
+    }
+    
+    public void setHeight (int height) {
+        this.height = height ;
     }
     
     public int getWidth() {
-        return WIDTH ;
+        return width ;
     } 
+    
+    public void setWidth (int width) {
+        this.width = width ;
+    }
     
     public void render (Graphics g, int topX, int topY) {            
         setDimensions(topX, topY) ;
@@ -57,7 +78,7 @@ public abstract class Thumbnail implements IThumbnail {
         }       
         
         if (focused) {
-            g.setColor(theme.getBackgroundColorFocused());              
+            g.setColor(Theme.getThumbnailBackgroundColorFocused());              
             g.drawRect(topX, topY, getWidth() - 1, getHeight() - 1);
         }    
     }
@@ -70,25 +91,21 @@ public abstract class Thumbnail implements IThumbnail {
         return topY ;
     }
     
+    private void setDimensions(int topX, int topY) {
+        this.topX = topX ; 
+        this.topY = topY ;
+    }
+    
     public boolean contains (int x, int y) {
         if (x >= getTopX() && x <= getTopX() + getWidth()) {
-            if (y >= topY && y <= getTopY() + getHeight()) {
+            if (y >= getTopY() && y <= getTopY() + getHeight()) {
                 return true ;
             }
         }
         return false; 
-    }
-    
-    private void setDimensions(int topX, int topY) {
-        this.topX = topX ; 
-        this.topY = topY ;
     }  
-        
-    public boolean getFocussed () {
-        return focused ;
+                 
+    public int getBackgroundColor () {
+        return Theme.getThumbnailBackgroundColorFocused() ;
     }
-    
-    public void setFocussed (boolean state) {
-        this.focused = state ;
-    }    
 }

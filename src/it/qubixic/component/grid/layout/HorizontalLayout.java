@@ -27,9 +27,9 @@ public final class HorizontalLayout extends AbstractLayout {
     }    
     
     private void drawHorizontalGridSameComponentDimensions(Graphics g) {                     
-        for (int i = 0, size = elements.size(); i < size; i++) {            
-            Point elementLocation = getElementForLocation(i) ;            
+        for (int i = 0, size = elements.size(); i < size; i++) {
             Thumbnail currElement = (Thumbnail) elements.elementAt(i);
+            Point elementLocation = getLocationForElement(currElement, i) ;                        
             
             if (elementLocation.getY() + currElement.getHeight() < -g.getTranslateY()) {
                 continue ;                
@@ -37,34 +37,36 @@ public final class HorizontalLayout extends AbstractLayout {
                 break ;
             }
              
-            drawElement(currElement, g, (int) elementLocation.getX(), 
-                    (int) elementLocation.getY(), i == getFocussedItem());           
+            drawElement(g, currElement, elementLocation, i == getFocussedItem());           
         }
     }
     
-    private Point getElementForLocation(int currentItem) {
-        
+    private Point getLocationForElement(Thumbnail currItem, int currentItemIndex) {        
         int yCoord = 0;
         int heightNext = 0;
         int xCoord = 0;
-
-        if (currentItem % getItemsPerRow() == 0) {
+        int thumbnailWidth = currItem.getWidth() ;
+        
+        if (currentItemIndex % getItemsPerRow(thumbnailWidth) == 0) {
             yCoord = heightNext;
-            heightNext += ((Thumbnail) elements.elementAt(currentItem)).getHeight()
+            heightNext += currItem.getHeight()
                     + gridConstraints.getInnerMarginY();
-            xCoord = (currentItem % getItemsPerRow()) * ((Thumbnail) elements.elementAt(0)).getWidth();
+            xCoord = 0 ;
         } else {
-            xCoord = (currentItem % getItemsPerRow()) * ((Thumbnail) elements.elementAt(0)).getWidth()
+            xCoord = (currentItemIndex % getItemsPerRow(thumbnailWidth))
+                    * currItem.getWidth()
                     + gridConstraints.getInnerMarginX();
         }
         return new Point(xCoord, yCoord);
     }
     
-    private void drawElement(Thumbnail element, Graphics g, 
-            int x, int y, boolean focused) {
+    private void drawElement(Graphics g, Thumbnail element,  
+            Point elementLocation, boolean focused) {
                 
         int elementWidth = element.getWidth() ;
         int elementHeight = element.getHeight() ;
+        int x = (int) elementLocation.getX() ;
+        int y = (int) elementLocation.getY() ;
         
         g.setClip(x, y, elementWidth, elementHeight);        
         g.setColor(element.getBackgroundColor());
@@ -80,12 +82,11 @@ public final class HorizontalLayout extends AbstractLayout {
         
     }
     
-    public int getItemsPerRow() {
-        
-        return getWidth() / Thumbnail.WIDTH ;
+    public int getItemsPerRow(int thumbnailWidth) {        
+        return getWidth() / thumbnailWidth;
     }
 
     public int getRows(int itemsPerRow) {        
-        return (int) Math.ceil( elements.size() / (double) itemsPerRow) ;
+        return (int) Math.ceil(elements.size() / (double) itemsPerRow) ;
     }
 }

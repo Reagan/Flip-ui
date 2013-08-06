@@ -32,7 +32,7 @@ public final class VerticalLayout extends AbstractLayout {
         
     }
 
-    public int getItemsPerRow() {
+    public int getItemsPerRow(int thumbnailWidth) {
         return 0 ;
     }
 
