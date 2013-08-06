@@ -1,4 +1,4 @@
-package it.qubixic.component.Search;
+package it.qubixic.component.search;
 
 import java.util.Vector;
 import javax.microedition.lcdui.TextField;

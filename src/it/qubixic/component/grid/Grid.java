@@ -1,5 +1,6 @@
-package it.qubixic.component.Grid;
+package it.qubixic.component.grid;
 
+import it.qubixic.component.grid.layout.ComponentLayoutType;
 import java.util.Vector;
 import javax.microedition.lcdui.CustomItem;
 import javax.microedition.lcdui.Graphics;
@@ -11,8 +12,7 @@ public class Grid extends CustomItem {
     private int listType = ListType.VERTICAL ;
     private int layoutType = ComponentLayoutType.SAME_DIMENSIONS ;
     private GridConstraints gridConstraints = new GridConstraints() ;
-    
-    private int focussedItem = 0 ;
+        
     private final int MIN_WIDTH = 100 ;
     private final int MIN_HEIGHT = 100 ;
     

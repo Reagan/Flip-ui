@@ -1,4 +1,4 @@
-package it.qubixic.component.Grid;
+package it.qubixic.component.grid;
 
 public class GridConstraints {
     

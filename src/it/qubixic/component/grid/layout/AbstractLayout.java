@@ -1,13 +1,17 @@
-package it.qubixic.component.Grid;
+package it.qubixic.component.grid.layout;
 
+import it.qubixic.component.grid.GridConstraints;
 import java.util.Vector;
 
 public abstract class AbstractLayout implements Layout {
 
-    private Vector elements ;
-    private int orientation ;
-    private GridConstraints gridConstraints ;
-    private int componentsLayoutType ;
+    protected Vector elements ;
+    protected int orientation ;
+    protected GridConstraints gridConstraints ;
+    protected int componentsLayoutType ;
+    private int focussedItem = 0 ;
+    private int width = 0 ;
+    private int height = 0 ;
     
     /**
      * Creates an initial instance of a layout class to manage
@@ -17,8 +21,9 @@ public abstract class AbstractLayout implements Layout {
      * @param gridConstraints  spacing between each of the components in
      * the grid
      */
-    public AbstractLayout (Vector elements, int orientation, 
-            int componentLayoutType, GridConstraints gridConstraints) {
+    public AbstractLayout (int width, int height, Vector elements, 
+            int orientation, int componentLayoutType, 
+            GridConstraints gridConstraints) {
         setElements(elements);
         setOrientation(orientation);
         setComponentsLayoutType(componentsLayoutType);
@@ -79,5 +84,47 @@ public abstract class AbstractLayout implements Layout {
      */
     public void setComponentsLayoutType(int componentsLayoutType) {
         this.componentsLayoutType = componentsLayoutType;
+    }
+
+    /**
+     * @return the focussedItem
+     */
+    public int getFocussedItem() {
+        return focussedItem;
+    }
+
+    /**
+     * @param focussedItem the focussedItem to set
+     */
+    public void setFocussedItem(int focussedItem) {
+        this.focussedItem = focussedItem;
+    }
+
+    /**
+     * @return the width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
