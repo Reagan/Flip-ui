@@ -9,7 +9,7 @@ public class Grid extends CustomItem {
     private String title ;
     private boolean displayTitle = true ; 
     private int listType = ListType.VERTICAL ;
-    private int layoutType = LayoutType.SAME_DIMENSIONS ;
+    private int layoutType = ComponentLayoutType.SAME_DIMENSIONS ;
     private GridConstraints gridConstraints = new GridConstraints() ;
     
     private int focussedItem = 0 ;
@@ -169,8 +169,8 @@ public class Grid extends CustomItem {
      * @param layoutType the layoutType to set
      */
     public void setLayoutType(int layoutType) {
-        if (layoutType != LayoutType.SAME_DIMENSIONS 
-                && layoutType != LayoutType.CUSTOM_DIMENSIONS) {
+        if (layoutType != ComponentLayoutType.SAME_DIMENSIONS 
+                && layoutType != ComponentLayoutType.CUSTOM_DIMENSIONS) {
             throw new IllegalArgumentException(ILLEGAL_LAYOUT_TYPE); 
         }
         this.layoutType = layoutType;
@@ -200,6 +200,28 @@ public class Grid extends CustomItem {
     }
     
     /**
+     * removes specific thumbnail from the grid
+     * @param thumbnail to be removed
+     */
+    public void remove(Thumbnail thumbnail) {
+        if (elements.contains(thumbnail)) {
+            elements.removeElement(thumbnail);
+            repaint();
+        }
+    }
+    
+    /**
+     * removes an index at a specified index
+     * @param index of the thumbnail to be removed
+     */
+    public void remove (int index) {
+        if (elements.size() >= index) {
+            elements.removeElementAt(index);
+            repaint();
+        }
+    }
+    
+    /**
      * Clears all the components contained in the grid
      */
     public void clear () {
@@ -224,7 +246,8 @@ public class Grid extends CustomItem {
     }
 
     protected void paint(Graphics g, int w, int h) {
-        
-    }
-    
+        if (listType == ListType.VERTICAL) {
+            
+        }
+    }    
 }
