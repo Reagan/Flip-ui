@@ -1,4 +1,4 @@
-package it.qubixic.component.SplashScreen.Search;
+package it.qubixic.component.Search;
 
 import java.util.Vector;
 import javax.microedition.lcdui.TextField;
@@ -22,7 +22,27 @@ public class Search extends TextField {
     public Search() {
         super("Search", "", 256, TextField.ANY);
     }     
+    
+    /**
+     * Creates an instance of the search field text
+     * with the search field label and text
+     * @param searchFieldLabel
+     * @param searchFieldText 
+     */
+    public Search(String searchFieldLabel, String searchFieldText) {
+       super (searchFieldLabel, searchFieldText, 256, TextField.ANY);
+    }
 
+    /**
+     * Creates an instance of a search field label and the type of 
+     * text that the search field can contain
+     * @param searchFieldLabel
+     * @param searchFieldConstraints 
+     */
+    public Search(String searchFieldLabel, int searchFieldConstraints) {
+        super(searchFieldLabel, "", 256, searchFieldConstraints) ;
+    }
+    
     /**
      * This method is triggered to begin the actual search
      * and should be overidden with a correct implementation 
