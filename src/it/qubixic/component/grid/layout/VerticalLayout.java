@@ -14,7 +14,7 @@ public final class VerticalLayout extends AbstractLayout {
                 componentLayoutType, gridConstraints) ;
     }
 
-    public void drawElements(Graphics g) {
+    public void drawGrid(Graphics g) {
         if (ComponentLayoutType.SAME_DIMENSIONS 
                 == componentsLayoutType) {
             drawVerticalGridSameComponentDimensions(g) ;
@@ -30,13 +30,5 @@ public final class VerticalLayout extends AbstractLayout {
     
     public void drawVerticalGridCustomDimensions(Graphics g) {
         
-    }
-
-    public int getItemsPerRow(int thumbnailWidth) {
-        return 0 ;
-    }
-
-    public int getRows(int itemsPerRow) {
-        return 0 ;
     }
 }

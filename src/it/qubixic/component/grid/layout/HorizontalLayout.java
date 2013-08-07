@@ -8,7 +8,10 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
 public final class HorizontalLayout extends AbstractLayout {
-
+    
+    private int componentWidth = 100 ;
+    private int componentHeight = 100 ;
+    
     public HorizontalLayout (Vector elements, 
             int width, int height, int componentsLayoutType, 
             GridConstraints gridConstraints) {
@@ -16,20 +19,30 @@ public final class HorizontalLayout extends AbstractLayout {
                 componentsLayoutType, gridConstraints) ;
     }
     
-    public void drawElements(Graphics g) {
-        if (ComponentLayoutType.SAME_DIMENSIONS 
+    /**
+     * sets custom dimensions to the components contained
+     * within the grid
+     * @param componentWidth
+     * @param componentHeight 
+     */
+    public void setComponentDimensions (int componentWidth, 
+            int componentHeight) {
+       if (ComponentLayoutType.SAME_DIMENSIONS 
                 == componentsLayoutType) {
-            drawHorizontalGridSameComponentDimensions(g) ;
-        } else if (ComponentLayoutType.CUSTOM_DIMENSIONS 
-                == componentsLayoutType) { 
-            drawHorizontalGridCustomDimensions(g) ;
-        }
-    }    
+           setComponentWidth (componentWidth) ;
+           setComponentHeight(componentHeight);
+        } 
+    }   
     
-    private void drawHorizontalGridSameComponentDimensions(Graphics g) {                     
+    public void drawGrid(Graphics g) {  
+        
+        Point previousPoint = new Point(gridConstraints.getMarginLeft(),
+                gridConstraints.getMarginTop() + gridConstraints.getInnerMarginY()) ;
+        
         for (int i = 0, size = elements.size(); i < size; i++) {
             Thumbnail currElement = (Thumbnail) elements.elementAt(i);
-            Point elementLocation = getLocationForElement(currElement, i) ;                        
+            Point elementLocation = getRelativeLocationForElement(currElement, previousPoint) ;    
+            previousPoint = elementLocation ;
             
             if (elementLocation.getY() + currElement.getHeight() < -g.getTranslateY()) {
                 continue ;                
@@ -41,22 +54,40 @@ public final class HorizontalLayout extends AbstractLayout {
         }
     }
     
-    private Point getLocationForElement(Thumbnail currItem, int currentItemIndex) {        
-        int yCoord = 0;
-        int heightNext = 0;
-        int xCoord = 0;
-        int thumbnailWidth = currItem.getWidth() ;
+    private Point getRelativeLocationForElement(Thumbnail currItem, 
+            Point previousItemLocation) {      
         
-        if (currentItemIndex % getItemsPerRow(thumbnailWidth) == 0) {
-            yCoord = heightNext;
-            heightNext += currItem.getHeight()
-                    + gridConstraints.getInnerMarginY();
-            xCoord = 0 ;
-        } else {
-            xCoord = (currentItemIndex % getItemsPerRow(thumbnailWidth))
-                    * currItem.getWidth()
-                    + gridConstraints.getInnerMarginX();
+        int yCoord = 0;
+        int xCoord = 0;
+        int componentWidth = 0 ;
+        int componentHeight = 0 ; 
+        
+        if (ComponentLayoutType.SAME_DIMENSIONS 
+                == componentsLayoutType) {
+           componentWidth = this.componentWidth ;
+           componentHeight = this.componentHeight ;
+        } else if (ComponentLayoutType.CUSTOM_DIMENSIONS 
+                == componentsLayoutType) { 
+            componentWidth = currItem.getWidth() ;
+            componentHeight = currItem.getHeight() ;
         }
+        
+        if (previousItemLocation.getX() 
+               + 2 * gridConstraints.getInnerMarginX()
+               + gridConstraints.getMarginRight()
+               + componentWidth <= getWidth()) {
+            xCoord = (int) previousItemLocation.getX() 
+               + gridConstraints.getInnerMarginX() 
+               + gridConstraints.getMarginRight() ;
+            yCoord = (int) previousItemLocation.getY() ;
+        } else {
+            xCoord = gridConstraints.getMarginLeft()
+                    + gridConstraints.getInnerMarginX(); 
+            yCoord = (int) previousItemLocation.getY() 
+                    + gridConstraints.getInnerMarginY()
+                    + gridConstraints.getMarginBottom() ;
+        }
+        
         return new Point(xCoord, yCoord);
     }
     
@@ -76,17 +107,33 @@ public final class HorizontalLayout extends AbstractLayout {
             element.setFocussed(true) ;
         }
         element.render(g, x, y);                                    
-    }  
-    
-    private void drawHorizontalGridCustomDimensions(Graphics g) {
-        
-    }
-    
-    public int getItemsPerRow(int thumbnailWidth) {        
-        return getWidth() / thumbnailWidth;
+    }                
+
+    /**
+     * @return the componentWidth
+     */
+    public int getComponentWidth() {
+        return componentWidth;
     }
 
-    public int getRows(int itemsPerRow) {        
-        return (int) Math.ceil(elements.size() / (double) itemsPerRow) ;
+    /**
+     * @param componentWidth the componentWidth to set
+     */
+    public void setComponentWidth(int componentWidth) {
+        this.componentWidth = componentWidth;
     }
+
+    /**
+     * @return the componentHeight
+     */
+    public int getComponentHeight() {
+        return componentHeight;
+    }
+
+    /**
+     * @param componentHeight the componentHeight to set
+     */
+    public void setComponentHeight(int componentHeight) {
+        this.componentHeight = componentHeight;
+    }    
 }
