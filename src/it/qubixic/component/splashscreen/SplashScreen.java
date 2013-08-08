@@ -31,7 +31,9 @@ public class SplashScreen extends Canvas implements Runnable {
     /**
      * creates a default instance of a splash screen
      */
-    public SplashScreen () {}
+    public SplashScreen () {
+        startDrawing() ;
+    }
     
     /**
      * Creates a SplashScreen instance. Can be extended to create a 
@@ -44,6 +46,7 @@ public class SplashScreen extends Canvas implements Runnable {
     public SplashScreen (boolean drawFullScreen, boolean drawStatusBar) {
         setFullScreen (drawFullScreen) ;
         setStatusBarVisible (drawStatusBar) ;
+        startDrawing() ;
     }
     
     /**
@@ -168,10 +171,18 @@ public class SplashScreen extends Canvas implements Runnable {
     }
     
     /**
+     * This method begins the sequence of drawing that repaints the
+     * screen
+     */
+    private void startDrawing() {
+        new Thread(this).start();
+    }
+    
+    /**
      * This method continously updates the splash screen. 
      */
-    public void run() {
-        while (true) {
+    public void run() {        
+        while (true) {             
             repaint();           
             synchronized (this) {
                 try {
