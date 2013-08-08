@@ -13,7 +13,7 @@ public class FlipSplashScreen extends SplashScreen {
     private final int BG_COLOR = 0x014B89 ;
     private Vector loadingMessages = new Vector() ;
     
-    private final Image breakDanceFtUpImg = ImageUtils.loadJarImage("/breakDanceFtUp.png" );
+    private final Image breakDanceFtUpImg = ImageUtils.loadJarImage("/breakDanceFtUp.png");
     private final Point breakDanceFtUpImgPosition = new Point(0.1f, 0.3f) ;
     
     private final Image flipUITextImg = ImageUtils.loadJarImage("/flipUIText.png") ;
@@ -45,9 +45,10 @@ public class FlipSplashScreen extends SplashScreen {
         g.drawImage(breakDanceFtUpImg, (int) breakDanceFtUpImgPosition.getX() * getWidth(), 
                 (int) breakDanceFtUpImgPosition.getY() * getHeight(), 
                 Graphics.TOP | Graphics.LEFT);
+       
         g.drawImage(flipUITextImg, (int) flipUITextImgPosition.getX() * getWidth(), 
                 (int) flipUITextImgPosition.getY() * getHeight(), 
-                Graphics.TOP | Graphics.LEFT);
+                Graphics.TOP | Graphics.LEFT);               
     }
     
     protected void drawLoadingSequence (Graphics g, int counter) {
