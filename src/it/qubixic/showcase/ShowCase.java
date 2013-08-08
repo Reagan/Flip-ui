@@ -4,8 +4,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Form;
 import javax.microedition.midlet.*;
 
-public class ShowCase extends MIDlet {
-    
+public class ShowCase extends MIDlet {    
    
     private Form grid ;
 
@@ -19,6 +18,8 @@ public class ShowCase extends MIDlet {
             case Page.SPLASH :
                 Display.getDisplay(this).setCurrent(new FlipSplashScreen());
                 break ;
+                
+                
         }
      }
     
