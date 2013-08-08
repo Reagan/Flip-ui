@@ -17,8 +17,9 @@ public class SplashScreen extends Canvas implements Runnable {
     private boolean drawFullScreen = true ;
     private boolean drawStatusBar = false ;
     private long refreshPeriod = 50L ;
-    private Vector loadingMessages  = new Vector() ;
+    private String loadingMessage = "Loading" ;
     private int currentState = 0 ; 
+    private int counter = 0 ;
     
     private final int DEFAULT_BACKGROUND_COLOR = 0xffffff ;
     private final String DEFAULT_LOADING_MESSAGE = "Starting..." ;
@@ -108,7 +109,8 @@ public class SplashScreen extends Canvas implements Runnable {
      */
     protected void paint(Graphics g) {      
         drawBackground(g) ;
-        drawLoadingSequence(g, loadingMessages) ;
+        drawLoadingSequence(g, counter) ;
+        drawLoadingMessage(g, loadingMessage) ;
     }    
     
     /**
@@ -131,24 +133,37 @@ public class SplashScreen extends Canvas implements Runnable {
      * of loading messages or variables that capture a particular
      * set of the loading sequence
      * @param g Graphics object
-     * @param loadingMessages set of loading messages that are 
-     * displayed at various stages of the loading sequence
+     * @param counter This is a custom counter used to 
+     * draw the loading sequence for the splash screen
      */        
-    protected void drawLoadingSequence(Graphics g, Vector loadingMessages) {
+    protected void drawLoadingSequence(Graphics g, int counter) {
+        
+    }
+
+    /**
+     * This method is used to draw a loading message onto
+     * the splash screen and should be overridden to draw the 
+     * custom loading message
+     * @param g Graphics object
+     * @param message  the message to be drawn
+     */
+    protected void drawLoadingMessage (Graphics g, String message)  {
         g.setColor(DEFAULT_LOADING_MESSAGE_COLOR);
         g.drawString(DEFAULT_LOADING_MESSAGE, 
                 (int) DEFAULT_LOADING_MESSAGE_POSITION.getX(), 
                 (int) DEFAULT_LOADING_MESSAGE_POSITION.getY(), 
                 Graphics.TOP | Graphics.LEFT);
     }
-
+    
     /**
      * This method is called to increment the current 
      * state of the loading sequence. The changes should be captured
      * by drawLoadingSequence() and a revised loading sequence implemented 
      * to reflect a change in the loading sequence      
      */
-    protected void update() {
+    protected void update(String loadingMessage, int counter) {
+        this.counter = counter ;
+        this.loadingMessage = loadingMessage ; 
         currentState++ ;
     }
     
