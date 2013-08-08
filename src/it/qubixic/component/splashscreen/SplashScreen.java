@@ -17,7 +17,7 @@ public class SplashScreen extends Canvas implements Runnable {
     private boolean drawFullScreen = true ;
     private boolean drawStatusBar = false ;
     private long refreshPeriod = 50L ;
-    private String loadingMessage = "Loading" ;
+    private String loadingMessage = "" ;
     private int currentState = 0 ; 
     private int counter = 0 ;
     
@@ -124,9 +124,7 @@ public class SplashScreen extends Canvas implements Runnable {
      * @param g Graphics object
      */
     protected void drawBackground(Graphics g) {
-        g.setColor(DEFAULT_BACKGROUND_COLOR);
-        g.setFont(DEFAULT_LOADING_MESSAGE_FONT);
-        g.fillRect(0, 0, getWidth(), getHeight());
+    
     }
     
     /**
@@ -151,11 +149,7 @@ public class SplashScreen extends Canvas implements Runnable {
      * @param message  the message to be drawn
      */
     protected void drawLoadingMessage (Graphics g, String message)  {
-        g.setColor(DEFAULT_LOADING_MESSAGE_COLOR);
-        g.drawString(DEFAULT_LOADING_MESSAGE, 
-                (int) DEFAULT_LOADING_MESSAGE_POSITION.getX(), 
-                (int) DEFAULT_LOADING_MESSAGE_POSITION.getY(), 
-                Graphics.TOP | Graphics.LEFT);
+       
     }
     
     /**
