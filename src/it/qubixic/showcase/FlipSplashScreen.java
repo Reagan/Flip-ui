@@ -40,6 +40,7 @@ public class FlipSplashScreen extends SplashScreen {
     private void initializeLoadingMessages() {
         loadingMessages.addElement("Initializing");
         loadingMessages.addElement("Loading");
+        loadingMessages.addElement("Finalizing"); 
         loadingMessages.addElement("Starting");
     }
     
@@ -72,17 +73,24 @@ public class FlipSplashScreen extends SplashScreen {
     }
     
     protected void startLoadingSequence() {      
-       int initialDelay = 1000 ;
-       int subsequentDelay = 1000 ;
+       int initialDelay = 10 ;
+       int subsequentDelay = 10 ;
        
-       new Timer().schedule(new TimerTask() {
+       new Timer().schedule(new TimerTask() {           
+           int loadingCounter = 0 ;
            int messagesCounter = 0 ;
+           String currentMessage = "" ;
+           final int MAX_LOADING_COUNTER = 360 ;
+           
            public void run() {
-               System.out.println("> " + loadingMessages.elementAt(messagesCounter)) ;
-               if(messagesCounter < (loadingMessages.size())){
-                   update((String) (loadingMessages.elementAt(messagesCounter)),
-                           0);
-                   messagesCounter++ ;
+               if(loadingCounter < MAX_LOADING_COUNTER){
+                   if (loadingCounter % 90 == 0) {
+                       currentMessage = (String) (loadingMessages.elementAt(messagesCounter));                        
+                        messagesCounter++ ;
+                   }                   
+                   update(currentMessage, loadingCounter);                                      
+                   loadingCounter++ ;
+                   
                } else {
                    this.cancel();
                }
