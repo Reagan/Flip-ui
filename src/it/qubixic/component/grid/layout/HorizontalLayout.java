@@ -52,9 +52,6 @@ public final class HorizontalLayout extends AbstractLayout {
             if (elementLocation.getY() + currElement.getHeight() < -g.getTranslateY()) {
                 continue ;                
             } else if (elementLocation.getY() > (-g.getTranslateY() + getHeight())) {
-                System.out.println(elementLocation.getY());
-                System.out.println(getHeight() + " " + getWidth());
-                System.out.println((-g.getTranslateY() + getHeight()));
                 break ;
             }
              
@@ -153,4 +150,31 @@ public final class HorizontalLayout extends AbstractLayout {
     public void setComponentHeight(int componentHeight) {
         this.componentHeight = componentHeight;
     }    
+    
+    /**
+     * This method calculates the height of the component
+     * @return height of all the grid components
+     */
+    public int calculateHeight() {
+        int gridHeight = 0;
+        if (ComponentLayoutType.SAME_DIMENSIONS
+                == componentsLayoutType) {                        
+            int noOfComponentsPerRow = calculateNoOfSameDimensionsComponentsPerRow() ;
+            System.out.println("Number of components per row " + noOfComponentsPerRow);
+            gridHeight = (int) (Math.ceil(elements.size() / (double) noOfComponentsPerRow)
+                           * componentHeight);
+            System.out.println("elements.size() / noOfComponents " +  elements.size() / noOfComponentsPerRow );
+        } else if (ComponentLayoutType.CUSTOM_DIMENSIONS
+                == componentsLayoutType) {
+           
+        }
+        return gridHeight;
+    }
+    
+    private int calculateNoOfSameDimensionsComponentsPerRow() {
+        int effectiveWidth = getWidth() - 2 * gridConstraints.getInnerMarginX() ;
+        return (int) (effectiveWidth / 
+                (this.componentWidth + gridConstraints.getMarginLeft()
+                 + gridConstraints.getMarginRight())) ;
+    }
 }

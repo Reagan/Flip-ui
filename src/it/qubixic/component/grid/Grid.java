@@ -19,8 +19,10 @@ public class Grid extends CustomItem {
     private final int MIN_WIDTH = 100 ;
     private final int MIN_HEIGHT = 100 ;
     
-    private int width = 100 ;
-    private int height = 100 ;
+    private final int DEFAULT_WIDTH = 120 ;
+    
+    private int width = -1 ;
+    private int height = -1 ;
     
     protected Vector elements = new Vector();    
     
@@ -32,7 +34,7 @@ public class Grid extends CustomItem {
             + "as arguments." ;
     
     /**
-     * Creates a default instance of a grid
+     * Creates a default instance of a grid.
      * @param title The title of the displayed grid
      */
     public Grid(String title) {
@@ -90,8 +92,10 @@ public class Grid extends CustomItem {
      * @param width 
      */
     public void setWidth (int width) {
-        this.width = width ;
-        repaint();
+        if(width > 0 ) {
+            this.width = width ;
+            repaint();
+        }
     }
 
     /**
@@ -99,15 +103,17 @@ public class Grid extends CustomItem {
      */
     public int getHeight () {
         return height ;
-    }
+    }        
     
     /**
      * sets the height of the grid
      * @param height 
      */
     public void setHeight (int height) {
-        this.height = height ;
-        repaint(); 
+        if(height > 0) {
+            this.height = height ;
+            repaint(); 
+        }
     }
     
     /**
@@ -286,8 +292,8 @@ public class Grid extends CustomItem {
         } else if (listType == ListType.HORIZONTAL) {
             hLayout = new HorizontalLayout(elements, w, h, 
                     layoutType, gridConstraints); 
-            hLayout.setWidth(width);
-            hLayout.setHeight(height);
+            hLayout.setWidth((width == -1) ? DEFAULT_WIDTH : getWidth());
+            hLayout.setHeight((height == -1) ? hLayout.calculateHeight() : getHeight());
             hLayout.drawGrid(g);
         }
     }    
