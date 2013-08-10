@@ -26,7 +26,7 @@ public abstract class AbstractLayout implements Layout {
             GridConstraints gridConstraints) {
         setElements(elements);
         setOrientation(orientation);
-        setComponentsLayoutType(componentsLayoutType);
+        setComponentsLayoutType(componentLayoutType);
         setGridConstraints(gridConstraints);
     }
 

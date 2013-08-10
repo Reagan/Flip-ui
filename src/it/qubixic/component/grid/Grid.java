@@ -286,7 +286,9 @@ public class Grid extends CustomItem {
         } else if (listType == ListType.HORIZONTAL) {
             hLayout = new HorizontalLayout(elements, w, h, 
                     layoutType, gridConstraints); 
-           hLayout.drawGrid(g);
+            hLayout.setWidth(width);
+            hLayout.setHeight(height);
+            hLayout.drawGrid(g);
         }
     }    
 }

@@ -27,6 +27,8 @@ public class Grids extends BaseForm {
     private Grid createHorizontalGridSameComponentDimensions() {
         Grid horizontalGridSameComponentDimensions = new Grid(GRID_HORI_SAME_DIMENSIONS_COMPONENTS, 
                 ListType.HORIZONTAL, ComponentLayoutType.SAME_DIMENSIONS) ;
+        horizontalGridSameComponentDimensions.setWidth(getWidth());
+        horizontalGridSameComponentDimensions.setHeight(getHeight());
         horizontalGridSameComponentDimensions.append(createThumbnailsSameDimensions());
         return horizontalGridSameComponentDimensions ;     
     }    
