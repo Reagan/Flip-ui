@@ -77,6 +77,10 @@ public class Thumbnail implements IThumbnail {
                 Graphics.LEFT | Graphics.TOP);
         }       
         
+        if (null != getCaption()) {
+            getCaption().render(g, topX, topY, width, height);
+        }
+        
         if (focused) {
             g.setColor(Theme.getThumbnailBackgroundColorFocused());              
             g.drawRect(topX, topY, getWidth() - 1, getHeight() - 1);
