@@ -35,7 +35,7 @@ public class CommandsService {
         if (command == GRID) {
             Display.getDisplay(midlet).setCurrent(form);
         } else if (command == EXIT) {
-            
+            midlet.notifyDestroyed();
         }
     }
 }

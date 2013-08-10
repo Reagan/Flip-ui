@@ -11,8 +11,7 @@ public class Theme {
     protected int borderType = BORDER_NONE;
     protected Font font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
             Font.SIZE_LARGE);
-    protected Font thumbnailfont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
-            Font.SIZE_SMALL);
+    
     protected Font titlebarTitleFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
             Font.SIZE_SMALL);
     protected Font titlebarMetadataFont = Compatibility.getFont(Font.FACE_SYSTEM, 
@@ -20,6 +19,12 @@ public class Theme {
     */
     protected int backgroundThumbnailColor = 0xcccccc;
     protected static int backgroundColorFocused = 0x1090c8;
+    protected static Font thumbnailFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
+            Font.SIZE_SMALL);
+    protected static int textMarginLeftAndRight = 8;
+    protected static int textMarginTopAndBottom = 2;
+    protected static int thumbnailBackgroundCaptionColor = 0x202020 ;
+    protected static int thumbnailCaptionTitleColor = 0xffffff ;
     /*
     protected int textColor = 0xd8dcd8;
     protected int textColorFocused = 0xf8fcf8;
@@ -27,16 +32,16 @@ public class Theme {
     protected int borderColorDark = 0x00000000;
     protected int textOnlyMarginLeft = 12;
     protected int imageMarginLeft = 6;
-    protected int textMarginLeftAndRight = 8;
-    protected int textMarginTopAndBottom = 2;
+    
+    
     protected int backgroundMarginTopAndBottom = 1;
     protected int selectedImageMarginRight = 6;
     protected int elementMinHeight = 38;
     protected int selectedImageWidth = 40;
     protected int currentlyEditingButtonStatusColor = 0x993300 ; 
     protected int currentlyNotEditingButtonStatusColor = 0x6699ff ; 
-    protected int thumbnailBackgroundCaptionColor = 0x202020 ;
-    protected int thumbnailCaptionTitleColor = 0xffffff ;
+   
+    
     protected int thumbnailCaptionTextColor = 0x535853 ;
     protected int panelBackgroundColor = 0xffffff ;
     protected int titlebarBackgroundColor = 0x202020 ;
@@ -60,6 +65,26 @@ public class Theme {
         return backgroundThumbnailColor;
     }
 
+    public static Font getThumbnailFont() {
+        return thumbnailFont ;
+    }
+        
+    public static int getTextMarginLeftAndRight() {
+        return textMarginLeftAndRight;
+    }
+    
+    public static int getTextMarginTopAndBottom() {
+        return textMarginTopAndBottom;
+    }
+    
+    
+    public static int getThumbnailBackgroundCaptionColor() {
+        return thumbnailBackgroundCaptionColor;
+    }
+    
+    public static int getThumbnailCaptionTitleColor() { 
+        return thumbnailCaptionTitleColor ;
+    }
     /*
     public void setBackgroundColorFocused(int backgroundColorFocused) {
         this.backgroundColorFocused = backgroundColorFocused;
@@ -106,9 +131,7 @@ public class Theme {
         this.thumbnailCaptionTitleColor = thumbnailCaptionTitleColor ;
     }
     
-    public int getThumbnailCaptionTitleColor() { 
-        return thumbnailCaptionTitleColor ;
-    }
+    
     
     public void setThumbnailCaptionTextColor(int thumbnailCaptionTextColor) {
         this.thumbnailCaptionTextColor = thumbnailCaptionTextColor ;
@@ -162,9 +185,6 @@ public class Theme {
         this.elementMinHeight = elementMinHeight;
     }
 
-    public int getThumbnailBackgroundCaptionColor() {
-        return thumbnailBackgroundCaptionColor;
-    }
      
     public void setThumbnailBackgroundCaptionColor(int thumbnailBackgroundCaptionColor) {
         this.thumbnailBackgroundCaptionColor = thumbnailBackgroundCaptionColor ;
@@ -206,9 +226,7 @@ public class Theme {
         this.thumbnailfont = thumbnailTitlefont ;
     }
     
-    public Font getThumbnailfont() {
-        return thumbnailfont ;
-    }
+    
     
     public Font getTitlebarTitleFont() {
         return titlebarTitleFont ;
@@ -266,17 +284,12 @@ public class Theme {
         this.textColorFocused = textColorFocused;
     }
 
-    public int getTextMarginLeftAndRight() {
-        return textMarginLeftAndRight;
-    }
 
     public void setTextMarginLeftAndRight(int textMarginLeftAndRight) {
         this.textMarginLeftAndRight = textMarginLeftAndRight;
     }
 
-    public int getTextMarginTopAndBottom() {
-        return textMarginTopAndBottom;
-    }
+    
 
     public void setTextMarginTopAndBottom(int textMarginTopAndBottom) {
         this.textMarginTopAndBottom = textMarginTopAndBottom;

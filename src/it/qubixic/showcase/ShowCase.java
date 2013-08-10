@@ -1,26 +1,32 @@
 package it.qubixic.showcase;
 
 import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Form;
 import javax.microedition.midlet.*;
 
 public class ShowCase extends MIDlet {    
    
-    private Form grid ;
+    private FlipSplashScreen flipSplashScreen ;
+    private Grids grids ;
 
-    public void startApp() {
-        loadScreen(Page.SPLASH);        
+    public ShowCase() {        
+        flipSplashScreen = new FlipSplashScreen();
+        grids = new Grids(this) ;
     }
     
-     public void loadScreen(int screen) {                     
-        switch(screen) {
-            default:    
-            case Page.SPLASH :
-                Display.getDisplay(this).setCurrent(new FlipSplashScreen());
-                break ;
-                
-                
-        }
+    public void startApp() {
+        loadSplashScreen(Page.SPLASH);        
+    }
+    
+     public void loadSplashScreen(int screen) {                     
+        Display.getDisplay(this).setCurrent(flipSplashScreen);
+        final MIDlet midlet = this ;
+        new Thread(new Runnable() {
+            public void run() {
+                while (!flipSplashScreen.isLoading()) {
+                }
+                Display.getDisplay(midlet).setCurrent(grids) ;
+            }
+        }).start();
      }
     
     public void pauseApp() {

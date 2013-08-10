@@ -1,6 +1,8 @@
 package it.qubixic.component.grid;
 
 import it.qubixic.component.grid.layout.ComponentLayoutType;
+import it.qubixic.component.grid.layout.HorizontalLayout;
+import it.qubixic.component.grid.layout.VerticalLayout;
 import it.qubixic.component.grid.thumbnail.Thumbnail;
 import java.util.Vector;
 import javax.microedition.lcdui.CustomItem;
@@ -201,6 +203,35 @@ public class Grid extends CustomItem {
     }
     
     /**
+     * Appends a set of thumbnails 
+     * @param Thumbnails to be appended
+     */
+    public void append(Vector thumbnails) {
+        if (null != thumbnails) {
+            for (int thumbnailsCounter = 0 ; 
+                    thumbnailsCounter < thumbnails.size();
+                    thumbnailsCounter++) {
+                if(thumbnails.elementAt(thumbnailsCounter) instanceof Thumbnail) {
+                    append((Thumbnail) thumbnails.elementAt(thumbnailsCounter)) ;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Sets the current thumbnails with a new set of thumbnails. If
+     * the grid contains a set of thumbnails, this method replaces 
+     * the current set of thumbnails 
+     * @param thumbnails 
+     */
+    public void set(Vector thumbnails) {
+        if (null != thumbnails) {
+            clear();
+            append(thumbnails) ;
+        }
+    }
+    
+    /**
      * removes specific thumbnail from the grid
      * @param thumbnail to be removed
      */
@@ -247,8 +278,15 @@ public class Grid extends CustomItem {
     }
 
     protected void paint(Graphics g, int w, int h) {
+        HorizontalLayout hLayout ;
+        VerticalLayout vLayout ;
+        
         if (listType == ListType.VERTICAL) {
             
+        } else if (listType == ListType.HORIZONTAL) {
+            hLayout = new HorizontalLayout(elements, w, h, 
+                    layoutType, gridConstraints); 
+           hLayout.drawGrid(g);
         }
     }    
 }

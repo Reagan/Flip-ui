@@ -4,7 +4,7 @@ import it.qubixic.component.theme.Theme;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-public abstract class Thumbnail implements IThumbnail {
+public class Thumbnail implements IThumbnail {
 
     private ThumbnailCaption caption ;
     private Image imagePart;    

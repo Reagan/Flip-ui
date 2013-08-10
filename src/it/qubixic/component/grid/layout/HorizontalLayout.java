@@ -36,13 +36,12 @@ public final class HorizontalLayout extends AbstractLayout {
     
     public void drawGrid(Graphics g) {  
         
-        Point previousPoint = new Point(gridConstraints.getMarginLeft(),
+        Point currPoint = new Point(gridConstraints.getMarginLeft(),
                 gridConstraints.getMarginTop() + gridConstraints.getInnerMarginY()) ;
         
         for (int i = 0, size = elements.size(); i < size; i++) {
             Thumbnail currElement = (Thumbnail) elements.elementAt(i);
-            Point elementLocation = getRelativeLocationForElement(currElement, previousPoint) ;    
-            previousPoint = elementLocation ;
+            Point elementLocation = currPoint ;
             
             if (elementLocation.getY() + currElement.getHeight() < -g.getTranslateY()) {
                 continue ;                
@@ -50,7 +49,8 @@ public final class HorizontalLayout extends AbstractLayout {
                 break ;
             }
              
-            drawElement(g, currElement, elementLocation, i == getFocussedItem());           
+            drawElement(g, currElement, elementLocation, i == getFocussedItem());  
+            currPoint = getRelativeLocationForElement(currElement, currPoint)  ;
         }
     }
     

@@ -31,10 +31,13 @@ public class FlipSplashScreen extends SplashScreen {
     private final Point loadingMessagePosition = new Point(0.4f, 0.5f) ;
     private final Font loadingMessagesFont = Font.getFont(Font.FACE_SYSTEM, 
             Font.STYLE_PLAIN, Font.SIZE_SMALL) ;
+    
+    private boolean isLoading = false ;
    
     public FlipSplashScreen() {
         initializeLoadingMessages() ;   
         startLoadingSequence() ;
+        setLoading(true);
    }
     
     private void initializeLoadingMessages() {
@@ -93,8 +96,17 @@ public class FlipSplashScreen extends SplashScreen {
                    
                } else {
                    this.cancel();
+                   isLoading = false;
                }
            }
        }, initialDelay, subsequentDelay);
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean isLoading) {
+        this.isLoading = isLoading;
     }
 }
