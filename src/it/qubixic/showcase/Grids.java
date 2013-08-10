@@ -1,6 +1,7 @@
 package it.qubixic.showcase;
 
 import it.qubixic.component.grid.Grid;
+import it.qubixic.component.grid.GridConstraints;
 import it.qubixic.component.grid.ListType;
 import it.qubixic.component.grid.layout.ComponentLayoutType;
 import it.qubixic.component.grid.thumbnail.Thumbnail;
@@ -30,6 +31,8 @@ public class Grids extends BaseForm {
         horizontalGridSameComponentDimensions.setWidth(getWidth());
         horizontalGridSameComponentDimensions.setHeight(getHeight());
         horizontalGridSameComponentDimensions.append(createThumbnailsSameDimensions());
+        horizontalGridSameComponentDimensions.setGridConstraints(
+                new GridConstraints(0, 0, 0, 0, 5, 5));
         return horizontalGridSameComponentDimensions ;     
     }    
     

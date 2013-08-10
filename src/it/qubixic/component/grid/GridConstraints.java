@@ -12,13 +12,13 @@ public class GridConstraints {
     public GridConstraints() {}
     
     public GridConstraints(int marginTop, int marginBottom, int marginLeft, 
-            int marginRight, int innerMarginTop, int innerMarginBottom) {
+            int marginRight, int innerMarginY, int innerMarginX) {
         setMarginTop(marginTop) ;
         setMarginBottom(marginBottom) ;
         setMarginLeft (marginLeft) ;
         setMarginRight(marginRight) ;
-        setInnerMarginY(innerMarginTop) ;
-        setInnerMarginX(innerMarginBottom) ;
+        setInnerMarginY(innerMarginY) ;
+        setInnerMarginX(innerMarginX) ;
     }
 
     public int getMarginTop() {

@@ -40,8 +40,10 @@ public final class HorizontalLayout extends AbstractLayout {
      * @param g  Graphics object used to draw the grid
      */
     public void drawGrid(Graphics g) {  
-        Point currPoint = new Point(gridConstraints.getMarginLeft(),
-                gridConstraints.getMarginTop() + gridConstraints.getInnerMarginY()) ;
+        Point currPoint = new Point(gridConstraints.getInnerMarginX() 
+                + gridConstraints.getMarginLeft(),
+                gridConstraints.getMarginTop()
+                + gridConstraints.getInnerMarginY()) ;
         
         for (int i = 0, size = elements.size(); i < size; i++) {
             Thumbnail currElement = (Thumbnail) elements.elementAt(i);
@@ -84,7 +86,7 @@ public final class HorizontalLayout extends AbstractLayout {
         element.render(g, x, y);                                    
     }                
 
-     private Point getRelativeLocationForElement(Thumbnail nextElement, 
+    private Point getRelativeLocationForElement(Thumbnail nextElement, 
              Thumbnail currItem, 
             Point previousItemLocation) {      
         int yCoord = 0;
