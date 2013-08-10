@@ -17,12 +17,12 @@ public class ShowCase extends MIDlet {
         loadSplashScreen(Page.SPLASH);        
     }
     
-     public void loadSplashScreen(int screen) {                     
+     public void loadSplashScreen(int screen) {       
         Display.getDisplay(this).setCurrent(flipSplashScreen);
         final MIDlet midlet = this ;
         new Thread(new Runnable() {
             public void run() {
-                while (!flipSplashScreen.isLoading()) {
+                while (flipSplashScreen.isLoading()) {
                 }
                 Display.getDisplay(midlet).setCurrent(grids) ;
             }

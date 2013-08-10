@@ -37,7 +37,7 @@ public class Grids extends BaseForm {
         ThumbnailCaption thumbnailCaption ;
         Image thumbnailImage ;
             
-        for (int thumbnailsCounter = 0 ;thumbnailsCounter < noOfThumbnails ;
+        for (int thumbnailsCounter = 1 ;thumbnailsCounter < noOfThumbnails ;
                 thumbnailsCounter++) {
             thumbnailCaption = new ThumbnailCaption("Thumbnail " + thumbnailsCounter,
                     "Description here...") ;
