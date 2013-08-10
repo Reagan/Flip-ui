@@ -1,5 +1,8 @@
 package it.qubixic.component.grid;
 
+import it.qubixic.component.grid.event.GridEvent;
+import it.qubixic.component.grid.event.GridEventType;
+import it.qubixic.component.grid.event.GridListener;
 import it.qubixic.component.grid.layout.ComponentLayoutType;
 import it.qubixic.component.grid.layout.HorizontalLayout;
 import it.qubixic.component.grid.layout.VerticalLayout;
@@ -33,6 +36,9 @@ public class Grid extends CustomItem {
             + "Grid only accepts LayoutType.SAME_DIMENSIONS and LayoutType.CUSTOM_DIMENSIONS "
             + "as arguments." ;
     
+    private GridListener gridListener ;
+    private  int focussedItem = 0 ;
+    
     /**
      * Creates a default instance of a grid.
      * @param title The title of the displayed grid
@@ -61,6 +67,7 @@ public class Grid extends CustomItem {
      */
     public Grid(String title, int listType, int layoutType) {
         super(title) ;
+        
         setListType(listType);
         setLayoutType(layoutType);
     }
@@ -297,4 +304,26 @@ public class Grid extends CustomItem {
             hLayout.drawGrid(g);
         }
     }    
+    
+    /**
+     * This method responds to this grid being touched (on touch screen J2ME devices)
+     * @param x pointer pressed X event location
+     * @param y  pointer pressed Y event location
+     */
+    protected void pointerPressed(int x, int y) {  
+        for (int i = 0 ; i < elements.size(); i++) {
+            if (((Thumbnail) elements.elementAt(i)).contains(x,y)) {  
+                setFocusedElementIndex(i);
+                repaint();
+                GridEvent e = new GridEvent((Thumbnail) elements.elementAt(i),
+                        GridEventType.GRID_CLICK, x, y) ;
+                gridListener.actionPerformed(e);
+                break ;
+            }
+        }
+    }     
+
+    protected void setFocusedElementIndex(int focusedItem) {
+        this.focussedItem = focusedItem ;
+    }
 }
