@@ -3,6 +3,8 @@ package it.qubixic.showcase;
 import it.qubixic.component.grid.Grid;
 import it.qubixic.component.grid.GridConstraints;
 import it.qubixic.component.grid.ListType;
+import it.qubixic.component.grid.event.GridEvent;
+import it.qubixic.component.grid.event.GridListener;
 import it.qubixic.component.grid.layout.ComponentLayoutType;
 import it.qubixic.component.grid.thumbnail.Thumbnail;
 import it.qubixic.component.grid.thumbnail.ThumbnailCaption;
@@ -33,7 +35,13 @@ public class Grids extends BaseForm {
         horizontalGridSameComponentDimensions.setWidth(getWidth());        
         horizontalGridSameComponentDimensions.append(createThumbnailsSameDimensions());
         horizontalGridSameComponentDimensions.setGridConstraints(
-                new GridConstraints(0, 0, 0, 0, 5, 5));       
+                new GridConstraints(0, 0, 0, 0, 5, 5)); 
+        
+        horizontalGridSameComponentDimensions.addGridListener(new GridListener() {
+            public void actionPerformed(GridEvent e) {
+                System.out.println(e.getTarget() + " selected");
+            }
+        });
         return horizontalGridSameComponentDimensions ;   
         
     }    

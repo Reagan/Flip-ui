@@ -30,7 +30,7 @@ public class Grid extends CustomItem {
     private final String ILLEGAL_LAYOUT_TYPE = "An illegal layout type was passed. "
             + "Grid only accepts LayoutType.SAME_DIMENSIONS and LayoutType.CUSTOM_DIMENSIONS "
             + "as arguments.";
-    private GridListener gridListener;
+    private Vector gridListeners = new Vector();
     private int focussedItem = 0;
     private HorizontalLayout hLayout;
     private VerticalLayout vLayout;
@@ -333,17 +333,30 @@ public class Grid extends CustomItem {
             if (((Thumbnail) elements.elementAt(i)).contains(x, y)) {
                 setFocusedElementIndex(i);
                 repaint();
-                GridEvent e = new GridEvent((Thumbnail) elements.elementAt(i),
-                        GridEventType.GRID_CLICK, x, y);
-                gridListener.actionPerformed(e);
+                generateGridEvent(i);
                 break;
             }
         }
     }
 
+    protected void keyPressed(int keyCode) {
+        if (keyCode == Canvas.KEY_NUM5 || getGameAction(keyCode) == 8) {
+            generateGridEvent(focussedItem) ;
+        }
+    }
+    
+    /**
+     * This method is used to determine the traversal events created 
+     * as the directional keys are selected when the grid is in focus
+     * @param direction
+     * @param viewportWidth
+     * @param viewportHeight
+     * @param visRect_inOut
+     * @return 
+     */
     protected boolean traverse(int direction, int viewportWidth,
             int viewportHeight, int[] visRect_inOut) {
-
+        
         if (direction == Canvas.UP || direction == Canvas.LEFT) {
             if (!inTraversal) {
                 inTraversal = true;
@@ -370,15 +383,7 @@ public class Grid extends CustomItem {
                     return false;
                 }
             }
-        } else if (direction == CustomItem.NONE) {
-            Thumbnail currentElement = (Thumbnail) elements.elementAt(focussedItem);
-            GridEvent e = new GridEvent(currentElement,
-                    GridEventType.GRID_CLICK,
-                    currentElement.getTopX(),
-                    currentElement.getTopY());
-            gridListener.actionPerformed(e);
         }
-
         return true;
     }
 
@@ -387,5 +392,48 @@ public class Grid extends CustomItem {
      */
     protected void setFocusedElementIndex(int focusedItem) {
         this.focussedItem = focusedItem;
+    }
+
+    /**
+     * This method generates a grid event
+     */
+    protected void generateGridEvent(int component) {
+        Thumbnail currentElement = (Thumbnail) elements.elementAt(component);
+        GridEvent e = new GridEvent(currentElement,
+                GridEventType.GRID_CLICK,
+                currentElement.getTopX(),
+                currentElement.getTopY());
+        triggerGridEvent(e) ;
+    }
+    
+    /**
+     * Adds a grid listener
+     * @param gridListener 
+     */
+    public void addGridListener (GridListener gridListener) {
+        gridListeners.addElement(gridListener);
+    }
+    
+    /**
+     * removes a grid listener
+     * @param gridListener 
+     */
+    public void removeGridListener(GridListener gridListener) {
+        if(gridListeners.contains(gridListener)) {
+            gridListeners.removeElement(gridListener);
+        }
+    }
+    
+    /**
+     * Triggers grid events
+     * @param gridEvent 
+     */
+    protected void triggerGridEvent (GridEvent gridEvent) {
+        for (int gridListenersCounter = 0; gridListenersCounter < gridListeners.size();
+                gridListenersCounter++) {
+            ((GridListener) gridListeners
+                    .elementAt(gridListenersCounter))
+                    .actionPerformed(gridEvent);
+        }
     }
 }
