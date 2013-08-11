@@ -10,6 +10,7 @@ import it.qubixic.component.grid.thumbnail.Thumbnail;
 import java.util.Vector;
 import javax.microedition.lcdui.CustomItem;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Canvas;
 
 public class Grid extends CustomItem {
 
@@ -24,8 +25,8 @@ public class Grid extends CustomItem {
     
     private final int DEFAULT_WIDTH = 120 ;
     
-    private int width = -1 ;
-    private int height = -1 ;
+    private int width = 1000000 ;
+    private int height = 1000000 ;
     
     protected Vector elements = new Vector();    
     
@@ -39,12 +40,18 @@ public class Grid extends CustomItem {
     private GridListener gridListener ;
     private  int focussedItem = 0 ;
     
+    private HorizontalLayout hLayout ;
+    private VerticalLayout vLayout ;
+    
+    private boolean inTraversal = false; 
+    
     /**
      * Creates a default instance of a grid.
      * @param title The title of the displayed grid
      */
     public Grid(String title) {
         super (title) ;
+        initializeGrid() ;
     }
     
     /**
@@ -55,6 +62,7 @@ public class Grid extends CustomItem {
     public Grid(String title, int listType) {
         super (title) ;
         setListType(listType);
+        initializeGrid() ;
     }
     
     /**
@@ -67,9 +75,9 @@ public class Grid extends CustomItem {
      */
     public Grid(String title, int listType, int layoutType) {
         super(title) ;
-        
         setListType(listType);
         setLayoutType(layoutType);
+        initializeGrid() ;
     }
     
     /**
@@ -85,6 +93,15 @@ public class Grid extends CustomItem {
         setListType(listType);
         setLayoutType(layoutType);
         setGridConstraints(gridConstraints);
+        initializeGrid() ;
+    }
+    
+    protected void initializeGrid() {
+        if (listType == ListType.VERTICAL) {
+            
+        } else if (listType == ListType.HORIZONTAL) {
+            hLayout = new HorizontalLayout(elements, layoutType, gridConstraints); 
+        }          
     }
     
     /**   
@@ -290,15 +307,14 @@ public class Grid extends CustomItem {
         return getHeight() ;
     }
 
-    protected void paint(Graphics g, int w, int h) {
-        HorizontalLayout hLayout ;
-        VerticalLayout vLayout ;
-        
+    protected void paint(Graphics g, int w, int h) {    
+        System.out.println("P called");
         if (listType == ListType.VERTICAL) {
             
         } else if (listType == ListType.HORIZONTAL) {
-            hLayout = new HorizontalLayout(elements, w, h, 
-                    layoutType, gridConstraints); 
+            System.out.println("Paint called " + focussedItem);
+            hLayout.setGridConstraints(gridConstraints);
+            hLayout.setFocussedItem(focussedItem);
             hLayout.setWidth((width == -1) ? DEFAULT_WIDTH : getWidth());
             hLayout.setHeight((height == -1) ? hLayout.calculateHeight() : getHeight());
             hLayout.drawGrid(g);
@@ -322,7 +338,56 @@ public class Grid extends CustomItem {
             }
         }
     }     
+    
+    /**
+     * This method is called when a user traverses out of the 
+     * grid and repaints its state
+     */
+    /*
+    protected void traverseOut() {
+        setFocusedElementIndex(0) ;
+        inTraversal = false ;
+        repaint();
+    }
+    */
 
+    protected boolean traverse (int direction, int viewportWidth,
+           int viewportHeight, int[] visRect_inOut) {
+        System.out.println("traverse called " + direction
+                + " focussedItem " + focussedItem);
+        
+        if (direction == Canvas.UP || direction == Canvas.LEFT) {
+           repaint();
+        } else if (direction == Canvas.DOWN || direction == Canvas.RIGHT) {
+            if (!inTraversal) {
+                inTraversal = true;
+            } else {
+                if (focussedItem < elements.size()) {     
+                    System.out.println("Y");
+                    focussedItem++;
+                    setFocusedElementIndex(focussedItem);
+                    repaint();
+                } else {
+                    inTraversal = false ;
+                    return false; 
+                }
+            }
+        } else if (direction == CustomItem.NONE) {
+                Thumbnail currentElement = (Thumbnail) elements.elementAt(focussedItem) ;
+                GridEvent e  = new GridEvent(currentElement,
+                        GridEventType.GRID_CLICK, 
+                        currentElement.getTopX(), 
+                        currentElement.getTopY()) ;
+                gridListener.actionPerformed(e);
+        }
+        
+        return true; 
+    }
+      
+    /**
+     * This method sets the currently selected item 
+     * in the grid
+     */
     protected void setFocusedElementIndex(int focusedItem) {
         this.focussedItem = focusedItem ;
     }

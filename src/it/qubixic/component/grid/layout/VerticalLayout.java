@@ -10,7 +10,7 @@ public final class VerticalLayout extends AbstractLayout {
     public VerticalLayout (int width, int height,
             Vector elements, int componentLayoutType, 
             GridConstraints gridConstraints) {
-        super(width, height, elements, ListType.VERTICAL,
+        super(elements, ListType.VERTICAL,
                 componentLayoutType, gridConstraints) ;
     }
 

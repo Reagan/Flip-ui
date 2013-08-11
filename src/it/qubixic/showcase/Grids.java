@@ -26,13 +26,16 @@ public class Grids extends BaseForm {
     }
     
     private Grid createHorizontalGridSameComponentDimensions() {
+        
         Grid horizontalGridSameComponentDimensions = new Grid(GRID_HORI_SAME_DIMENSIONS_COMPONENTS, 
                 ListType.HORIZONTAL, ComponentLayoutType.SAME_DIMENSIONS) ;
-        horizontalGridSameComponentDimensions.setWidth(getWidth());
+        
+        horizontalGridSameComponentDimensions.setWidth(getWidth());        
         horizontalGridSameComponentDimensions.append(createThumbnailsSameDimensions());
         horizontalGridSameComponentDimensions.setGridConstraints(
-                new GridConstraints(0, 0, 0, 0, 5, 5));
-        return horizontalGridSameComponentDimensions ;     
+                new GridConstraints(0, 0, 0, 0, 5, 5));       
+        return horizontalGridSameComponentDimensions ;   
+        
     }    
     
     private Vector createThumbnailsSameDimensions() {

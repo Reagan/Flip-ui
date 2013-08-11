@@ -13,9 +13,9 @@ public final class HorizontalLayout extends AbstractLayout {
     private int componentHeight = 100 ;
     
     public HorizontalLayout (Vector elements, 
-            int width, int height, int componentsLayoutType, 
+            int componentsLayoutType, 
             GridConstraints gridConstraints) {
-        super (width, height, elements, ListType.HORIZONTAL,
+        super(elements, ListType.HORIZONTAL,
                 componentsLayoutType, gridConstraints) ;
     }
     
@@ -60,8 +60,7 @@ public final class HorizontalLayout extends AbstractLayout {
             if (i < size - 1 ) {
                 Thumbnail nextElement = (Thumbnail) elements.elementAt(i + 1);
                 currPoint = getRelativeLocationForElement(nextElement, currElement, currPoint)  ;
-            }
-            
+            }                       
         }
     }   
     
@@ -159,11 +158,9 @@ public final class HorizontalLayout extends AbstractLayout {
         int gridHeight = 0;
         if (ComponentLayoutType.SAME_DIMENSIONS
                 == componentsLayoutType) {                        
-            int noOfComponentsPerRow = calculateNoOfSameDimensionsComponentsPerRow() ;
-            System.out.println("Number of components per row " + noOfComponentsPerRow);
+            int noOfComponentsPerRow = calculateNoOfSameDimensionsComponentsPerRow() ;            
             gridHeight = (int) (Math.ceil(elements.size() / (double) noOfComponentsPerRow)
-                           * componentHeight);
-            System.out.println("elements.size() / noOfComponents " +  elements.size() / noOfComponentsPerRow );
+                           * componentHeight);           
         } else if (ComponentLayoutType.CUSTOM_DIMENSIONS
                 == componentsLayoutType) {
            

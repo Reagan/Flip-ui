@@ -10,8 +10,8 @@ public abstract class AbstractLayout implements Layout {
     protected GridConstraints gridConstraints ;
     protected int componentsLayoutType ;
     private int focussedItem = 0 ;
-    private int width = 0 ;
-    private int height = 0 ;
+    protected int width = 0 ;
+    protected int height = 0 ;
     
     /**
      * Creates an initial instance of a layout class to manage
@@ -21,7 +21,7 @@ public abstract class AbstractLayout implements Layout {
      * @param gridConstraints  spacing between each of the components in
      * the grid
      */
-    public AbstractLayout (int width, int height, Vector elements, 
+    public AbstractLayout (Vector elements, 
             int orientation, int componentLayoutType, 
             GridConstraints gridConstraints) {
         setElements(elements);

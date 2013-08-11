@@ -1,7 +1,6 @@
  package it.qubixic.component.splashscreen;
 
 import it.qubixic.utils.Point;
-import java.util.Vector;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;

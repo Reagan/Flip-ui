@@ -57,15 +57,15 @@ public class GridConstraints {
         return innerMarginY;
     }
 
-    public void setInnerMarginY(int innerMarginTop) {
-        this.innerMarginY = innerMarginTop;
+    public void setInnerMarginY(int innerMarginY) {
+        this.innerMarginY = innerMarginY;
     }
 
     public int getInnerMarginX() {
         return innerMarginX;
     }
 
-    public void setInnerMarginX(int innerMarginBottom) {
-        this.innerMarginX = innerMarginBottom;
+    public void setInnerMarginX(int innerMarginX) {
+        this.innerMarginX = innerMarginX;
     }
 }
