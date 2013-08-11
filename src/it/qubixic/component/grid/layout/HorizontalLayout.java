@@ -78,7 +78,10 @@ public final class HorizontalLayout extends AbstractLayout {
         
         if (focused) {
             element.setFocussed(true) ;
+        } else {
+            element.setFocussed(false);
         }
+        
         element.render(g, x, y);                                    
     }                
 

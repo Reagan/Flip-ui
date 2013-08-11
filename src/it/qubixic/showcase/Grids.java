@@ -40,7 +40,7 @@ public class Grids extends BaseForm {
     
     private Vector createThumbnailsSameDimensions() {
         Vector thumbnails = new Vector() ;
-        final int noOfThumbnails = 4 ;
+        final int noOfThumbnails = 6 ;
         ThumbnailCaption thumbnailCaption ;
         Image thumbnailImage ;
             
