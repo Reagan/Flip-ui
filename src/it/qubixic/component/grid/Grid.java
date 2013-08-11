@@ -117,6 +117,25 @@ public class Grid extends CustomItem {
         }
     }
 
+     /**
+     * @return the height of the component
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * sets the height of the component
+     *
+     * @param height
+     */
+    public void setHeight(int height) {
+        if (width > 0) {
+            this.height = height;
+            repaint();
+        }
+    }
+    
     /**
      * @return the title for the grid
      */
@@ -287,16 +306,17 @@ public class Grid extends CustomItem {
     }
 
     protected int getPrefContentHeight(int width) {
+        hLayout.setGridConstraints(gridConstraints);
+        hLayout.setWidth(getWidth());
+        hLayout.setHeight(hLayout.calculateHeight());
+        setHeight(hLayout.calculateHeight());
         return height;
     }
 
     protected void paint(Graphics g, int w, int h) {
         if (listType == ListType.VERTICAL) {
-        } else if (listType == ListType.HORIZONTAL) {
-            hLayout.setGridConstraints(gridConstraints);
+        } else if (listType == ListType.HORIZONTAL) {            
             hLayout.setFocussedItem(focussedItem);
-            hLayout.setWidth(getWidth());
-            hLayout.setHeight(hLayout.calculateHeight());
             hLayout.drawGrid(g);
         }
     }

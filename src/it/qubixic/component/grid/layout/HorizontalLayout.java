@@ -72,7 +72,7 @@ public final class HorizontalLayout extends AbstractLayout {
         int x = (int) elementLocation.getX() ;
         int y = (int) elementLocation.getY() ;
         
-        g.setClip(x, y, elementWidth, elementHeight);        
+        //g.setClip(x, y, elementWidth, elementHeight);        
         g.setColor(element.getBackgroundColor());
         g.fillRect(x, y, elementWidth, elementHeight);   
         
@@ -154,7 +154,8 @@ public final class HorizontalLayout extends AbstractLayout {
     }    
     
     /**
-     * This method calculates the height of the component
+     * This method calculates the height of all the 
+     * components in the layout
      * @return height of all the grid components
      */
     public int calculateHeight() {

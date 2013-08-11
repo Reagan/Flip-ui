@@ -154,7 +154,7 @@ public class ThumbnailCaption implements Caption {
             int parentHeight) {
         g.setColor(Theme.getThumbnailBackgroundCaptionColor());
         g.fillRect(topX, topY + parentHeight - height, 
-                topX + parentWidth, topY + parentHeight);        
+                parentWidth, height);        
     }
     
     /**
