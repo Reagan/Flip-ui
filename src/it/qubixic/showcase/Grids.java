@@ -20,16 +20,28 @@ public class Grids extends BaseForm {
     private final String TITLE_TEXT = "A set of supported grid kinds" ;
     private final String GRID_HORI_SAME_DIMENSIONS_COMPONENTS
             = "Horizontal Grid, Same component dimensions" ;
+    private final String SUMMARY_LABEL = "Documentation";
+    private final String SUMMARY_TEXT = "Documentation on the use of this library is available at"; 
     
     public Grids(MIDlet midlet) {
         super ("Grid", midlet) ;
         appendTitle(TITLE_LABEL, TITLE_TEXT) ;
         appendGrid(createHorizontalGridSameComponentDimensions()) ;
+        appendSummary(SUMMARY_LABEL, SUMMARY_TEXT);
     }
     
     public void appendTitle(String title_label, String title_text) {
-        append(new StringItem(title_label, title_text));
+        appendStringItem(title_label, title_text);
     }
+    
+    public void appendSummary(String title_label, String title_text) {
+        appendStringItem(title_label, title_text);
+    }
+     
+    public void appendStringItem(String title, String text) {
+        append(new StringItem(title, text));
+    }
+    
     public void appendGrid(Grid grid) {
         append(grid);
     }
@@ -67,6 +79,8 @@ public class Grids extends BaseForm {
                     + thumbnailsCounter 
                     + "-100x100.png");
             thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
+             thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
+              thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
         }
         return thumbnails ;
     }    

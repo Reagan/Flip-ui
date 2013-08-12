@@ -12,6 +12,8 @@ public final class HorizontalLayout extends AbstractLayout {
     private int componentWidth = 100 ;
     private int componentHeight = 100 ;
     private final int BUFFER = 40 ;
+    private int displayLocation = 0 ;
+    private int displayHeight = 0 ;
     
     public HorizontalLayout (Vector elements, 
             int componentsLayoutType, 
@@ -41,18 +43,54 @@ public final class HorizontalLayout extends AbstractLayout {
      * @param g  Graphics object used to draw the grid
      */
     public void drawGrid(Graphics g) {  
+        Thumbnail currElement = null ;
+        Thumbnail nextElement = null ;
+        
         Point currPoint = new Point(gridConstraints.getInnerMarginX() 
                 + gridConstraints.getMarginLeft(),
                 gridConstraints.getMarginTop()
                 + gridConstraints.getInnerMarginY()) ;
         
+        setDisplayHeight(g.getClipHeight());
+        
         for (int i = 0, size = elements.size(); i < size; i++) {
-            Thumbnail currElement = (Thumbnail) elements.elementAt(i);
+            currElement = (Thumbnail) elements.elementAt(i);
             Point elementLocation = currPoint ;
             
             if (i < size - 1) {
-                Thumbnail nextElement = (Thumbnail) elements.elementAt(i + 1);
+                nextElement = (Thumbnail) elements.elementAt(i + 1);
                 currPoint = getRelativeLocationForElement(nextElement, currElement, currPoint);
+               
+                /*
+                if (currElement.getFocussed()) {
+                    if (currElement.getTopY() + currElement.getHeight()
+                            > -g.getTranslateY() + g.getClipHeight()) {
+                        System.out.println("next element after is below visible region");
+                        setDisplayLocation(currElement.getTopY());
+                    } 
+                        if (i > 0) {
+                            System.out.println("called");
+                            Thumbnail previousElement = (Thumbnail) elements.elementAt(i - 1);
+                            if (previousElement.getTopY() - BUFFER < -g.getTranslateY()) {
+                                System.out.println("previous item is above visible region");
+                                setDisplayLocation(previousElement.getTopY());
+                            }
+                        }
+                    
+                }
+                */
+            }
+             
+            if (currElement.getFocussed()) {
+                System.out.println("current Y " + i + "  location " + currElement.getTopY());
+                 System.out.println("next Y " + (i+1) + " location " + nextElement.getTopY());
+                    System.out.println("Clip lower Y location " + (-g.getTranslateY() + g.getClipHeight()));
+                if (null != nextElement && (nextElement.getTopY()
+                        > (-g.getTranslateY() + g.getClipHeight()))) {
+                    System.out.println("Setting next location " + nextElement.getTopY());
+                    System.out.println("Clip lower Y location " + -g.getTranslateY() + g.getClipHeight());
+                    setDisplayLocation(nextElement.getTopY());
+                }
             }
              
             if (currElement.getTopY() + currElement.getHeight() 
@@ -62,13 +100,11 @@ public final class HorizontalLayout extends AbstractLayout {
                 continue ;                
             } else if (currElement.getTopY() - gridConstraints.getInnerMarginY()
                     - gridConstraints.getMarginTop() - BUFFER
-                    > (-g.getTranslateY() + g.getClipHeight())) {
+                    > (-g.getTranslateY() + g.getClipHeight())) {                
                 break ;
             }
              
-            drawElement(g, currElement, elementLocation, i == getFocussedItem());  
-            
-                                 
+            drawElement(g, currElement, elementLocation, i == getFocussedItem());                                   
         }
     }   
     
@@ -79,13 +115,12 @@ public final class HorizontalLayout extends AbstractLayout {
         int elementHeight = element.getHeight() ;
         int x = (int) elementLocation.getX() ;
         int y = (int) elementLocation.getY() ;
-        
-        //g.setClip(x, y, elementWidth, elementHeight);        
+               
         g.setColor(element.getBackgroundColor());
         g.fillRect(x, y, elementWidth, elementHeight);   
         
         if (focused) {
-            element.setFocussed(true) ;
+            element.setFocussed(true) ; 
         } else {
             element.setFocussed(false);
         }
@@ -180,10 +215,37 @@ public final class HorizontalLayout extends AbstractLayout {
         return gridHeight;
     }
     
+    /**
+     * Calculates the number of components 
+     * on a specific row
+     * @return number of components in a row
+     */
     private int calculateNoOfSameDimensionsComponentsPerRow() {
         int effectiveWidth = getWidth() - 2 * gridConstraints.getInnerMarginX() ;
         return (int) (effectiveWidth / 
                 (this.componentWidth + gridConstraints.getMarginLeft()
                  + gridConstraints.getMarginRight())) ;
+    }
+    
+    /**
+     * 
+     * @return the top most location for the displayed
+     * region of the graph depending on the currently selected 
+     * component
+     */
+    public int getDisplayLocation() {
+        return displayLocation ;
+    }
+    
+    public void setDisplayLocation (int displayLocation) {
+        this.displayLocation = displayLocation ;
+    }
+    
+    public int getDisplayHeight() {
+        return displayHeight ;
+    }
+    
+    public void setDisplayHeight(int displayHeight) {
+        this.displayHeight = displayHeight ;
     }
 }

@@ -31,7 +31,8 @@ public class Grid extends CustomItem {
             + "Grid only accepts LayoutType.SAME_DIMENSIONS and LayoutType.CUSTOM_DIMENSIONS "
             + "as arguments.";
     private Vector gridListeners = new Vector();
-    private int focussedItem = 0;
+    private int focussedItem = -1;
+    private int lastFocussedItem = 0 ;
     private HorizontalLayout hLayout;
     private VerticalLayout vLayout;
     private boolean inTraversal = false;
@@ -358,36 +359,61 @@ public class Grid extends CustomItem {
     protected boolean traverse(int direction, int viewportWidth,
             int viewportHeight, int[] visRect_inOut) {
         
-        if (direction == Canvas.UP || direction == Canvas.LEFT) {
+        if (direction == Canvas.LEFT) {
             if (!inTraversal) {
                 inTraversal = true;
             } else {
-                if (focussedItem > 0) {
-                    focussedItem--;
-                    setFocusedElementIndex(focussedItem);
-                    repaint();
-                } else {
-                    inTraversal = false;
-                    return false;
-                }
+                 if (focussedItem == -1) {
+                    focussedItem = lastFocussedItem ; 
+                }  else {
+                     if (focussedItem - 1 >= 0) {
+                        focussedItem-- ;
+                     } else {
+                         inTraversal = false;
+                         return false;
+                     }
+                 }
+                 System.out.println("B " + focussedItem);
+                 setFocusedElementIndex(focussedItem);
+                 repaint();                
             }
-        } else if (direction == Canvas.DOWN || direction == Canvas.RIGHT) {
+        } else if (direction == Canvas.RIGHT) {
             if (!inTraversal) {
-                inTraversal = true;
+                inTraversal = true;                
             } else {
-                if (focussedItem < elements.size()) {
-                    focussedItem++;
-                    setFocusedElementIndex(focussedItem);
-                    repaint();
+                if (focussedItem == -1) {
+                    focussedItem = lastFocussedItem ; 
                 } else {
-                    inTraversal = false;
-                    return false;
+                    if (focussedItem + 1 < elements.size()) {
+                        focussedItem++;                        
+                    } else {
+                        inTraversal = false;
+                        return false;
+                    }
                 }
+                System.out.println("A " + focussedItem);
+                setFocusedElementIndex(focussedItem);
+                repaint();
             }
         }
+        
+        visRect_inOut[0] = 0;
+        visRect_inOut[1] = hLayout.getDisplayLocation() ;
+        visRect_inOut[2] = getWidth() ;
+        visRect_inOut[3] = hLayout.getDisplayHeight() ;
         return true;
     }
 
+    /**
+     * This method resets the grid and stores the last selected
+     * grid component before the user focused out
+     */
+    protected void traverseOut() {    
+        lastFocussedItem = focussedItem;
+        focussedItem = -1;
+        repaint();
+    }
+    
     /**
      * This method sets the currently selected item in the grid
      */
