@@ -317,7 +317,7 @@ public class Grid extends CustomItem {
     protected void paint(Graphics g, int w, int h) {
         if (listType == ListType.VERTICAL) {
             
-        } else if (listType == ListType.HORIZONTAL) {    
+        } else if (listType == ListType.HORIZONTAL) { 
             hLayout.setFocussedItem(focussedItem);
             hLayout.drawGrid(g);
         }
@@ -373,7 +373,6 @@ public class Grid extends CustomItem {
                          return false;
                      }
                  }
-                 System.out.println("B " + focussedItem);
                  setFocusedElementIndex(focussedItem);
                  repaint();                
             }
@@ -391,14 +390,19 @@ public class Grid extends CustomItem {
                         return false;
                     }
                 }
-                System.out.println("A " + focussedItem);
                 setFocusedElementIndex(focussedItem);
                 repaint();
             }
         }
         
+         if (direction == Canvas.UP ||
+                 direction == Canvas.DOWN) {
+             return false; 
+         }
+         
+        int h = (focussedItem > 0 ? hLayout.calculateDisplayLocation(focussedItem) : 0) ;
         visRect_inOut[0] = 0;
-        visRect_inOut[1] = hLayout.getDisplayLocation() ;
+        visRect_inOut[1] = h ;
         visRect_inOut[2] = getWidth() ;
         visRect_inOut[3] = hLayout.getDisplayHeight() ;
         return true;

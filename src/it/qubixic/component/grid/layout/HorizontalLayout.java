@@ -59,40 +59,9 @@ public final class HorizontalLayout extends AbstractLayout {
             
             if (i < size - 1) {
                 nextElement = (Thumbnail) elements.elementAt(i + 1);
-                currPoint = getRelativeLocationForElement(nextElement, currElement, currPoint);
-               
-                /*
-                if (currElement.getFocussed()) {
-                    if (currElement.getTopY() + currElement.getHeight()
-                            > -g.getTranslateY() + g.getClipHeight()) {
-                        System.out.println("next element after is below visible region");
-                        setDisplayLocation(currElement.getTopY());
-                    } 
-                        if (i > 0) {
-                            System.out.println("called");
-                            Thumbnail previousElement = (Thumbnail) elements.elementAt(i - 1);
-                            if (previousElement.getTopY() - BUFFER < -g.getTranslateY()) {
-                                System.out.println("previous item is above visible region");
-                                setDisplayLocation(previousElement.getTopY());
-                            }
-                        }
-                    
-                }
-                */
+                currPoint = getRelativeLocationForElement(nextElement, currElement, currPoint);               
             }
-             
-            if (currElement.getFocussed()) {
-                System.out.println("current Y " + i + "  location " + currElement.getTopY());
-                 System.out.println("next Y " + (i+1) + " location " + nextElement.getTopY());
-                    System.out.println("Clip lower Y location " + (-g.getTranslateY() + g.getClipHeight()));
-                if (null != nextElement && (nextElement.getTopY()
-                        > (-g.getTranslateY() + g.getClipHeight()))) {
-                    System.out.println("Setting next location " + nextElement.getTopY());
-                    System.out.println("Clip lower Y location " + -g.getTranslateY() + g.getClipHeight());
-                    setDisplayLocation(nextElement.getTopY());
-                }
-            }
-             
+          
             if (currElement.getTopY() + currElement.getHeight() 
                     + gridConstraints.getMarginBottom()
                     + gridConstraints.getInnerMarginY()
@@ -237,15 +206,41 @@ public final class HorizontalLayout extends AbstractLayout {
         return displayLocation ;
     }
     
+    /**
+     * This method sets the location 
+     * for the top most component displayed by the 
+     * layout
+     * @param displayLocation 
+     */
     public void setDisplayLocation (int displayLocation) {
         this.displayLocation = displayLocation ;
     }
     
+    /**
+     * This method obtains the encompassing grid viewport
+     * height
+     * @return 
+     */
     public int getDisplayHeight() {
         return displayHeight ;
     }
     
+    /**
+     * This sets the view port height to be displayed
+     * by the encompassing grid
+     * @param displayHeight 
+     */
     public void setDisplayHeight(int displayHeight) {
         this.displayHeight = displayHeight ;
+    }
+    
+    /**
+     * This method calculates the current top most Y
+     * location for the view port
+     * @param focussedItem
+     * @return 
+     */
+    public int calculateDisplayLocation(int focussedItem) {
+        return ((Thumbnail) elements.elementAt(focussedItem)).getTopY();
     }
 }

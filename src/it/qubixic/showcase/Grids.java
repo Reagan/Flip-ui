@@ -79,8 +79,8 @@ public class Grids extends BaseForm {
                     + thumbnailsCounter 
                     + "-100x100.png");
             thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
-             thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
-              thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
+            thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
+            thumbnails.addElement(new Thumbnail(thumbnailCaption, thumbnailImage));
         }
         return thumbnails ;
     }    
