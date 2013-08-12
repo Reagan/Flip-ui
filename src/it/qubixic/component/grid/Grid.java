@@ -305,17 +305,18 @@ public class Grid extends CustomItem {
         return width;
     }
 
-    protected int getPrefContentHeight(int width) {
+    protected int getPrefContentHeight(int width) {       
         hLayout.setGridConstraints(gridConstraints);
         hLayout.setWidth(getWidth());
         hLayout.setHeight(hLayout.calculateHeight());
         setHeight(hLayout.calculateHeight());
-        return height;
+        return height;        
     }
 
     protected void paint(Graphics g, int w, int h) {
         if (listType == ListType.VERTICAL) {
-        } else if (listType == ListType.HORIZONTAL) {            
+            
+        } else if (listType == ListType.HORIZONTAL) {    
             hLayout.setFocussedItem(focussedItem);
             hLayout.drawGrid(g);
         }

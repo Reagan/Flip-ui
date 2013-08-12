@@ -10,19 +10,26 @@ import it.qubixic.component.grid.thumbnail.Thumbnail;
 import it.qubixic.component.grid.thumbnail.ThumbnailCaption;
 import it.qubixic.showcase.utils.ImageUtils;
 import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.StringItem;
 import java.util.Vector;
 import javax.microedition.midlet.*;
 
 public class Grids extends BaseForm {
 
+    private final String TITLE_LABEL = "Grids" ;
+    private final String TITLE_TEXT = "A set of supported grid kinds" ;
     private final String GRID_HORI_SAME_DIMENSIONS_COMPONENTS
             = "Horizontal Grid, Same component dimensions" ;
     
     public Grids(MIDlet midlet) {
         super ("Grid", midlet) ;
+        appendTitle(TITLE_LABEL, TITLE_TEXT) ;
         appendGrid(createHorizontalGridSameComponentDimensions()) ;
     }
     
+    public void appendTitle(String title_label, String title_text) {
+        append(new StringItem(title_label, title_text));
+    }
     public void appendGrid(Grid grid) {
         append(grid);
     }

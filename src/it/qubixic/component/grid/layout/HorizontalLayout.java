@@ -11,6 +11,7 @@ public final class HorizontalLayout extends AbstractLayout {
     
     private int componentWidth = 100 ;
     private int componentHeight = 100 ;
+    private final int BUFFER = 40 ;
     
     public HorizontalLayout (Vector elements, 
             int componentsLayoutType, 
@@ -49,18 +50,25 @@ public final class HorizontalLayout extends AbstractLayout {
             Thumbnail currElement = (Thumbnail) elements.elementAt(i);
             Point elementLocation = currPoint ;
             
-            if (elementLocation.getY() + currElement.getHeight() < -g.getTranslateY()) {
+            if (i < size - 1) {
+                Thumbnail nextElement = (Thumbnail) elements.elementAt(i + 1);
+                currPoint = getRelativeLocationForElement(nextElement, currElement, currPoint);
+            }
+             
+            if (currElement.getTopY() + currElement.getHeight() 
+                    + gridConstraints.getMarginBottom()
+                    + gridConstraints.getInnerMarginY()
+                    < -g.getTranslateY()) {
                 continue ;                
-            } else if (elementLocation.getY() > (-g.getTranslateY() + getHeight())) {
+            } else if (currElement.getTopY() - gridConstraints.getInnerMarginY()
+                    - gridConstraints.getMarginTop() - BUFFER
+                    > (-g.getTranslateY() + g.getClipHeight())) {
                 break ;
             }
              
             drawElement(g, currElement, elementLocation, i == getFocussedItem());  
             
-            if (i < size - 1 ) {
-                Thumbnail nextElement = (Thumbnail) elements.elementAt(i + 1);
-                currPoint = getRelativeLocationForElement(nextElement, currElement, currPoint)  ;
-            }                       
+                                 
         }
     }   
     
