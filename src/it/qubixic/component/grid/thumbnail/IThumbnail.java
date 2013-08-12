@@ -10,5 +10,5 @@ public interface IThumbnail {
     void setSelected(boolean selected);
     int getHeight();
     int getWidth() ;
-    void render(Graphics g, int topX, int topY) ;
+    void render(Graphics g, Image image, ThumbnailCaption caption, int topX, int topY) ;
 }

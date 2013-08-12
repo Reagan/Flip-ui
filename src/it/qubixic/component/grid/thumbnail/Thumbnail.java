@@ -70,15 +70,18 @@ public class Thumbnail implements IThumbnail {
         this.width = width ;
     }
     
-    public void render (Graphics g, int topX, int topY) {            
+    public void render (Graphics g, Image image, ThumbnailCaption caption, 
+            int topX, int topY) {            
+        
         setDimensions(topX, topY) ;
-        if (getImage() != null) {
-            g.drawImage(getImage(), topX, topY,
+        
+        if (image != null) {
+            g.drawImage(image, topX, topY,
                 Graphics.LEFT | Graphics.TOP);
         }       
         
-        if (null != getCaption()) {
-            getCaption().render(g, topX, topY, width, height);
+        if (null != caption) {
+            caption.render(g, topX, topY, width, height);
         }
         
         if (focused) {
@@ -110,6 +113,6 @@ public class Thumbnail implements IThumbnail {
     }  
                  
     public int getBackgroundColor () {
-        return Theme.getThumbnailBackgroundColorFocused() ;
+        return Theme.getThumbnailBackgroundColor() ;
     }
 }

@@ -17,7 +17,7 @@ public class Theme {
     protected Font titlebarMetadataFont = Compatibility.getFont(Font.FACE_SYSTEM, 
             Font.STYLE_PLAIN, 10) ;    
     */
-    protected int backgroundThumbnailColor = 0xcccccc;
+    protected static int backgroundThumbnailColor = 0xffffff;
     protected static int backgroundColorFocused = 0x1090c8;
     protected static Font thumbnailFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
             Font.SIZE_SMALL);
@@ -61,7 +61,7 @@ public class Theme {
         return backgroundColorFocused;
     }
 
-    public int getThumbnailBackgroundColor() {
+    public static int getThumbnailBackgroundColor() {
         return backgroundThumbnailColor;
     }
 
