@@ -28,6 +28,9 @@ public class Grids extends BaseForm {
     private final int HORIZONTAL_GRID_THUMBNAIL_HEIGHT = 100 ;
     private final int VERTICAL_GRID_THUMBNAIL_HEIGHT = 100 ;
     
+    private final int HORIZONTAL_THUMBNAILS = 1 ;
+    private final int VERTICAL_THUMBNAILS = 2 ;
+    
     public Grids(MIDlet midlet) {
         super ("Grid", midlet) ;
         appendTitle(TITLE_LABEL, TITLE_TEXT) ;
@@ -59,7 +62,8 @@ public class Grids extends BaseForm {
         
         horizontalGridSameComponentDimensions.setWidth(getWidth());        
         horizontalGridSameComponentDimensions
-                .append(createThumbnails(HORIZONTAL_GRID_THUMBNAIL_WIDTH, 
+                .append(createThumbnails(HORIZONTAL_THUMBNAILS,
+                HORIZONTAL_GRID_THUMBNAIL_WIDTH, 
                 HORIZONTAL_GRID_THUMBNAIL_HEIGHT));
         horizontalGridSameComponentDimensions.setGridConstraints(
                 new GridConstraints(0, 0, 0, 0, 5, 5)); 
@@ -80,7 +84,8 @@ public class Grids extends BaseForm {
         
         verticalGridSameComponentDimensions.setWidth(getWidth());        
         verticalGridSameComponentDimensions
-                .append(createThumbnails(getWidth(), 
+                .append(createThumbnails(VERTICAL_THUMBNAILS,
+                getWidth(), 
                 VERTICAL_GRID_THUMBNAIL_HEIGHT));
         verticalGridSameComponentDimensions.setGridConstraints(
                 new GridConstraints(0, 0, 0, 0, 5, 5)); 
@@ -94,20 +99,29 @@ public class Grids extends BaseForm {
         
     }
     
-    private Vector createThumbnails(int width, int height) {
+    private Vector createThumbnails(int type, int width, int height) {
         Vector thumbnails = new Vector() ;
-        final int noOfThumbnails = 6 ;
-        ThumbnailCaption thumbnailCaption ;
+        final int noOfThumbnails = 6 ;        
         Image thumbnailImage ;
-            
+        Thumbnail thumbnail = null ;
+        
         for (int thumbnailsCounter = 1 ;thumbnailsCounter < noOfThumbnails ;
                 thumbnailsCounter++) {
-            thumbnailCaption = new ThumbnailCaption("Thumbnail " + thumbnailsCounter,
-                    "Description here...") ;
+            
             thumbnailImage = ImageUtils.loadJarImage("/" 
                     + thumbnailsCounter 
                     + "-100x100.png");
-            Thumbnail thumbnail = new Thumbnail(thumbnailCaption, thumbnailImage) ;
+            if (type == HORIZONTAL_THUMBNAILS) {
+                ThumbnailCaption thumbnailCaption 
+                        = new ThumbnailCaption("Thumbnail " + thumbnailsCounter,
+                    "Description here...") ;
+                thumbnail = new HorizontalThumbnail(thumbnailCaption, thumbnailImage) ;
+            } else if (type == VERTICAL_THUMBNAILS) {
+                VerticalThumbnailCaption vCaption = new VerticalThumbnailCaption("Part 1", 
+                        "Part 2", "Part 3") ;
+                thumbnail = new VerticalThumbnail(vCaption, thumbnailImage) ;
+            }
+            
             thumbnail.setWidth(width);
             thumbnail.setHeight(height);
             thumbnails.addElement(thumbnail);

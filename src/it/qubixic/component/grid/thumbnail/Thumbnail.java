@@ -71,9 +71,7 @@ public class Thumbnail implements IThumbnail {
     }
     
     public void render (Graphics g, Image image, ThumbnailCaption caption, 
-            int topX, int topY) {            
-        
-        setDimensions(topX, topY) ;
+            int topX, int topY) {    
         
         if (image != null) {
             g.drawImage(image, topX, topY,
@@ -98,7 +96,7 @@ public class Thumbnail implements IThumbnail {
         return topY ;
     }
     
-    private void setDimensions(int topX, int topY) {
+    public void setDimensions(int topX, int topY) {
         this.topX = topX ; 
         this.topY = topY ;
     }
