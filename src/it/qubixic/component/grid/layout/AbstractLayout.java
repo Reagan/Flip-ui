@@ -1,6 +1,7 @@
 package it.qubixic.component.grid.layout;
 
 import it.qubixic.component.grid.GridConstraints;
+import it.qubixic.component.grid.thumbnail.Thumbnail;
 import java.util.Vector;
 
 public abstract class AbstractLayout implements Layout {
@@ -12,6 +13,8 @@ public abstract class AbstractLayout implements Layout {
     private int focussedItem = 0 ;
     protected int width = 0 ;
     protected int height = 0 ;
+    private int displayLocation = 0 ;
+    private int displayHeight = 0 ;
     
     /**
      * Creates an initial instance of a layout class to manage
@@ -126,5 +129,60 @@ public abstract class AbstractLayout implements Layout {
      */
     public void setHeight(int height) {
         this.height = height;
+    }    
+    
+    /**
+     * 
+     * @return the top most location for the displayed
+     * region of the graph depending on the currently selected 
+     * component
+     */
+    public int getDisplayLocation() {
+        return displayLocation ;
     }
+    
+    /**
+     * This method sets the location 
+     * for the top most component displayed by the 
+     * layout
+     * @param displayLocation 
+     */
+    public void setDisplayLocation (int displayLocation) {
+        this.displayLocation = displayLocation ;
+    }
+    
+    /**
+     * This method obtains the encompassing grid viewport
+     * height
+     * @return 
+     */
+    public int getDisplayHeight() {
+        return displayHeight ;
+    }
+    
+    /**
+     * This sets the view port height to be displayed
+     * by the encompassing grid
+     * @param displayHeight 
+     */
+    public void setDisplayHeight(int displayHeight) {
+        this.displayHeight = displayHeight ;
+    }
+    
+    /**
+     * This method calculates the current top most Y
+     * location for the view port
+     * @param focussedItem
+     * @return 
+     */
+    public int calculateDisplayLocation(int focussedItem) {
+        return ((Thumbnail) elements.elementAt(focussedItem)).getTopY();
+    }
+    
+    /**
+     * This method calculates the height of all the 
+     * components in the layout
+     * @return height of all the grid components
+     */
+    public abstract int calculateHeight() ;
 }

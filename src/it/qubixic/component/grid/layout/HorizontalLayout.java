@@ -11,9 +11,7 @@ public final class HorizontalLayout extends AbstractLayout {
     
     private int componentWidth = 100 ;
     private int componentHeight = 100 ;
-    private final int BUFFER = 40 ;
-    private int displayLocation = 0 ;
-    private int displayHeight = 0 ;
+    private final int BUFFER = 40 ;    
     
     public HorizontalLayout (Vector elements, 
             int componentsLayoutType, 
@@ -97,6 +95,14 @@ public final class HorizontalLayout extends AbstractLayout {
         element.render(g, x, y);                                    
     }                
 
+    /**
+     * This method gets the next location at which a component
+     * will be displayed
+     * @param nextElement the next element targeted for displayable
+     * @param currItem the current element
+     * @param previousItemLocation the last location from which a calculation
+     * for the next location is to be determined
+     */
     private Point getRelativeLocationForElement(Thumbnail nextElement, 
              Thumbnail currItem, 
             Point previousItemLocation) {      
@@ -194,53 +200,5 @@ public final class HorizontalLayout extends AbstractLayout {
         return (int) (effectiveWidth / 
                 (this.componentWidth + gridConstraints.getMarginLeft()
                  + gridConstraints.getMarginRight())) ;
-    }
-    
-    /**
-     * 
-     * @return the top most location for the displayed
-     * region of the graph depending on the currently selected 
-     * component
-     */
-    public int getDisplayLocation() {
-        return displayLocation ;
-    }
-    
-    /**
-     * This method sets the location 
-     * for the top most component displayed by the 
-     * layout
-     * @param displayLocation 
-     */
-    public void setDisplayLocation (int displayLocation) {
-        this.displayLocation = displayLocation ;
-    }
-    
-    /**
-     * This method obtains the encompassing grid viewport
-     * height
-     * @return 
-     */
-    public int getDisplayHeight() {
-        return displayHeight ;
-    }
-    
-    /**
-     * This sets the view port height to be displayed
-     * by the encompassing grid
-     * @param displayHeight 
-     */
-    public void setDisplayHeight(int displayHeight) {
-        this.displayHeight = displayHeight ;
-    }
-    
-    /**
-     * This method calculates the current top most Y
-     * location for the view port
-     * @param focussedItem
-     * @return 
-     */
-    public int calculateDisplayLocation(int focussedItem) {
-        return ((Thumbnail) elements.elementAt(focussedItem)).getTopY();
     }
 }

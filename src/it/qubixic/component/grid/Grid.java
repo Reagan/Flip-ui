@@ -3,6 +3,7 @@ package it.qubixic.component.grid;
 import it.qubixic.component.grid.event.GridEvent;
 import it.qubixic.component.grid.event.GridEventType;
 import it.qubixic.component.grid.event.GridListener;
+import it.qubixic.component.grid.layout.AbstractLayout;
 import it.qubixic.component.grid.layout.ComponentLayoutType;
 import it.qubixic.component.grid.layout.HorizontalLayout;
 import it.qubixic.component.grid.layout.VerticalLayout;
@@ -33,8 +34,7 @@ public class Grid extends CustomItem {
     private Vector gridListeners = new Vector();
     private int focussedItem = -1;
     private int lastFocussedItem = 0 ;
-    private HorizontalLayout hLayout;
-    private VerticalLayout vLayout;
+    private AbstractLayout layout;
     private boolean inTraversal = false;
 
     /**
@@ -94,8 +94,9 @@ public class Grid extends CustomItem {
 
     protected void initializeGrid() {
         if (listType == ListType.VERTICAL) {
+            layout = new VerticalLayout(elements, layoutType, gridConstraints) ;
         } else if (listType == ListType.HORIZONTAL) {
-            hLayout = new HorizontalLayout(elements, layoutType, gridConstraints);
+            layout = new HorizontalLayout(elements, layoutType, gridConstraints);
         }
     }
 
@@ -307,20 +308,16 @@ public class Grid extends CustomItem {
     }
 
     protected int getPrefContentHeight(int width) {       
-        hLayout.setGridConstraints(gridConstraints);
-        hLayout.setWidth(getWidth());
-        hLayout.setHeight(hLayout.calculateHeight());
-        setHeight(hLayout.calculateHeight());
+        layout.setGridConstraints(gridConstraints);
+        layout.setWidth(getWidth());
+        layout.setHeight(layout.calculateHeight());
+        setHeight(layout.calculateHeight());
         return height;        
     }
 
-    protected void paint(Graphics g, int w, int h) {
-        if (listType == ListType.VERTICAL) {
-            
-        } else if (listType == ListType.HORIZONTAL) { 
-            hLayout.setFocussedItem(focussedItem);
-            hLayout.drawGrid(g);
-        }
+    protected void paint(Graphics g, int w, int h) { 
+        layout.setFocussedItem(focussedItem);
+        layout.drawGrid(g);
     }
 
     /**
@@ -400,11 +397,11 @@ public class Grid extends CustomItem {
              return false; 
          }
          
-        int h = (focussedItem > 0 ? hLayout.calculateDisplayLocation(focussedItem) : 0) ;
+        int h = (focussedItem > 0 ? layout.calculateDisplayLocation(focussedItem) : 0) ;
         visRect_inOut[0] = 0;
         visRect_inOut[1] = h ;
         visRect_inOut[2] = getWidth() ;
-        visRect_inOut[3] = hLayout.getDisplayHeight() ;
+        visRect_inOut[3] = layout.getDisplayHeight() ;
         return true;
     }
 
