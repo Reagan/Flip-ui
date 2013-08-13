@@ -5,11 +5,13 @@ import javax.microedition.midlet.*;
 
 public class Raters extends BaseForm {
     
-    private final String STAR_RATER_TITLE = "Star Rater Example" ;
+    private final String RATER_TITLE = "Rater Example" ;
     
     public Raters (MIDlet midlet) {
         super("Raters", midlet) ;
         appendStarRater(createStarRater()) ;
+        appendStarRater(createStarRaterWithCount());
+        appendStarRater(createStarRaterWithTitleAndInitialCounter()) ;
     }
     
     public void appendStarRater (Rater starRater) {
@@ -17,8 +19,20 @@ public class Raters extends BaseForm {
     }
     
     public Rater createStarRater() {
-        final int STAR_RATER_INITIAL_COUNT = 2 ;
-        Rater starRater = new Rater(STAR_RATER_TITLE, STAR_RATER_INITIAL_COUNT) ;
+        Rater starRater = new Rater() ;
+        return starRater ;
+    }
+    
+    public Rater createStarRaterWithCount() {
+        final int NO_OF_COMPONENTS = 2 ;
+        Rater starRater = new Rater(NO_OF_COMPONENTS) ;
+        return starRater ;
+    }
+    
+    public Rater createStarRaterWithTitleAndInitialCounter() {
+        final int NO_OF_COMPONENTS = 4 ;
+        Rater starRater = new Rater(RATER_TITLE, 
+                NO_OF_COMPONENTS) ;
         return starRater ;
     }
 }

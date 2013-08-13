@@ -6,8 +6,8 @@ import javax.microedition.lcdui.Graphics;
 public class StarLayout implements RaterLayout {
 
     private String title = "" ;
-    private int noOfComponents = 2; 
-    private int count = 0 ;
+    private int noOfComponents = 5 ; 
+    private float count = 0 ;
     private final int COMPONENT_WIDTH = 40 ;
     private final int COMPONENT_HEIGHT = 40 ;
     private final int BG_COLOR = 0x999999 ;
@@ -16,9 +16,20 @@ public class StarLayout implements RaterLayout {
     private final int ARC_RADIUS = 5 ;
     private int PADDING = 5 ;
     
+    /**
+     * Creates a default instance of a star layout
+     */
     public StarLayout() {}
     
-    public StarLayout (String title, int noOfComponents, int count) {
+    /**
+     * Creates an instance of a star layout 
+     * with a title, specified number of components 
+     * and an initial count
+     * @param title title for the star component
+     * @param noOfComponents number of components
+     * @param count initial count for the rater
+     */
+    public StarLayout (String title, int noOfComponents, float count) {
         setTitle(title);
         setNoOfComponents(noOfComponents);
         setCount(count);
@@ -70,14 +81,14 @@ public class StarLayout implements RaterLayout {
     /**
      * @return the count
      */
-    public int getCount() {
+    public float getCount() {
         return count;
     }
 
     /**
      * @param count the count to set
      */
-    public void setCount(int count) {
+    public void setCount(float count) {
         this.count = count;
     }
     
@@ -86,35 +97,49 @@ public class StarLayout implements RaterLayout {
      * @param g 
      */
     public void render(Graphics g) {
-        drawBackground(g);
-        drawComponents(g); 
+        int topX = 0 ;
+        int topY = 0 ;
+        
+        drawBackground(g, topX, topY);
+        
+        topX += PADDING ;
+        topY += PADDING ;
+        
+        if (title != "" && title != null)  {            
+            drawTitle(g, getTitle(), topX, topY) ;
+            topY += g.getFont().getHeight() + PADDING ;                    
+        }
+        
+        drawComponents(g, topX, topY); 
+        drawHighlight(g, count);
     }
     
-    private void drawBackground(Graphics g) {
+    private void drawBackground(Graphics g, int topX, int topY) {
         g.setColor(BG_COLOR);
-        g.fillRoundRect(0, 0, getWidth(), getHeight(), 
+        g.fillRoundRect(topX, topY, getWidth(), getHeight(), 
                 ARC_RADIUS, ARC_RADIUS);
     }
     
-    private void drawComponents(Graphics g) {
-        int x = ARC_RADIUS ;
-        int y = ARC_RADIUS ;        
+    private void drawTitle (Graphics g, String title, int topX, int topY) {
+        
+    }
+    
+    private void drawComponents(Graphics g, int topX, int topY) {
+        int x = topX ;
+        int y = topY ;        
         
         for (int componentsCounter = 0 ; componentsCounter < getNoOfComponents();
                 componentsCounter++) {
-            System.out.println("x " + (x + (componentsCounter * (COMPONENT_WIDTH + PADDING))));
             drawStarComponent(g, x + (componentsCounter * (COMPONENT_WIDTH + PADDING)), 
                     y, PADDING) ;          
         }
     }
     
     private void drawStarComponent(Graphics g, int x, int y, int padding)  {
-        System.out.println("Starting point " + x + "," + y);
         int effectiveWidth =  (COMPONENT_WIDTH - 2 * padding) ;
         int effectiveHeight = (COMPONENT_HEIGHT - 2 * padding) ; 
         Point center = new Point(x + effectiveWidth / 2, 
                 y + effectiveHeight / 2) ;
-        System.out.println("center " + center.getX() + " ," + center.getY()) ;
         
         g.setColor(COMPONENT_COLOR);
         
@@ -157,5 +182,10 @@ public class StarLayout implements RaterLayout {
         g.fillTriangle((x + effectiveWidth / 2), y, 
                 (int) center.getX(), (int) center.getY(),
                 (x + effectiveWidth / 3), (y + effectiveHeight / 3));
+    }
+    
+    private void drawHighlight(Graphics g, float count) {
+        int effectiveWidth =  (COMPONENT_WIDTH - 2 * PADDING) ;
+        int effectiveHeight = (COMPONENT_HEIGHT - 2 * PADDING) ; 
     }
 }

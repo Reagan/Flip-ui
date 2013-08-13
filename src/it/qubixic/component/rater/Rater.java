@@ -30,6 +30,28 @@ public class Rater extends CustomItem {
     }
      
     /**
+     * Creates a rater with a custom number of 
+     * components
+     * @param noOfComponents number of components
+     */
+    public Rater (int noOfComponents) {
+        super("") ;
+        setNoOfComponents(noOfComponents);
+    }
+    
+    /**
+     * Creates a rater with a default title
+     * and count
+     * @param title title for the rater
+     * @param count initial value for the rater
+     */
+    public Rater (String title, int noOfComponents) {
+        super("");
+        setTitle(title);
+        setNoOfComponents(noOfComponents);
+    }  
+    
+    /**
      * Creates a rater with a default title
      * and count
      * @param title title for the rater
@@ -41,6 +63,13 @@ public class Rater extends CustomItem {
         setCount(count);
     }   
 
+    /**
+     * Creates a rater with a title, count and number of 
+     * components used to display the count
+     * @param title
+     * @param count
+     * @param noOfComponents 
+     */
     public Rater(String title, float count, int noOfComponents) {
         super("") ;
         setTitle(title);
@@ -124,6 +153,9 @@ public class Rater extends CustomItem {
     }
 
     protected void paint(Graphics g, int w, int h) {
+        getRaterLayout().setTitle(getTitle()) ;
+        getRaterLayout().setCount(getCount()) ;
+        getRaterLayout().setNoOfComponents(getNoOfComponents()) ;
         getRaterLayout().render(g);        
     }
 
