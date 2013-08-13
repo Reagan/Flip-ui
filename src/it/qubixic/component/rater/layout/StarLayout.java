@@ -8,8 +8,8 @@ public class StarLayout implements RaterLayout {
     private String title = "" ;
     private int noOfComponents = 2; 
     private int count = 0 ;
-    private final int COMPONENT_WIDTH = 100 ;
-    private final int COMPONENT_HEIGHT = 100 ;
+    private final int COMPONENT_WIDTH = 40 ;
+    private final int COMPONENT_HEIGHT = 40 ;
     private final int BG_COLOR = 0x999999 ;
     private final int COMPONENT_COLOR = 0xffffff ;
     private final int HIGHLIGHT_COLOR = 0xffff00 ;
