@@ -6,14 +6,15 @@ import javax.microedition.lcdui.Graphics;
 public class StarLayout implements RaterLayout {
 
     private String title = "" ;
-    private int noOfComponents = 5; 
+    private int noOfComponents = 2; 
     private int count = 0 ;
-    private final int COMPONENT_WIDTH = 20 ;
-    private final int COMPONENT_HEIGHT = 20 ;
+    private final int COMPONENT_WIDTH = 100 ;
+    private final int COMPONENT_HEIGHT = 100 ;
     private final int BG_COLOR = 0x999999 ;
     private final int COMPONENT_COLOR = 0xffffff ;
     private final int HIGHLIGHT_COLOR = 0xffff00 ;
     private final int ARC_RADIUS = 5 ;
+    private int PADDING = 5 ;
     
     public StarLayout() {}
     
@@ -27,7 +28,8 @@ public class StarLayout implements RaterLayout {
      * @return the width of the component
      */
     public int getWidth() {
-        return COMPONENT_WIDTH * noOfComponents ;
+        return COMPONENT_WIDTH * noOfComponents + 
+                (PADDING * noOfComponents);
     }
     
     /**
@@ -96,21 +98,64 @@ public class StarLayout implements RaterLayout {
     
     private void drawComponents(Graphics g) {
         int x = ARC_RADIUS ;
-        int y = ARC_RADIUS ;
+        int y = ARC_RADIUS ;        
         
         for (int componentsCounter = 0 ; componentsCounter < getNoOfComponents();
                 componentsCounter++) {
-            drawStarComponent(g, x, y) ;
-            x += COMPONENT_WIDTH ;            
+            System.out.println("x " + (x + (componentsCounter * (COMPONENT_WIDTH + PADDING))));
+            drawStarComponent(g, x + (componentsCounter * (COMPONENT_WIDTH + PADDING)), 
+                    y, PADDING) ;          
         }
     }
     
-    private void drawStarComponent(Graphics g, int x, int y)  {
-        Point center = new Point((x + COMPONENT_WIDTH) / 2, 
-                (y + COMPONENT_HEIGHT) / 2) ;
+    private void drawStarComponent(Graphics g, int x, int y, int padding)  {
+        System.out.println("Starting point " + x + "," + y);
+        int effectiveWidth =  (COMPONENT_WIDTH - 2 * padding) ;
+        int effectiveHeight = (COMPONENT_HEIGHT - 2 * padding) ; 
+        Point center = new Point(x + effectiveWidth / 2, 
+                y + effectiveHeight / 2) ;
+        System.out.println("center " + center.getX() + " ," + center.getY()) ;
+        
         g.setColor(COMPONENT_COLOR);
-        g.fillTriangle(x, (y + COMPONENT_HEIGHT / 3), 
-                 (x + COMPONENT_WIDTH / 3), (y + COMPONENT_HEIGHT / 3), 
+        
+        g.fillTriangle(x, (y + effectiveHeight / 3), 
+                 (x + effectiveWidth / 3), (y + effectiveHeight / 3), 
                  (int) center.getX(), (int) center.getY());
+        
+        g.fillTriangle(x, (y + effectiveHeight / 3), 
+                 (int) center.getX(), (int) center.getY(),
+                 (x + effectiveWidth / 4), (y + effectiveHeight / 2));        
+        
+        g.fillTriangle((x + effectiveWidth / 5), effectiveHeight, 
+                 (x + effectiveWidth / 4), (y + effectiveHeight / 2),
+                 (int) center.getX(), (int) center.getY());
+        
+        g.fillTriangle((x + effectiveWidth / 5), effectiveHeight, 
+                (int) center.getX(), (int) center.getY(),
+                 (x + effectiveWidth / 2), (y + effectiveHeight / 4 * 3));
+        
+        g.fillTriangle((x + effectiveWidth / 2), (y + effectiveHeight / 4 * 3), 
+                (int) center.getX(), (int) center.getY(),
+                 (x + effectiveWidth / 5 * 4), effectiveHeight);
+        
+        g.fillTriangle((x + effectiveWidth / 5 * 4), effectiveHeight, 
+                (int) center.getX(), (int) center.getY(),
+                 (x + effectiveWidth / 4 * 3), (y + effectiveHeight / 2));
+        
+        g.fillTriangle((x + effectiveWidth / 4 * 3), (y + effectiveHeight / 2), 
+                (int) center.getX(), (int) center.getY(),
+                 x + effectiveWidth, (y + effectiveHeight / 3));
+        
+        g.fillTriangle(x + effectiveWidth, (y + effectiveHeight / 3), 
+                (int) center.getX(), (int) center.getY(),
+                (x + effectiveWidth / 3 * 2), (y + effectiveHeight / 3));
+        
+        g.fillTriangle((x + effectiveWidth / 3 * 2), (y + effectiveHeight / 3), 
+                (int) center.getX(), (int) center.getY(),
+                (x + effectiveWidth / 2), y);
+        
+        g.fillTriangle((x + effectiveWidth / 2), y, 
+                (int) center.getX(), (int) center.getY(),
+                (x + effectiveWidth / 3), (y + effectiveHeight / 3));
     }
 }
