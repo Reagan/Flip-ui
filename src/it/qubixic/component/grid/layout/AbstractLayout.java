@@ -2,7 +2,10 @@ package it.qubixic.component.grid.layout;
 
 import it.qubixic.component.grid.GridConstraints;
 import it.qubixic.component.grid.thumbnail.Thumbnail;
+import it.qubixic.component.theme.Theme;
+import it.qubixic.utils.Point;
 import java.util.Vector;
+import javax.microedition.lcdui.Graphics;
 
 public abstract class AbstractLayout implements Layout {
 
@@ -15,6 +18,7 @@ public abstract class AbstractLayout implements Layout {
     protected int height = 0 ;
     private int displayLocation = 0 ;
     private int displayHeight = 0 ;
+    private final Point OVERLAY_MESSAGE_LOCATION = new Point(0.2f, 0.2f) ;
     
     /**
      * Creates an initial instance of a layout class to manage
@@ -185,4 +189,33 @@ public abstract class AbstractLayout implements Layout {
      * @return height of all the grid components
      */
     public abstract int calculateHeight() ;
+    
+    /**
+     * This method is responsible for actually drawing 
+     * the overlay message on top of the grid components
+     * @param message message to be overlaid on the grid
+     */
+    public void drawOverlayMessage(Graphics g, String message) {
+        final int ARC_RADIUS = 5 ; 
+        final int PADDING = 5 ;       
+        
+        g.setFont(Theme.getOverlayMessageFont());
+        g.setColor(Theme.getOverlayMessageBgColor()) ;
+        
+        int startX = getWidth() / 2 - (g.getFont().charsWidth(message.toCharArray(), 0, message.length()) +
+                2 * PADDING) / 2 ;
+        g.fillRoundRect(startX, 
+                (int) (OVERLAY_MESSAGE_LOCATION.getY() * getHeight()), 
+                g.getFont().charsWidth(message.toCharArray(), 0, message.length()) +
+                2 * PADDING, 
+                g.getFont().getHeight() + 2 *  PADDING,
+                ARC_RADIUS,
+                ARC_RADIUS);
+        
+        g.setColor(Theme.getOverlayMessageFontColor());
+        g.drawString(message, startX + PADDING, 
+                (int) (OVERLAY_MESSAGE_LOCATION.getY() * getHeight()) + PADDING,
+                Graphics.TOP | Graphics.LEFT);
+        
+    }
 }

@@ -25,6 +25,7 @@ public class ShowCase extends MIDlet {
                 while (flipSplashScreen.isLoading()) {
                 }
                 Display.getDisplay(midlet).setCurrent(grids) ;
+                grids.loadStatusMessage() ;
             }
         }).start();
      }

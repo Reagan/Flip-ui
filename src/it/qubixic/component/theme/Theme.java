@@ -25,6 +25,12 @@ public class Theme {
     protected static int textMarginTopAndBottom = 2;
     protected static int thumbnailBackgroundCaptionColor = 0x202020 ;
     protected static int thumbnailCaptionTitleColor = 0xffffff ;
+    
+    protected static Font overlayMessageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
+            Font.SIZE_LARGE) ;
+    protected static int overlayMessageFontColor = 0x000000 ;
+    protected static int overlayMessageBgColor = 0xffff00 ;
+    
     /*
     protected int textColor = 0xd8dcd8;
     protected int textColorFocused = 0xf8fcf8;
@@ -85,6 +91,19 @@ public class Theme {
     public static int getThumbnailCaptionTitleColor() { 
         return thumbnailCaptionTitleColor ;
     }
+    
+    public static Font getOverlayMessageFont() {
+        return overlayMessageFont ;
+    }
+    
+    public static int getOverlayMessageFontColor() {
+        return overlayMessageFontColor ;
+    }
+    
+    public static int getOverlayMessageBgColor() {
+        return overlayMessageBgColor ;
+    }
+    
     /*
     public void setBackgroundColorFocused(int backgroundColorFocused) {
         this.backgroundColorFocused = backgroundColorFocused;

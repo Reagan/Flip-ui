@@ -24,6 +24,8 @@ public class Grids extends BaseForm {
             = "Vertical Grid, Same component dimensions" ;
     private final String SUMMARY_LABEL = "Documentation";
     private final String SUMMARY_TEXT = "Documentation on the use of this library is available at"; 
+    private final String TESTING_MESSAGE = "Loading..." ;
+    
     private final int HORIZONTAL_GRID_THUMBNAIL_WIDTH = 100 ;
     private final int HORIZONTAL_GRID_THUMBNAIL_HEIGHT = 100 ;
     private final int VERTICAL_GRID_THUMBNAIL_HEIGHT = 100 ;
@@ -31,8 +33,14 @@ public class Grids extends BaseForm {
     private final int HORIZONTAL_THUMBNAILS = 1 ;
     private final int VERTICAL_THUMBNAILS = 2 ;
     
+    private final Grid horizontalGridSameComponentDimensions = new Grid(GRID_HORI_SAME_DIMENSIONS_COMPONENTS, 
+                ListType.HORIZONTAL, ComponentLayoutType.SAME_DIMENSIONS) ;
+    private  Grid verticalGridSameComponentDimensions 
+                 = new Grid(GRID_VERTICAL_SAME_DIMENSIONS_COMPONENTS, 
+                ListType.VERTICAL, ComponentLayoutType.SAME_DIMENSIONS) ;
+    
     public Grids(MIDlet midlet) {
-        super ("Grid", midlet) ;
+        super ("", midlet) ;
         appendTitle(TITLE_LABEL, TITLE_TEXT) ;
         appendGrid(createHorizontalGridSameComponentDimensions()) ;
         appendGrid(createVerticalGridSameComponentDimensions()) ;
@@ -57,8 +65,8 @@ public class Grids extends BaseForm {
     
     private Grid createHorizontalGridSameComponentDimensions() {
         
-        Grid horizontalGridSameComponentDimensions = new Grid(GRID_HORI_SAME_DIMENSIONS_COMPONENTS, 
-                ListType.HORIZONTAL, ComponentLayoutType.SAME_DIMENSIONS) ;
+        horizontalGridSameComponentDimensions.setOverlayMessage(TESTING_MESSAGE);
+        horizontalGridSameComponentDimensions.displayOverlayMessage(true);
         
         horizontalGridSameComponentDimensions.setWidth(getWidth());        
         horizontalGridSameComponentDimensions
@@ -73,15 +81,11 @@ public class Grids extends BaseForm {
                 System.out.println(e.getTarget() + " selected");
             }
         });
-        return horizontalGridSameComponentDimensions ;   
-        
+        return horizontalGridSameComponentDimensions ;  
     }    
     
     private Grid createVerticalGridSameComponentDimensions() {
-         Grid verticalGridSameComponentDimensions 
-                 = new Grid(GRID_VERTICAL_SAME_DIMENSIONS_COMPONENTS, 
-                ListType.VERTICAL, ComponentLayoutType.SAME_DIMENSIONS) ;
-        
+               
         verticalGridSameComponentDimensions.setWidth(getWidth());        
         verticalGridSameComponentDimensions
                 .append(createThumbnails(VERTICAL_THUMBNAILS,
@@ -128,4 +132,20 @@ public class Grids extends BaseForm {
         }
         return thumbnails ;
     }    
+    
+    public void loadStatusMessage() {
+        final int FIVE_SECS = 5000 ;
+         new Thread(new Runnable() {
+            public void run() {
+                try {
+                    synchronized(horizontalGridSameComponentDimensions) {
+                        horizontalGridSameComponentDimensions.wait(FIVE_SECS);
+                        horizontalGridSameComponentDimensions.displayOverlayMessage(false);
+                    }                                      
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
 }

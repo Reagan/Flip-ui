@@ -36,6 +36,8 @@ public class Grid extends CustomItem {
     private int lastFocussedItem = 0 ;
     private AbstractLayout layout;
     private boolean inTraversal = false;
+    private boolean overlayMessageDisplayed = false; 
+    private String overlayMessage = "" ;
 
     /**
      * Creates a default instance of a grid.
@@ -315,9 +317,12 @@ public class Grid extends CustomItem {
         return height;        
     }
 
-    protected void paint(Graphics g, int w, int h) { 
+    protected void paint(Graphics g, int w, int h) {        
         layout.setFocussedItem(focussedItem);
         layout.drawGrid(g);
+        if (overlayMessageDisplayed()) {
+            layout.drawOverlayMessage(g, getOverlayMessage()) ;
+        }
     }
 
     /**
@@ -463,5 +468,38 @@ public class Grid extends CustomItem {
                     .elementAt(gridListenersCounter))
                     .actionPerformed(gridEvent);
         }
+    }
+
+    /**
+     * @return the overlay message
+     */
+    public boolean overlayMessageDisplayed() {
+        return overlayMessageDisplayed;
+    }
+
+    /**
+     * Sets whether or not the overlay message that is displayed on top
+     * of the grid components. 
+     * @param setOverlayMessage the setOverlayMessage to set
+     */
+    public void displayOverlayMessage(boolean setOverlayMessage) {
+        this.overlayMessageDisplayed = setOverlayMessage;
+        repaint();
+    }
+
+    /**
+     * @return the overlay message
+     */
+    public String getOverlayMessage() {
+        return overlayMessage;
+    }
+
+    /**
+     * sets the overlay message. This may be a status loading message 
+     * or information regarding the grid components
+     * @param overlayMessage the overlay message to set
+     */
+    public void setOverlayMessage(String overlayMessage) {
+        this.overlayMessage = overlayMessage;
     }
 }
