@@ -2,19 +2,24 @@ package it.qubixic.component.rater.layout;
 
 import it.qubixic.utils.Point;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Font;
 
 public class StarLayout implements RaterLayout {
 
     private String title = "" ;
     private int noOfComponents = 5 ; 
     private float count = 0 ;
-    private final int COMPONENT_WIDTH = 40 ;
-    private final int COMPONENT_HEIGHT = 40 ;
+    private int componentWidth = 40 ;
+    private int componentHeight = 40 ;
     private final int BG_COLOR = 0x999999 ;
     private final int COMPONENT_COLOR = 0xffffff ;
     private final int HIGHLIGHT_COLOR = 0xffff00 ;
+    private final int TITLE_COLOR = 0xffffff ;
+    private final Font TITLE_FONT = Font.getFont(Font.FACE_SYSTEM,
+            Font.SIZE_MEDIUM, Font.STYLE_PLAIN) ;
     private final int ARC_RADIUS = 5 ;
     private int PADDING = 5 ;
+    private final int BUFFER = 40 ;
     
     /**
      * Creates a default instance of a star layout
@@ -39,7 +44,7 @@ public class StarLayout implements RaterLayout {
      * @return the width of the component
      */
     public int getWidth() {
-        return COMPONENT_WIDTH * noOfComponents + 
+        return componentWidth * noOfComponents + 
                 (PADDING * noOfComponents);
     }
     
@@ -47,7 +52,12 @@ public class StarLayout implements RaterLayout {
      * @return the height of he component
      */
     public int getHeight() {
-        return COMPONENT_HEIGHT ;
+
+        if (!title.equals("") && title != null) {
+            componentHeight = 40 + BUFFER + PADDING;
+        }
+        System.out.println("height " + componentHeight);
+        return componentHeight;
     }
 
     /**
@@ -107,7 +117,7 @@ public class StarLayout implements RaterLayout {
         
         if (title != "" && title != null)  {            
             drawTitle(g, getTitle(), topX, topY) ;
-            topY += g.getFont().getHeight() + PADDING ;                    
+            topY += BUFFER + PADDING ;                    
         }
         
         drawComponents(g, topX, topY); 
@@ -121,7 +131,9 @@ public class StarLayout implements RaterLayout {
     }
     
     private void drawTitle (Graphics g, String title, int topX, int topY) {
-        
+        g.setColor(TITLE_COLOR);
+        g.setFont(TITLE_FONT);
+        g.drawString(title, topX, topY, Graphics.TOP | Graphics.LEFT);
     }
     
     private void drawComponents(Graphics g, int topX, int topY) {
@@ -130,14 +142,14 @@ public class StarLayout implements RaterLayout {
         
         for (int componentsCounter = 0 ; componentsCounter < getNoOfComponents();
                 componentsCounter++) {
-            drawStarComponent(g, x + (componentsCounter * (COMPONENT_WIDTH + PADDING)), 
+            drawStarComponent(g, x + (componentsCounter * (componentWidth + PADDING)), 
                     y, PADDING) ;          
         }
     }
     
     private void drawStarComponent(Graphics g, int x, int y, int padding)  {
-        int effectiveWidth =  (COMPONENT_WIDTH - 2 * padding) ;
-        int effectiveHeight = (COMPONENT_HEIGHT - 2 * padding) ; 
+        int effectiveWidth =  (componentWidth - 2 * padding) ;
+        int effectiveHeight = (componentHeight - 2 * padding) ; 
         Point center = new Point(x + effectiveWidth / 2, 
                 y + effectiveHeight / 2) ;
         
@@ -185,7 +197,7 @@ public class StarLayout implements RaterLayout {
     }
     
     private void drawHighlight(Graphics g, float count) {
-        int effectiveWidth =  (COMPONENT_WIDTH - 2 * PADDING) ;
-        int effectiveHeight = (COMPONENT_HEIGHT - 2 * PADDING) ; 
+        int effectiveWidth =  (componentWidth - 2 * PADDING) ;
+        int effectiveHeight = (componentHeight - 2 * PADDING) ; 
     }
 }

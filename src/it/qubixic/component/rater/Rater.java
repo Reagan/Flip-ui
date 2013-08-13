@@ -7,10 +7,7 @@ import javax.microedition.lcdui.Graphics;
 
 public class Rater extends CustomItem {
     
-    private float count = 0 ;
-    private String title = "" ;
     private RaterLayout raterLayout = new StarLayout() ;
-    private int noOfComponents = 5 ;
     
     /**
      * Creates a default rater
@@ -112,28 +109,28 @@ public class Rater extends CustomItem {
      * @return the count
      */
     public float getCount() {
-        return count;
+        return getRaterLayout().getCount();
     }
 
     /**
      * @param count the count to set
      */
     public void setCount(float count) {
-        this.count = count;
+        getRaterLayout().setCount(count) ;
     }
 
     /**
      * @return the title
      */
     public String getTitle() {
-        return title;
+        return getRaterLayout().getTitle() ;
     }
 
     /**
      * @param title the title to set
      */
     public void setTitle(String title) {
-        this.title = title;
+        getRaterLayout().setTitle(title) ;
     }
     
     protected int getMinContentWidth() {
@@ -152,10 +149,7 @@ public class Rater extends CustomItem {
         return raterLayout.getHeight() ;
     }
 
-    protected void paint(Graphics g, int w, int h) {
-        getRaterLayout().setTitle(getTitle()) ;
-        getRaterLayout().setCount(getCount()) ;
-        getRaterLayout().setNoOfComponents(getNoOfComponents()) ;
+    protected void paint(Graphics g, int w, int h) {               
         getRaterLayout().render(g);        
     }
 
@@ -177,13 +171,13 @@ public class Rater extends CustomItem {
      * @return the noOfComponents
      */
     public int getNoOfComponents() {
-        return noOfComponents;
+        return getRaterLayout().getNoOfComponents();
     }
 
     /**
      * @param noOfComponents the noOfComponents to set
      */
     public void setNoOfComponents(int noOfComponents) {
-        this.noOfComponents = noOfComponents;
+        getRaterLayout().setNoOfComponents(noOfComponents) ;
     }
 }

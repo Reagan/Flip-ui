@@ -9,4 +9,7 @@ public interface RaterLayout {
     void setTitle(String title) ;
     void setCount(float count) ;
     void setNoOfComponents(int noOfComponents) ;
+    float getCount() ;
+    String getTitle() ;
+    int getNoOfComponents() ;
 }
