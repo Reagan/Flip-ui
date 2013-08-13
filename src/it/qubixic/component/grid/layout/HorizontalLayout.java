@@ -178,18 +178,19 @@ public final class HorizontalLayout extends AbstractLayout {
      * @return height of all the grid components
      */
     public int calculateHeight() {
-        int gridHeight =  2 * gridConstraints.getInnerMarginY();
+        int gridHeight =  0 ;
         if (ComponentLayoutType.SAME_DIMENSIONS
                 == componentsLayoutType) {                        
-            int noOfComponentsPerRow = calculateNoOfSameDimensionsComponentsPerRow() ;            
-            gridHeight += (int) (Math.ceil(elements.size() / (double) noOfComponentsPerRow)
-                           * (componentHeight + gridConstraints.getMarginTop()
-                                + gridConstraints.getMarginBottom()));           
+            int noOfComponentsPerRow = calculateNoOfSameDimensionsComponentsPerRow() ;
+            int noOfRows = (int) Math.ceil(elements.size() / (double) noOfComponentsPerRow) ;
+            gridHeight += (noOfRows + 1) * gridConstraints.getInnerMarginY() ;
+            gridHeight += noOfRows * (componentHeight + gridConstraints.getMarginTop()
+                                + gridConstraints.getMarginBottom());           
         } else if (ComponentLayoutType.CUSTOM_DIMENSIONS
                 == componentsLayoutType) {
            
         }
-        return gridHeight + BUFFER / 4;
+        return gridHeight;
     }
     
     /**

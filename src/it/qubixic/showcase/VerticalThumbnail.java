@@ -28,7 +28,7 @@ public class VerticalThumbnail extends Thumbnail {
 
         if (focused) {
             g.setColor(focussedColor);
-            g.drawRect(topX, topY, getWidth() - 1, getHeight() - 1);
+            g.drawRect(topX, topY, getWidth() - 6, getHeight() - 1);
         }
     }
 }

@@ -104,20 +104,7 @@ public final class VerticalLayout extends AbstractLayout {
             Point previousItemLocation) {      
         int yCoord = 0;
         int xCoord = gridConstraints.getInnerMarginX() +
-                gridConstraints.getMarginLeft();
-        int componentWidth = 0 ;
-        int componentHeight = 0 ; 
-        
-        if (ComponentLayoutType.SAME_DIMENSIONS 
-                == componentsLayoutType) {
-           componentWidth = getWidth() - gridConstraints.getInnerMarginX()
-                   - gridConstraints.getMarginRight();
-           componentHeight = this.componentHeight ;
-        } else if (ComponentLayoutType.CUSTOM_DIMENSIONS 
-                == componentsLayoutType) { 
-            componentWidth = currItem.getWidth() ;
-            componentHeight = currItem.getHeight() ;
-        }
+                gridConstraints.getMarginLeft();        
         
         yCoord = (int) previousItemLocation.getY() +
                 currItem.getHeight() + 
@@ -135,7 +122,7 @@ public final class VerticalLayout extends AbstractLayout {
      */
     public int calculateHeight() {
         int gridHeight = 0;                                              
-        gridHeight += 2 * gridConstraints.getInnerMarginY()
+        gridHeight += (elements.size() + 1) * gridConstraints.getInnerMarginY()
                 + (gridConstraints.getMarginTop() + gridConstraints.getMarginBottom()) 
                 * elements.size(); 
         
