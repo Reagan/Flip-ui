@@ -10,6 +10,7 @@ public class CommandsService {
     
     private final Command EXIT = new Command("Exit", Command.EXIT, 1) ; 
     private final Command GRID = new Command("Grid", Command.SCREEN, 1);    
+    private final Command RATER = new Command("Rater", Command.SCREEN, 1) ;
     private Form form ; 
     
     public CommandsService(Form form) {
@@ -28,12 +29,15 @@ public class CommandsService {
         Vector commands = new Vector() ;
         commands.addElement(EXIT);
         commands.addElement(GRID);
+        commands.addElement(RATER);
         return commands ;
     }
     
-    public void processCommand(Command command, MIDlet midlet, Form form) {
-        if (command == GRID) {
-            Display.getDisplay(midlet).setCurrent(form);
+    public void processCommand(Command command, MIDlet midlet) {
+        if (command == GRID ) {
+            Display.getDisplay(midlet).setCurrent(new Grids(midlet));
+        } else if (command == RATER) {
+            Display.getDisplay(midlet).setCurrent(new Raters(midlet));
         } else if (command == EXIT) {
             midlet.notifyDestroyed();
         }

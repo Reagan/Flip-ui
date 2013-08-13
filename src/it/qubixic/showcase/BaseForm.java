@@ -16,6 +16,7 @@ public abstract class BaseForm extends Form  implements CommandListener {
         super(title);
         setMIDlet(midlet) ;
         appendCommands(generateCommands()) ;
+        setCommandListener(this);
     }
 
     protected void setMIDlet (MIDlet midlet) {
@@ -36,6 +37,6 @@ public abstract class BaseForm extends Form  implements CommandListener {
     }
 
     public void commandAction(Command c, Displayable d) {
-        commandsService.processCommand(c, midlet, this);
+        commandsService.processCommand(c, midlet);
     }
 }

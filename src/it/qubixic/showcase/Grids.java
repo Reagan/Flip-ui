@@ -13,6 +13,9 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.StringItem;
 import java.util.Vector;
 import javax.microedition.midlet.*;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.microedition.lcdui.Displayable;
 
 public class Grids extends BaseForm {
 
@@ -40,11 +43,12 @@ public class Grids extends BaseForm {
                 ListType.VERTICAL, ComponentLayoutType.SAME_DIMENSIONS) ;
     
     public Grids(MIDlet midlet) {
-        super ("", midlet) ;
+        super ("Grids", midlet) ;
         appendTitle(TITLE_LABEL, TITLE_TEXT) ;
         appendGrid(createHorizontalGridSameComponentDimensions()) ;
         appendGrid(createVerticalGridSameComponentDimensions()) ;
         appendSummary(SUMMARY_LABEL, SUMMARY_TEXT);
+        loadStatusMessage();
     }
     
     public void appendTitle(String title_label, String title_text) {
@@ -134,18 +138,22 @@ public class Grids extends BaseForm {
     }    
     
     public void loadStatusMessage() {
-        final int FIVE_SECS = 5000 ;
-         new Thread(new Runnable() {
-            public void run() {
-                try {
-                    synchronized(horizontalGridSameComponentDimensions) {
-                        horizontalGridSameComponentDimensions.wait(FIVE_SECS);
-                        horizontalGridSameComponentDimensions.displayOverlayMessage(false);
-                    }                                      
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+        final int FIVE_SECS = 5000;
+        final Displayable displayed = this ;
+        
+        new Timer().schedule(new TimerTask() {
+            public void run() {               
+                if (displayed.isShown()) {
+                    try {
+                        synchronized (horizontalGridSameComponentDimensions) {
+                            horizontalGridSameComponentDimensions.wait(FIVE_SECS);
+                            horizontalGridSameComponentDimensions.displayOverlayMessage(false);
+                        }
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                } 
             }
-        }).start();
+        }, 1000, 1000);
     }
 }

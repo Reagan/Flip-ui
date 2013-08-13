@@ -108,24 +108,23 @@ public class Rater extends CustomItem {
     }
     
     protected int getMinContentWidth() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return raterLayout.getWidth(); 
     }
 
     protected int getMinContentHeight() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return raterLayout.getHeight() ;
     }
 
     protected int getPrefContentWidth(int height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return raterLayout.getWidth() ;
     }
 
     protected int getPrefContentHeight(int width) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return raterLayout.getHeight() ;
     }
 
     protected void paint(Graphics g, int w, int h) {
-        getRaterLayout().render(g);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getRaterLayout().render(g);        
     }
 
     /**
