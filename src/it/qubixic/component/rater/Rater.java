@@ -37,6 +37,19 @@ public class Rater extends CustomItem {
     }
     
     /**
+     * Creates a rater component with a custom number of 
+     * components and an initial count
+     * @param noOfComponents  number of components to be used to display the
+     * rating
+     * @param count initial count to be displayed on the rater
+     */
+    public Rater (int noOfComponents, float count) {
+        super("") ;
+        setNoOfComponents(noOfComponents);
+        setCount(count);
+    }
+    
+    /**
      * Creates a rater with a default title
      * and count
      * @param title title for the rater

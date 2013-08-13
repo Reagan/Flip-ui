@@ -20,6 +20,8 @@ public class StarLayout implements RaterLayout {
     private final int ARC_RADIUS = 5 ;
     private int PADDING = 5 ;
     private final int BUFFER = 10 ;
+    private final String COUNT_ERROR_MESSAGE = 
+            "The count value must be between 0 and 100";
     
     /**
      * Creates a default instance of a star layout
@@ -95,9 +97,15 @@ public class StarLayout implements RaterLayout {
     }
 
     /**
+     * This is the value of the count that is indicated 
+     * by the rater. The value must be between 0 and
+     * 100
      * @param count the count to set
      */
     public void setCount(float count) {
+        if (count < 0 || count > 100) {
+            throw new IllegalArgumentException(COUNT_ERROR_MESSAGE) ;
+        }
         this.count = count;
     }
     
@@ -120,7 +128,7 @@ public class StarLayout implements RaterLayout {
         }
         
         drawComponents(g, topX, topY); 
-        drawHighlight(g, count);
+        drawHighlightedComponents(g, topX, topY, count);
     }
     
     private void drawBackground(Graphics g, int topX, int topY) {
@@ -142,11 +150,15 @@ public class StarLayout implements RaterLayout {
         for (int componentsCounter = 0 ; componentsCounter < getNoOfComponents();
                 componentsCounter++) {
             drawStarComponent(g, x + (componentsCounter * (componentWidth + PADDING)), 
-                    y, PADDING) ;          
+                    y, PADDING, COMPONENT_COLOR, 1) ;          
         }
     }
     
-    private void drawStarComponent(Graphics g, int x, int y, int padding)  {
+    private void drawStarComponent(Graphics g, int x, int y, int padding, 
+            int color, float fractionOfStarDrawn)  {
+        
+        System.out.println("Fraction of star to be drawn " + fractionOfStarDrawn);
+        
         int cHeight = (!title.equals("") && title != null) ? 
                 componentHeight - 15 : componentHeight ;
         int effectiveWidth =  (componentWidth - 2 * padding) ;
@@ -154,7 +166,7 @@ public class StarLayout implements RaterLayout {
         Point center = new Point(x + effectiveWidth / 2, 
                 y + effectiveHeight / 2) ;
         
-        g.setColor(COMPONENT_COLOR);
+        g.setColor(color);
         
         g.fillTriangle(x, (y + effectiveHeight / 3), 
                  (x + effectiveWidth / 3), (y + effectiveHeight / 3), 
@@ -197,8 +209,41 @@ public class StarLayout implements RaterLayout {
                 (x + effectiveWidth / 3), (y + effectiveHeight / 3));
     }
     
-    private void drawHighlight(Graphics g, float count) {
-        int effectiveWidth =  (componentWidth - 2 * PADDING) ;
-        int effectiveHeight = (componentHeight - 2 * PADDING) ; 
+    private void drawHighlightedComponents(Graphics g, int topX, int topY, float count) {
+        
+        int x = topX ;
+        int y = topY ;
+        
+        float percentageCountForEachComponent = getCountForEachComponent(getNoOfComponents()) ;
+        float noOfComponentsUsed = count / percentageCountForEachComponent ;
+        float componentStartPercentage = 0f ; 
+        float componentEndPercentage ;
+                            
+        for (int componentsCounter = 0 ; componentsCounter < getNoOfComponents();
+                componentsCounter++) {
+            
+            componentEndPercentage = componentStartPercentage + percentageCountForEachComponent ;
+            
+            if (count >= componentStartPercentage && count < componentEndPercentage) {
+                float fractionOfStarHighlighted = (float) (noOfComponentsUsed - componentsCounter) ;
+                drawHighlightedStar(g, x + (componentsCounter * (componentWidth + PADDING)), 
+                    y, fractionOfStarHighlighted) ;                
+                break ;
+            }
+            
+            drawHighlightedStar(g, x + (componentsCounter * (componentWidth + PADDING)), 
+                    y, 1) ;
+            componentStartPercentage = componentEndPercentage ;
+            
+        }
+    }
+    
+    private float getCountForEachComponent(int noOfComponents) {
+        return (float) ((float) 100 / noOfComponents) ;
+    }
+    
+    private void drawHighlightedStar(Graphics g, int x, int y, 
+            float fractionOfStarHighlighted ) {
+        drawStarComponent(g, x, y, PADDING, HIGHLIGHT_COLOR, fractionOfStarHighlighted) ;
     }
 }
