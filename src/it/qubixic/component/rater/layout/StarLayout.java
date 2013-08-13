@@ -10,7 +10,7 @@ public class StarLayout implements RaterLayout {
     private int noOfComponents = 5 ; 
     private float count = 0 ;
     private int componentWidth = 40 ;
-    private int componentHeight = 40 ;
+    private int componentHeight = 35 ;
     private final int BG_COLOR = 0x999999 ;
     private final int COMPONENT_COLOR = 0xffffff ;
     private final int HIGHLIGHT_COLOR = 0xffff00 ;
@@ -19,7 +19,7 @@ public class StarLayout implements RaterLayout {
             Font.SIZE_MEDIUM, Font.STYLE_PLAIN) ;
     private final int ARC_RADIUS = 5 ;
     private int PADDING = 5 ;
-    private final int BUFFER = 40 ;
+    private final int BUFFER = 10 ;
     
     /**
      * Creates a default instance of a star layout
@@ -54,9 +54,8 @@ public class StarLayout implements RaterLayout {
     public int getHeight() {
 
         if (!title.equals("") && title != null) {
-            componentHeight = 40 + BUFFER + PADDING;
+            componentHeight = 40 + BUFFER ;
         }
-        System.out.println("height " + componentHeight);
         return componentHeight;
     }
 
@@ -148,8 +147,10 @@ public class StarLayout implements RaterLayout {
     }
     
     private void drawStarComponent(Graphics g, int x, int y, int padding)  {
+        int cHeight = (!title.equals("") && title != null) ? 
+                componentHeight - 15 : componentHeight ;
         int effectiveWidth =  (componentWidth - 2 * padding) ;
-        int effectiveHeight = (componentHeight - 2 * padding) ; 
+        int effectiveHeight = (cHeight - 2 * padding) ; 
         Point center = new Point(x + effectiveWidth / 2, 
                 y + effectiveHeight / 2) ;
         
@@ -163,19 +164,19 @@ public class StarLayout implements RaterLayout {
                  (int) center.getX(), (int) center.getY(),
                  (x + effectiveWidth / 4), (y + effectiveHeight / 2));        
         
-        g.fillTriangle((x + effectiveWidth / 5), effectiveHeight, 
+        g.fillTriangle((x + effectiveWidth / 5), y + effectiveHeight, 
                  (x + effectiveWidth / 4), (y + effectiveHeight / 2),
                  (int) center.getX(), (int) center.getY());
         
-        g.fillTriangle((x + effectiveWidth / 5), effectiveHeight, 
+        g.fillTriangle((x + effectiveWidth / 5), y + effectiveHeight, 
                 (int) center.getX(), (int) center.getY(),
                  (x + effectiveWidth / 2), (y + effectiveHeight / 4 * 3));
         
         g.fillTriangle((x + effectiveWidth / 2), (y + effectiveHeight / 4 * 3), 
                 (int) center.getX(), (int) center.getY(),
-                 (x + effectiveWidth / 5 * 4), effectiveHeight);
+                 (x + effectiveWidth / 5 * 4), y + effectiveHeight);
         
-        g.fillTriangle((x + effectiveWidth / 5 * 4), effectiveHeight, 
+        g.fillTriangle((x + effectiveWidth / 5 * 4), y + effectiveHeight, 
                 (int) center.getX(), (int) center.getY(),
                  (x + effectiveWidth / 4 * 3), (y + effectiveHeight / 2));
         
