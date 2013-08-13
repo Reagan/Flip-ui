@@ -46,7 +46,6 @@ public class VerticalThumbnailCaption extends ThumbnailCaption {
     }
     
     public void render(Graphics g, int topX, int topY, int parentWidth, int parentHeight) {
-        System.out.println("render called");
         drawString(g, getPart1(), topX + 120, topY + 5) ;
         drawString(g, getPart2(), topX + 120, topY + g.getFont().getHeight() + 2 * 5) ;
         drawString(g, getPart3(), topX + 120, topY + 2 * g.getFont().getHeight()+ 3 * 5) ;
