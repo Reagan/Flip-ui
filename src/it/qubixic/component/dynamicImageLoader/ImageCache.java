@@ -13,9 +13,14 @@ public class ImageCache {
      * Adds an image to the cache
      * @param image 
      */
-    public static void addImage(Image image) {
+    public static void addImage(Image image) throws OutOfMemoryError {
         if (!cachedImages.contains(image)){
-            cachedImages.addElement(image);
+            try {
+                cachedImages.addElement(image);
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                clear();
+            }
         }
     }
     
@@ -28,7 +33,13 @@ public class ImageCache {
         if (images != null && images.size() > 0) {
             for (int imagesCounter = 0 ; imagesCounter < images.size();
                     imagesCounter++) {
-                addImage((Image) images.elementAt(imagesCounter));
+                try {
+                    addImage((Image) images.elementAt(imagesCounter));
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    clear();
+                    break ;
+                }
             }
         }
     }
