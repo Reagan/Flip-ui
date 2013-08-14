@@ -94,4 +94,19 @@ public class StringUtils {
         }
         return value + "  " + string;
     }
+    
+    /**
+     * This method validates a string to ensure that 
+     * it has the supported formats for a URL
+     * @param URL URL to be verified 
+     * @return whether the URL supplied has the structure 
+     * required for a URL
+     */
+    public static boolean validateURL(String URL) {
+        if (URL.startsWith("/") || URL.startsWith("http:")
+                || URL.startsWith("https:")) {
+            return true ;
+        }
+        return false ;
+    }
 }

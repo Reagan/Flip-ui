@@ -31,6 +31,12 @@ public class Theme {
     protected static int overlayMessageFontColor = 0x000000 ;
     protected static int overlayMessageBgColor = 0xffff00 ;
     
+    protected static Font dynamicImageMessageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
+            Font.SIZE_LARGE) ;
+    protected static int dynamicImageMessageFontColor = 0xffffff ;
+    protected static int dynamicImageMessageBgColor = 0x999999 ;
+    protected static int dynamicImageBgColor = 0xffffff ;
+    
     /*
     protected int textColor = 0xd8dcd8;
     protected int textColorFocused = 0xf8fcf8;
@@ -102,6 +108,22 @@ public class Theme {
     
     public static int getOverlayMessageBgColor() {
         return overlayMessageBgColor ;
+    }
+    
+    public static int getDynamicImageMessageFontColor() {
+        return dynamicImageMessageFontColor ;
+    }
+    
+    public static int getDynamicImageMessageBgColor() {
+        return dynamicImageMessageBgColor;
+    } 
+    
+    public static int getDynamicImageBgColor() {
+        return dynamicImageBgColor ;
+    }
+    
+    public static Font getDynamicImageMessageFont() {
+        return dynamicImageMessageFont ;
     }
     
     /*
