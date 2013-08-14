@@ -22,6 +22,7 @@ public class StarLayout implements RaterLayout {
     private final int BUFFER = 10 ;
     private final String COUNT_ERROR_MESSAGE = 
             "The count value must be between 0 and 100";
+    private int selectedComponent = -1 ;
     
     /**
      * Creates a default instance of a star layout
@@ -358,5 +359,38 @@ public class StarLayout implements RaterLayout {
     private void drawHighlightedStar(Graphics g, int x, int y, 
             float fractionOfStarHighlighted) {
         drawStarComponent(g, x, y, PADDING, HIGHLIGHT_COLOR, fractionOfStarHighlighted) ;
+    }
+    
+    /**
+     * @param x x location for which the component should contain
+     * @param y y location for which the component should contain
+     * @return the component containing the location (x,y)
+     */
+    public int getSelectedComponent(int x, int y) {
+        int topX = PADDING ;
+        int topY = PADDING ;        
+        
+        for (int componentsCounter = 0 ; componentsCounter < noOfComponents;
+                componentsCounter++) {
+            if (x >= topX && 
+                    topX <= (topX + (componentsCounter * (componentWidth + PADDING)))) {
+                if (y >= topY &&
+                        y <= (topY + componentHeight + PADDING)) {
+                    return componentsCounter ;
+                }
+            }          
+        }
+        return -1 ;
+    }
+    
+    /**
+     * Sets the currently selected component
+     * @param selectedComponent 
+     */
+    public void setFocusedElement(int selectedComponent) {
+        if (selectedComponent > 0 
+                && selectedComponent < noOfComponents) {
+            this.selectedComponent = selectedComponent;
+        }
     }
 }

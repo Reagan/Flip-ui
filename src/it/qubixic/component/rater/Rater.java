@@ -1,13 +1,17 @@
 package it.qubixic.component.rater;
 
+import it.qubixic.component.rater.event.RaterEvent;
+import it.qubixic.component.rater.event.RaterListener;
 import it.qubixic.component.rater.layout.RaterLayout;
 import it.qubixic.component.rater.layout.StarLayout;
+import java.util.Vector;
 import javax.microedition.lcdui.CustomItem;
 import javax.microedition.lcdui.Graphics;
 
 public class Rater extends CustomItem {
     
     private RaterLayout raterLayout = new StarLayout() ;
+    private Vector raterListeners = new Vector() ;
     
     /**
      * Creates a default rater
@@ -192,5 +196,59 @@ public class Rater extends CustomItem {
      */
     public void setNoOfComponents(int noOfComponents) {
         getRaterLayout().setNoOfComponents(noOfComponents) ;
+    }
+    
+    /**
+     * Listens for pointer pressed events
+     * @param x x location for the pointer pressed action
+     * @param y y location for the pointer pressed action
+     */
+    protected void pointerPressed(int x, int y) {
+        int selectedComponent = getRaterLayout().getSelectedComponent(x, y);
+        if (-1 != selectedComponent) {
+            getRaterLayout().setFocusedElement(selectedComponent);
+            repaint();
+            generateRaterEvent(selectedComponent);
+        }
+    }
+    
+    /**
+     * Generated a rater selected event
+     * @param selectedComponent 
+     */
+    protected void generateRaterEvent(int selectedComponent) {   
+        RaterEvent raterEvent = new RaterEvent(this, selectedComponent) ;
+        triggerRaterEvent(raterEvent) ;
+    }
+    
+    /**
+     * Adds a rater listener
+     * @param grater Listener 
+     */
+    public void addGridListener (RaterListener raterListener) {
+        raterListeners.addElement(raterListener);
+    }
+    
+    /**
+     * removes a rater listener
+     * @param rater Listener 
+     */
+    public void removeGridListener(RaterListener raterListener) {
+        if(raterListeners.contains(raterListener)) {
+            raterListeners.removeElement(raterListener);
+        }
+    }
+    
+    /**
+     * Triggers rater selected events
+     * @param rater event 
+     */
+    protected void triggerRaterEvent (RaterEvent raterEvent) {
+        for (int gridListenersCounter = 0; gridListenersCounter < raterListeners.size();
+                gridListenersCounter++) {
+            ((RaterListener) raterListeners
+                    .elementAt(gridListenersCounter))
+                    .actionPerformed(raterEvent);
+        }
     }
 }
