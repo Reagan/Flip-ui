@@ -110,8 +110,8 @@ public class StarLayout implements RaterLayout {
     }
     
     /**
-     * Renders the rater  layout
-     * @param g 
+     * Renders the rater layout
+     * @param g Graphics object
      */
     public void render(Graphics g) {
         int topX = 0 ;
@@ -131,18 +131,38 @@ public class StarLayout implements RaterLayout {
         drawHighlightedComponents(g, topX, topY, count);
     }
     
+    /**
+     * Draws the background to the graphics object
+     * @param g Graphics object
+     * @param  topX top most X position of the component
+     * @param topY top most Y position of the component
+     */
     private void drawBackground(Graphics g, int topX, int topY) {
         g.setColor(BG_COLOR);
         g.fillRoundRect(topX, topY, getWidth(), getHeight(), 
                 ARC_RADIUS, ARC_RADIUS);
     }
     
+    /**
+     * Draws the title of the component if a title exists
+     * @param g Graphics object
+     * @param title the title of the component
+     * @param  topX top most X position of the component
+     * @param topY top most Y position of the component
+     */
     private void drawTitle (Graphics g, String title, int topX, int topY) {
         g.setColor(TITLE_COLOR);
         g.setFont(TITLE_FONT);
         g.drawString(title, topX, topY, Graphics.TOP | Graphics.LEFT);
     }
     
+    /**
+     * Draws all the components specified to represent the 
+     * maximum count
+     * @param g Graphics object
+     * @param  topX top most X position of the component
+     * @param topY top most Y position of the component
+     */
     private void drawComponents(Graphics g, int topX, int topY) {
         int x = topX ;
         int y = topY ;        
@@ -154,6 +174,17 @@ public class StarLayout implements RaterLayout {
         }
     }
     
+    /**
+     * Draws one star component. Each of the star components
+     * is made up of 10 triangles that are represented in 
+     * this method
+     * @param g Graphics object
+     * @param x top x position of the component
+     * @param Y top Y position of the component
+     * @param padding the padding around the star component
+     * @param color the color of the star component
+     * @param fractionOfStarDrawn fraction of the star to be drawn
+     */
     private void drawStarComponent(Graphics g, int x, int y, int padding, 
             int color, float fractionOfStarDrawn)  {               
         
@@ -249,6 +280,18 @@ public class StarLayout implements RaterLayout {
         drawTriangle(g, markedXLocation, x101, y101, x102, y102, x103, y103);
     }
     
+    /**
+     * Draws each of the triangles comprising the star component
+     * @param g Graphics object
+     * @param farthestXLocation farthest X location of the star component.
+     * This determines whether the triangle will be drawn or not
+     * @param x1 x location for first vertice
+     * @param y1 y location for first vertice
+     * @param x2 x location for second vertice
+     * @param y2 y location for second vertice
+     * @param x3 x location for third vertice
+     * @param y3 y location for third vertice
+     */
     private void drawTriangle (Graphics g, int farthestXLocation, 
             int x1, int y1, int x2, int y2, int x3, int y3) {
         if (x1 > farthestXLocation && x2 > farthestXLocation &&
@@ -258,6 +301,14 @@ public class StarLayout implements RaterLayout {
         g.fillTriangle(x1, y1, x2, y2, x3, y3);
     }
     
+    /**
+     * Draws the highlighted sections of the star components 
+     * to reflect the current count of the rater
+     * @param g Graphics object
+     * @param topX top most X position for component
+     * @param topY top most Y position for component
+     * @param count current count for the component
+     */
     private void drawHighlightedComponents(Graphics g, int topX, int topY, float count) {
         
         int x = topX ;
@@ -287,10 +338,23 @@ public class StarLayout implements RaterLayout {
         }
     }
     
+    /**
+     * Gets the actual count assigned to a component
+     * @param noOfComponents number of components
+     * @return count assigned to each component
+     */
     private float getCountForEachComponent(int noOfComponents) {
         return (float) ((float) 100 / noOfComponents) ;
     }
     
+    /**
+     * Draws a highlighted star that shows the current
+     * count as assigned to the component
+     * @param g Graphics object
+     * @param x x location for the star component
+     * @param y y location for the star component
+     * @param fractionOfStarHighlighted  fraction of the star to be highlighted
+     */
     private void drawHighlightedStar(Graphics g, int x, int y, 
             float fractionOfStarHighlighted) {
         drawStarComponent(g, x, y, PADDING, HIGHLIGHT_COLOR, fractionOfStarHighlighted) ;
