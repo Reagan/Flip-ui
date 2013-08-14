@@ -343,6 +343,11 @@ public class Grid extends CustomItem {
         }
     }
 
+    /**
+     * Checks whether the key 5 or center button was pressed
+     * and generates a key event
+     * @param keyCode 
+     */
     protected void keyPressed(int keyCode) {
         if (keyCode == Canvas.KEY_NUM5 || getGameAction(keyCode) == 8) {
             generateGridEvent(focussedItem) ;

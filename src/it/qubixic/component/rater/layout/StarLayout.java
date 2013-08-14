@@ -17,6 +17,7 @@ public class StarLayout implements RaterLayout {
     private final int TITLE_COLOR = 0xffffff ;
     private final Font TITLE_FONT = Font.getFont(Font.FACE_SYSTEM,
             Font.SIZE_MEDIUM, Font.STYLE_PLAIN) ;
+    private final int SELECTED_COLOR = 0xff0000 ;
     private final int ARC_RADIUS = 5 ;
     private int PADDING = 5 ;
     private final int BUFFER = 10 ;
@@ -171,7 +172,7 @@ public class StarLayout implements RaterLayout {
         for (int componentsCounter = 0 ; componentsCounter < getNoOfComponents();
                 componentsCounter++) {
             drawStarComponent(g, x + (componentsCounter * (componentWidth + PADDING)), 
-                    y, PADDING, COMPONENT_COLOR, 1) ;          
+                    y, PADDING, COMPONENT_COLOR, 1, componentsCounter == selectedComponent) ;          
         }
     }
     
@@ -187,7 +188,12 @@ public class StarLayout implements RaterLayout {
      * @param fractionOfStarDrawn fraction of the star to be drawn
      */
     private void drawStarComponent(Graphics g, int x, int y, int padding, 
-            int color, float fractionOfStarDrawn)  {               
+            int color, float fractionOfStarDrawn, boolean selected)  {               
+        
+        if (selected) {
+            fractionOfStarDrawn = 1 ; 
+            color = SELECTED_COLOR ;
+        }
         
         int cHeight = (!title.equals("") && title != null) ? 
                 componentHeight - 15 : componentHeight ;
@@ -328,12 +334,12 @@ public class StarLayout implements RaterLayout {
             if (count >= componentStartPercentage && count < componentEndPercentage) {
                 float fractionOfStarHighlighted = (float) (noOfComponentsUsed - componentsCounter) ;
                 drawHighlightedStar(g, x + (componentsCounter * (componentWidth + PADDING)), 
-                    y, fractionOfStarHighlighted) ;                
+                    y, fractionOfStarHighlighted, componentsCounter == selectedComponent) ;                
                 break ;
             }
             
             drawHighlightedStar(g, x + (componentsCounter * (componentWidth + PADDING)), 
-                    y, 1) ;
+                    y, 1, componentsCounter == selectedComponent) ;
             componentStartPercentage = componentEndPercentage ;
             
         }
@@ -357,8 +363,9 @@ public class StarLayout implements RaterLayout {
      * @param fractionOfStarHighlighted  fraction of the star to be highlighted
      */
     private void drawHighlightedStar(Graphics g, int x, int y, 
-            float fractionOfStarHighlighted) {
-        drawStarComponent(g, x, y, PADDING, HIGHLIGHT_COLOR, fractionOfStarHighlighted) ;
+            float fractionOfStarHighlighted, boolean selected) {
+        drawStarComponent(g, x, y, PADDING, HIGHLIGHT_COLOR, 
+                fractionOfStarHighlighted, selected) ;
     }
     
     /**
@@ -388,7 +395,7 @@ public class StarLayout implements RaterLayout {
      * @param selectedComponent 
      */
     public void setFocusedElement(int selectedComponent) {
-        if (selectedComponent > 0 
+        if (selectedComponent >= 0 
                 && selectedComponent < noOfComponents) {
             this.selectedComponent = selectedComponent;
         }

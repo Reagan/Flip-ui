@@ -216,6 +216,17 @@ public class Rater extends CustomItem {
     }
     
     /**
+     * Checks whether the key 5 or center button was pressed
+     * and generates a key event
+     * @param keyCode 
+     */
+    protected void keyPressed(int keyCode) {
+        if (keyCode == Canvas.KEY_NUM5 || getGameAction(keyCode) == 8) {
+            generateRaterEvent(getRaterLayout().getFocusedElement()) ;
+        }
+    }
+    
+    /**
      * Generated a rater selected event
      * @param selectedComponent 
      */
@@ -270,45 +281,69 @@ public class Rater extends CustomItem {
         if (direction == Canvas.LEFT) {
             if (!inTraversal) {
                 inTraversal = true;
+                System.out.println("Z - in traversal... " + inTraversal);
             } else {
                  if (getRaterLayout().getFocusedElement() == -1) {
+                     System.out.println("ZZZZ -1");
                     getRaterLayout().setFocusedElement(lastFocussedItem);
                 }  else {
+                     System.out.println("ZZZZ -2");
                      if (getRaterLayout().getFocusedElement() - 1 >= 0) {
                         getRaterLayout().setFocusedElement(
                                 getRaterLayout().getFocusedElement() - 1) ;
+                        lastFocussedItem = getRaterLayout().getFocusedElement() - 1 ;
                      } else {
                          inTraversal = false;
                          return false;
                      }
                  }
+                 System.out.println("Z - Selected component " + getRaterLayout().getFocusedElement()) ;
                  repaint();                
             }
         } else if (direction == Canvas.RIGHT) {
             if (!inTraversal) {
-                inTraversal = true;                
+                inTraversal = true;      
+                System.out.println("Y - in traversal... " + inTraversal);
             } else {
                 if (getRaterLayout().getFocusedElement() == -1) {
+                    System.out.println("YYYY - 1 " + lastFocussedItem);
                     getRaterLayout().setFocusedElement(lastFocussedItem);
                 } else {
+                    System.out.println("YYYY - 2");
                     if (getRaterLayout().getFocusedElement() + 1 
                             < getRaterLayout().getNoOfComponents()) {
                         getRaterLayout().setFocusedElement(
                                 getRaterLayout().getFocusedElement() + 1);
+                        lastFocussedItem = getRaterLayout().getFocusedElement() + 1 ;
                     } else {
                         inTraversal = false;
                         return false;
                     }
                 }
+                 System.out.println("Y - Selected component " + getRaterLayout().getFocusedElement()) ;
                 repaint();
             }
         }
         
          if (direction == Canvas.UP ||
-                 direction == Canvas.DOWN) {
-             return false; 
+                direction == Canvas.DOWN) {
+             if (!inTraversal) {
+                 inTraversal = true;
+                 System.out.println("CCC - in traversal... " + inTraversal);
+             }
+             return false ;
          }
          
         return true;
+    }
+    
+    /**
+     * 
+     * Called when a user traverses out of a rater
+     */
+    protected void traverseOut() {
+        lastFocussedItem = 0;
+        getRaterLayout().setFocusedElement(-1);
+        repaint();
     }
 }
