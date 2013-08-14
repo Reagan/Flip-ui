@@ -125,5 +125,6 @@ public class Scroller extends CustomItem {
     
     public void changeView (ViewAction viewAction) {
         viewer.changeView(viewAction) ;
+        repaint();
     }
 }

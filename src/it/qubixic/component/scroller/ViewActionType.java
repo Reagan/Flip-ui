@@ -2,5 +2,5 @@ package it.qubixic.component.scroller;
 
 public interface ViewActionType {
     
-    int DISPLAY_IMAGE = 1; 
+    int PREVIOUS = 1, NEXT = 2; 
 }

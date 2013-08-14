@@ -1,9 +1,11 @@
 package it.qubixic.component.scroller;
 
-public abstract class ViewAction {
+public class ViewAction {
     
     private int viewActionType ; 
-    private String imageURL ;
+    private final String VIEW_ACTION_ERROR = "ViewAction only "
+            + "supports ViewActionType.PREVIOUS (1) and "
+            + "ViewActionType.NEXT(2)" ;
     
     /**
      * Creates a new view action with a 
@@ -11,20 +13,11 @@ public abstract class ViewAction {
      * @param type type of action
      */
     public ViewAction (int viewActionType) {
-        setViewActionType(viewActionType);
-    }
-    
-    /**
-     * Creates a new view action to load a remote 
-     * image
-     * @param type type of action
-     * @param imageURL remote image to be loaded
-     */
-    public ViewAction (int viewActionType, String imageURL) {
-        if (viewActionType == ViewActionType.DISPLAY_IMAGE) {
-            setViewActionType(viewActionType);
-            setImageURL(imageURL);
+        if (viewActionType != ViewActionType.PREVIOUS &&
+                viewActionType != ViewActionType.NEXT) {
+            throw new IllegalArgumentException(VIEW_ACTION_ERROR);
         }
+        setViewActionType(viewActionType);
     }
 
     /**
@@ -39,19 +32,5 @@ public abstract class ViewAction {
      */
     public void setViewActionType(int viewActionType) {
         this.viewActionType = viewActionType;
-    }
-
-    /**
-     * @return the imageURL
-     */
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    /**
-     * @param imageURL the imageURL to set
-     */
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
     }
 }

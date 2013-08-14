@@ -17,7 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.microedition.lcdui.Displayable;
 
-public class Grids extends BaseForm {
+public class GridsForm extends BaseForm {
 
     private final String TITLE_LABEL = "Grids" ;
     private final String TITLE_TEXT = "A set of supported grid kinds" ;
@@ -42,7 +42,7 @@ public class Grids extends BaseForm {
                  = new Grid(GRID_VERTICAL_SAME_DIMENSIONS_COMPONENTS, 
                 ListType.VERTICAL, ComponentLayoutType.SAME_DIMENSIONS) ;
     
-    public Grids(MIDlet midlet) {
+    public GridsForm(MIDlet midlet) {
         super ("Grids", midlet) ;
         appendTitle(TITLE_LABEL, TITLE_TEXT) ;
         appendGrid(createHorizontalGridSameComponentDimensions()) ;

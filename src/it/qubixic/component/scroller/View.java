@@ -1,6 +1,6 @@
 package it.qubixic.component.scroller;
 
-import javax.microedition.lcdui.Graphics; 
+import javax.microedition.lcdui.Graphics;
 
 public interface View {
     void changeView(ViewAction viewAction) ;

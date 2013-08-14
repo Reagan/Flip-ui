@@ -6,7 +6,7 @@ import it.qubixic.component.rater.event.RaterListener;
 import javax.microedition.lcdui.StringItem;
 import javax.microedition.midlet.*;
 
-public class Raters extends BaseForm {
+public class RatersForm extends BaseForm {
     
     private final String TITLE_LABEL = "Raters" ;
     private final String TITLE_TEXT = "A set of supported rater component kinds" ;    
@@ -15,7 +15,7 @@ public class Raters extends BaseForm {
     
     private final String RATER_TITLE = "Rater Example" ;
     
-    public Raters (MIDlet midlet) {
+    public RatersForm (MIDlet midlet) {
         super("Raters", midlet) ;
         appendTitle(TITLE_LABEL, TITLE_TEXT) ;
         appendStarRater(createStarRater()) ;

@@ -11,6 +11,7 @@ public class CommandsService {
     private final Command EXIT = new Command("Exit", Command.EXIT, 1) ; 
     private final Command GRID = new Command("Grid", Command.SCREEN, 1);    
     private final Command RATER = new Command("Rater", Command.SCREEN, 1) ;
+    private final Command SCROLLER = new Command("Scroller", Command.SCREEN, 1) ;
     private Form form ; 
     
     public CommandsService(Form form) {
@@ -30,15 +31,18 @@ public class CommandsService {
         commands.addElement(EXIT);
         commands.addElement(GRID);
         commands.addElement(RATER);
+        commands.addElement(SCROLLER);
         return commands ;
     }
     
     public void processCommand(Command command, MIDlet midlet) {
         if (command == GRID ) {
-            Display.getDisplay(midlet).setCurrent(new Grids(midlet));
+            Display.getDisplay(midlet).setCurrent(new GridsForm(midlet));
         } else if (command == RATER) {
-            Display.getDisplay(midlet).setCurrent(new Raters(midlet));
-        } else if (command == EXIT) {
+            Display.getDisplay(midlet).setCurrent(new RatersForm(midlet));
+        } else if (command == SCROLLER) { 
+            Display.getDisplay(midlet).setCurrent(new ScrollerForm(midlet));
+        }else if (command == EXIT) {
             midlet.notifyDestroyed();
         }
     }

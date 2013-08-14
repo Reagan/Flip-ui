@@ -6,11 +6,11 @@ import javax.microedition.midlet.*;
 public class ShowCase extends MIDlet {    
    
     private FlipSplashScreen flipSplashScreen ;
-    private Grids grids ;
+    private GridsForm grids ;
 
     public ShowCase() {        
         flipSplashScreen = new FlipSplashScreen();
-        grids = new Grids(this) ;
+        grids = new GridsForm(this) ;
     }
     
     public void startApp() {
