@@ -164,9 +164,7 @@ public class StarLayout implements RaterLayout {
         Point center = new Point(x + effectiveWidth / 2, 
                 y + effectiveHeight / 2) ;
         
-        int markedXLocation = (int) (effectiveWidth * fractionOfStarDrawn) ;
-        
-        System.out.println("Marked x location " + markedXLocation);
+        int markedXLocation = x + (int) (effectiveWidth * fractionOfStarDrawn) ;
         
         g.setColor(color);
         
@@ -176,17 +174,15 @@ public class StarLayout implements RaterLayout {
         int y12 = (y + effectiveHeight / 3) ; 
         int x13 = (int) center.getX() ;
         int y13 = (int) center.getY() ;
-        g.fillTriangle(x11, y11, x12, y12, x13, y13);
-        
-        
+        drawTriangle(g, markedXLocation, x11, y11, x12, y12, x13, y13) ;
+                        
         int x21 = x ; 
         int y21 = (y + effectiveHeight / 3);
         int x22 = (int) center.getX(); 
         int y22 = (int) center.getY() ;
         int x23 = (x + effectiveWidth / 4); 
         int y23 = (y + effectiveHeight / 2) ;
-        g.fillTriangle(x21, y21, x22, y22, x23, y23);        
-        
+        drawTriangle(g, markedXLocation, x21, y21, x22, y22, x23, y23);
         
         int x31 = (x + effectiveWidth / 5);  
         int y31 = y + effectiveHeight ; 
@@ -194,7 +190,7 @@ public class StarLayout implements RaterLayout {
         int y32 = (y + effectiveHeight / 2) ;
         int x33 = (int) center.getX(); 
         int y33 = (int) center.getY() ;
-        g.fillTriangle(x31, y31, x32, y32, x33, y33);
+        drawTriangle(g, markedXLocation, x31, y31, x32, y32, x33, y33);
         
         int x41 = (x + effectiveWidth / 5) ;
         int y41 = y + effectiveHeight ;
@@ -202,7 +198,7 @@ public class StarLayout implements RaterLayout {
         int y42 = (int) center.getY() ;
         int x43 = (x + effectiveWidth / 2) ;
         int y43 = (y + effectiveHeight / 4 * 3) ;
-        g.fillTriangle(x41, y41, x42, y42, x43, y43);
+        drawTriangle(g, markedXLocation, x41, y41, x42, y42, x43, y43);
         
         int x51 = (x + effectiveWidth / 2) ; 
         int y51 = (y + effectiveHeight / 4 * 3) ;
@@ -210,7 +206,7 @@ public class StarLayout implements RaterLayout {
         int y52 = (int) center.getY(); 
         int x53 = (x + effectiveWidth / 5 * 4) ; 
         int y53 = y + effectiveHeight ;
-        g.fillTriangle(x51, y51, x52, y52, x53, y53);
+        drawTriangle(g, markedXLocation, x51, y51, x52, y52, x53, y53);
         
         int x61 = (x + effectiveWidth / 5 * 4) ; 
         int y61 = y + effectiveHeight ;
@@ -218,7 +214,7 @@ public class StarLayout implements RaterLayout {
         int y62 = (int) center.getY();
         int x63 = (x + effectiveWidth / 4 * 3);
         int y63 = (y + effectiveHeight / 2) ;
-        g.fillTriangle(x61, y61, x62, y62, x63, y63);
+        drawTriangle(g, markedXLocation, x61, y61, x62, y62, x63, y63);
         
         int x71 = (x + effectiveWidth / 4 * 3); 
         int y71 = (y + effectiveHeight / 2) ;
@@ -226,7 +222,7 @@ public class StarLayout implements RaterLayout {
         int y72 = (int) center.getY(); 
         int x73 = x + effectiveWidth ;
         int y73 = (y + effectiveHeight / 3) ;
-        g.fillTriangle(x71, y71, x72, y72, x73, y73);
+        drawTriangle(g, markedXLocation, x71, y71, x72, y72, x73, y73);
         
         int x81 = x + effectiveWidth; 
         int y81 = (y + effectiveHeight / 3);  
@@ -234,7 +230,7 @@ public class StarLayout implements RaterLayout {
         int y82 = (int) center.getY();
         int x83 = (x + effectiveWidth / 3 * 2);
         int y83 = (y + effectiveHeight / 3) ;
-        g.fillTriangle(x81, y81, x82, y82, x83, y83);
+        drawTriangle(g, markedXLocation, x81, y81, x82, y82, x83, y83);
         
         int x91 = (x + effectiveWidth / 3 * 2); 
         int y91 = (y + effectiveHeight / 3); 
@@ -242,7 +238,7 @@ public class StarLayout implements RaterLayout {
         int y92 = (int) center.getY();
         int x93 = (x + effectiveWidth / 2); 
         int y93 = y ;
-        g.fillTriangle(x91, y91, x92, y92, x93, y93);
+        drawTriangle(g, markedXLocation, x91, y91, x92, y92, x93, y93);
         
         int x101 = (x + effectiveWidth / 2);
         int y101 = y;
@@ -250,7 +246,16 @@ public class StarLayout implements RaterLayout {
         int y102 = (int) center.getY() ;
         int x103 = (x + effectiveWidth / 3); 
         int y103 = (y + effectiveHeight / 3) ;
-        g.fillTriangle(x101, y101, x102, y102, x103, y103);
+        drawTriangle(g, markedXLocation, x101, y101, x102, y102, x103, y103);
+    }
+    
+    private void drawTriangle (Graphics g, int farthestXLocation, 
+            int x1, int y1, int x2, int y2, int x3, int y3) {
+        if (x1 > farthestXLocation && x2 > farthestXLocation &&
+                x3 > farthestXLocation) {
+            g.setColor(COMPONENT_COLOR);
+        } 
+        g.fillTriangle(x1, y1, x2, y2, x3, y3);
     }
     
     private void drawHighlightedComponents(Graphics g, int topX, int topY, float count) {
@@ -287,7 +292,7 @@ public class StarLayout implements RaterLayout {
     }
     
     private void drawHighlightedStar(Graphics g, int x, int y, 
-            float fractionOfStarHighlighted ) {
+            float fractionOfStarHighlighted) {
         drawStarComponent(g, x, y, PADDING, HIGHLIGHT_COLOR, fractionOfStarHighlighted) ;
     }
 }

@@ -32,7 +32,7 @@ public class Raters extends BaseForm {
     
     public Rater createStarRaterWithTitleAndInitialCounter() {
         final int NO_OF_COMPONENTS = 4 ;
-        final int COUNT = 78 ;
+        final int COUNT = 60 ;
         Rater starRater = new Rater(RATER_TITLE, COUNT,
                 NO_OF_COMPONENTS) ;
         return starRater ;
