@@ -393,4 +393,11 @@ public class StarLayout implements RaterLayout {
             this.selectedComponent = selectedComponent;
         }
     }
+    
+    /**
+     * @return the selected component
+     */
+    public int getFocusedElement() {
+        return this.selectedComponent ;
+    }
 }

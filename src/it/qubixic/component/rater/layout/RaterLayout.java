@@ -14,4 +14,5 @@ public interface RaterLayout {
     int getNoOfComponents() ;
     int getSelectedComponent(int x, int y) ;
     void setFocusedElement(int selectedComponentIndex);
+    int getFocusedElement() ;
 }

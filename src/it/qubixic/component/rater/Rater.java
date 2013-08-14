@@ -7,11 +7,14 @@ import it.qubixic.component.rater.layout.StarLayout;
 import java.util.Vector;
 import javax.microedition.lcdui.CustomItem;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Canvas;
 
 public class Rater extends CustomItem {
     
     private RaterLayout raterLayout = new StarLayout() ;
     private Vector raterListeners = new Vector() ;
+    private boolean inTraversal = false; 
+    private int lastFocussedItem = 0 ;
     
     /**
      * Creates a default rater
@@ -250,5 +253,62 @@ public class Rater extends CustomItem {
                     .elementAt(gridListenersCounter))
                     .actionPerformed(raterEvent);
         }
+    }
+    
+    /**
+     * Determines and responds to traversal events for the 
+     * rater component
+     * @param direction traverse direction
+     * @param viewportWidth 
+     * @param viewportHeight
+     * @param visRect_inOut
+     * @return whether or not an allowed traverse event occurred
+     */
+    protected boolean traverse(int direction, int viewportWidth,
+            int viewportHeight, int[] visRect_inOut) {
+        
+        if (direction == Canvas.LEFT) {
+            if (!inTraversal) {
+                inTraversal = true;
+            } else {
+                 if (getRaterLayout().getFocusedElement() == -1) {
+                    getRaterLayout().setFocusedElement(lastFocussedItem);
+                }  else {
+                     if (getRaterLayout().getFocusedElement() - 1 >= 0) {
+                        getRaterLayout().setFocusedElement(
+                                getRaterLayout().getFocusedElement() - 1) ;
+                     } else {
+                         inTraversal = false;
+                         return false;
+                     }
+                 }
+                 repaint();                
+            }
+        } else if (direction == Canvas.RIGHT) {
+            if (!inTraversal) {
+                inTraversal = true;                
+            } else {
+                if (getRaterLayout().getFocusedElement() == -1) {
+                    getRaterLayout().setFocusedElement(lastFocussedItem);
+                } else {
+                    if (getRaterLayout().getFocusedElement() + 1 
+                            < getRaterLayout().getNoOfComponents()) {
+                        getRaterLayout().setFocusedElement(
+                                getRaterLayout().getFocusedElement() + 1);
+                    } else {
+                        inTraversal = false;
+                        return false;
+                    }
+                }
+                repaint();
+            }
+        }
+        
+         if (direction == Canvas.UP ||
+                 direction == Canvas.DOWN) {
+             return false; 
+         }
+         
+        return true;
     }
 }
