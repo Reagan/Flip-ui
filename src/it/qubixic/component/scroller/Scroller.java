@@ -1,5 +1,6 @@
 package it.qubixic.component.scroller;
 
+import it.qubixic.component.theme.Theme;
 import javax.microedition.lcdui.CustomItem;
 import javax.microedition.lcdui.Graphics;
 
@@ -9,6 +10,9 @@ public class Scroller extends CustomItem {
     private Viewer viewer ;
     private int height = 120 ; 
     private int width = 120 ;
+    private int topX = 0 ;
+    private int topY = 0 ;
+    private final int BUFFER = 10 ;
     
     /**
      * Creates a title-less scroller with a viewer
@@ -120,9 +124,34 @@ public class Scroller extends CustomItem {
     }
 
     protected void paint(Graphics g, int w, int h) {
-        viewer.draw(g, w, h) ;
+        drawTitle(g, topX, topY) ;
+        viewer.draw(g, topX, topY, w, h) ;
+        this.topY = 0 ;
     }
     
+    /**
+     * This method draws the actual scroller
+     * @param g Graphics object
+     * @param topX top X position of scroller
+     * @param topY top Y position of scroller
+     */
+    protected void drawTitle(Graphics g, int topX, int topY) {
+        if(!title.equals("")) {
+            g.setFont(Theme.getScrollerTitleFont());
+            g.setColor(Theme.getScrollerTitleColor()) ;
+            g.drawString(title, topX, topY, Graphics.TOP | Graphics.LEFT);
+            this.topY = g.getFont().getHeight() + BUFFER ;
+            height = 120 + this.topY + BUFFER ;
+        }
+    }
+    
+    /**
+     * Initiates a change in the current view of
+     * the scroller
+     * @param viewAction the kind of action that the scroller should initiate.
+     * This could be an action to view the next item or to view a 
+     * previous item
+     */
     public void changeView (ViewAction viewAction) {
         viewer.changeView(viewAction) ;
         repaint();

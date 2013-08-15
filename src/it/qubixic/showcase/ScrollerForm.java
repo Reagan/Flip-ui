@@ -17,7 +17,7 @@ public class ScrollerForm extends BaseForm {
     private MIDlet midlet ;
     private Scroller scroller ;
     private DisplayViewer viewer ;
-    private final String SCROLLER_1_TITLE = "Scroller 1 Title" ;
+    private final String SCROLLER_1_TITLE = "Scroller Title" ;
     private final int SCROLLER_HEIGHT = 140 ;
     private final Command PREVIOUS_COMMAND = new Command("Previous", Command.SCREEN, 1) ;
     private final Command NEXT_COMMAND = new Command("Next", Command.SCREEN, 1) ;
@@ -72,6 +72,8 @@ public class ScrollerForm extends BaseForm {
         private Graphics g ;
         private int w ; 
         private int h ; 
+        private int x ;
+        private int y ;
         
         public DisplayViewer() {
         }
@@ -92,13 +94,15 @@ public class ScrollerForm extends BaseForm {
             return this.VIEWER_HEIGHT ;
         }
 
-        public void draw(Graphics g, int w, int h) {
+        public void draw(Graphics g, int x, int y, int w, int h) {
             this.g = g ;
             this.w = w ; 
             this.h = h  ;
+            this.x = x ;
+            this.y = y ; 
             
             g.setColor(BG_COLOR);
-            g.fillRect(0, 0, getWidth(), getHeight());
+            g.fillRect(x, y, getWidth(), getHeight());
             g.setColor(FONT_COLOR);
             g.setFont(UFONT);
             
@@ -116,7 +120,7 @@ public class ScrollerForm extends BaseForm {
                     == ViewActionType.PREVIOUS) {
                 currentlyDisplayedNo-- ;
             }
-            draw(g, w, h) ;
+            draw(g, x, y, w, h) ;
         }        
     }
 }

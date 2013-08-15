@@ -41,6 +41,10 @@ public class Theme {
     protected static Font dynamicImageTitleFont = Font.getFont(Font.FACE_SYSTEM, 
             Font.STYLE_PLAIN, Font.SIZE_MEDIUM);
     
+    protected static int scrollerTitleColor = 0x000000 ;
+    protected static Font scrollerTitleFont = Font.getFont(Font.FACE_SYSTEM, 
+            Font.STYLE_PLAIN, Font.SIZE_MEDIUM);
+    
     /*
     protected int textColor = 0xd8dcd8;
     protected int textColorFocused = 0xf8fcf8;
@@ -136,6 +140,14 @@ public class Theme {
     
     public static Font getDynamicImageTitleFont() {
         return dynamicImageTitleFont ;
+    }
+    
+    public static Font getScrollerTitleFont() {
+        return scrollerTitleFont ;
+    }
+    
+    public static int getScrollerTitleColor () {
+        return scrollerTitleColor ;
     }
     /*
     public void setBackgroundColorFocused(int backgroundColorFocused) {
