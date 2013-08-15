@@ -12,6 +12,7 @@ public class CommandsService {
     private final Command GRID = new Command("Grid", Command.SCREEN, 1);    
     private final Command RATER = new Command("Rater", Command.SCREEN, 1) ;
     private final Command SCROLLER = new Command("Scroller", Command.SCREEN, 1) ;
+    private final Command IMAGE_LOADER = new Command("Image Loader", Command.SCREEN, 1) ;
     private Form form ; 
     
     public CommandsService(Form form) {
@@ -32,6 +33,7 @@ public class CommandsService {
         commands.addElement(GRID);
         commands.addElement(RATER);
         commands.addElement(SCROLLER);
+        commands.addElement(IMAGE_LOADER);
         return commands ;
     }
     
@@ -42,7 +44,9 @@ public class CommandsService {
             Display.getDisplay(midlet).setCurrent(new RatersForm(midlet));
         } else if (command == SCROLLER) { 
             Display.getDisplay(midlet).setCurrent(new ScrollerForm(midlet));
-        }else if (command == EXIT) {
+        } else if (command == IMAGE_LOADER) {
+            Display.getDisplay(midlet).setCurrent(new DynamicImageLoaderForm(midlet));
+        } else if (command == EXIT) {
             midlet.notifyDestroyed();
         }
     }

@@ -40,6 +40,20 @@ public class DynamicImageLoader extends CustomItem {
     }
     
     /**
+     * Creates a dynamic loader image with a title, 
+     * width and height
+     * @param title
+     * @param width
+     * @param height 
+     */
+    public DynamicImageLoader (String title, int width, int height) {
+        super("") ;
+        setTitle(title);
+        setWidth(width);
+        setHeight(height);
+    }
+    
+    /**
      * Creates a dynamic image loader with a title
      * and initial image URL
      * @param title
