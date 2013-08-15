@@ -1,4 +1,5 @@
 package it.qubixic.component.grid.event;
 
-public abstract class GridListener implements IListener {    
+public interface GridListener {   
+    public void actionPerformed(GridEvent e) ;
 }

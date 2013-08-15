@@ -113,15 +113,15 @@ public class GridsForm extends BaseForm {
     private Vector createThumbnails(int type, int width, int height) {
         Vector thumbnails = new Vector() ;
         final int noOfThumbnails = 6 ;        
-        String thumbnailImage ;
+        Image thumbnailImage ;
         Thumbnail thumbnail = null ;
         
         for (int thumbnailsCounter = 1 ;thumbnailsCounter < noOfThumbnails ;
                 thumbnailsCounter++) {
             
-            thumbnailImage = "http://www.nodl.es/test_images/thumbnail_"
+            thumbnailImage = ImageUtils.loadJarImage("/" 
                     + thumbnailsCounter 
-                    + ".png";
+                    + "-100x100.png");
             
             if (type == HORIZONTAL_THUMBNAILS) {
                 ThumbnailCaption thumbnailCaption 

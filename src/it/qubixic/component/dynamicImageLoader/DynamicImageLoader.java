@@ -1,25 +1,26 @@
 package it.qubixic.component.dynamicImageLoader;
 
+import it.qubixic.component.dynamicImageLoader.event.ImageLoadingEvent;
+import it.qubixic.component.dynamicImageLoader.event.ImageLoadingListener;
+import it.qubixic.component.dynamicImageLoader.event.ImageLoadingStatus;
 import it.qubixic.component.theme.Theme;
 import it.qubixic.showcase.utils.ImageUtils;
 import it.qubixic.showcase.utils.StringUtils;
 import java.io.IOException;
+import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
         
 public class DynamicImageLoader {
-    
-    private String title = "" ;
-    private String imageURL = "" ;    
+     
     private int width  = 120 ;
     private int height = 120 ; 
-    private Image displayedImage = null ;
+    private Image loadedImage = null ;
     private ImageCache cache = new ImageCache() ;
     private final String LOADING_MESSAGE = "Loading..." ;
     private final String NO_IMAGE_SPECIFIED_MESSAGE = "No Image" ;
-    private int topX = 0 ;
-    private int topY = 0 ;
-    private int BUFFER = 10; 
+    public boolean dirty = false; 
+    public Vector imageLoadingListeners = new Vector() ;
     
     /**
      * Creates a new instance of a dynamic image
@@ -29,81 +30,14 @@ public class DynamicImageLoader {
     }
     
     /**
-     * Creates a dynamic image loader with a title
-     * @param title 
-     */
-    public DynamicImageLoader(String title) {
-        setTitle(title);
-    }
-    
-    /**
-     * Creates a dynamic loader image with a title, 
+     * Creates a dynamic image loader with a 
      * width and height
-     * @param title
      * @param width
      * @param height 
      */
-    public DynamicImageLoader (String title, int width, int height) {
-        setTitle(title);
+    public DynamicImageLoader(int width, int height) {
         setWidth(width);
         setHeight(height);
-    }
-    
-    /**
-     * Creates a dynamic image loader with a title
-     * and initial image URL
-     * @param title
-     * @param imageURL 
-     */
-    public DynamicImageLoader(String title, String imageURL) {
-        setTitle(title);
-        setImageURL(imageURL);
-    }
-    
-    /**
-     * Creates a dynamic image loader with a title, 
-     * initial image URL, width and height
-     * @param title
-     * @param imageURL
-     * @param width
-     * @param height 
-     */
-    public DynamicImageLoader(String title, String imageURL, 
-            int width, int height) {
-        setTitle(title);
-        setImageURL(imageURL);
-        setWidth(width);
-        setHeight(height);
-    }
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * @return the imageURL
-     */
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    /**
-     * @param imageURL the imageURL to set
-     */
-    public void setImageURL(String imageURL) {
-        if (StringUtils.validateURL(imageURL)) {
-            this.imageURL = imageURL;
-        }        
     }
 
     /**
@@ -134,41 +68,41 @@ public class DynamicImageLoader {
         this.height = height;
     }
     
-    protected int getMinContentWidth() {
-        return getWidth() ;
-    }
-
-    protected int getMinContentHeight() {
-        return getHeight() ;
-    }
-
-    protected int getPrefContentWidth(int height) {
-        return getWidth() ;
-    }
-
-    protected int getPrefContentHeight(int width) {
-        return getHeight();
+    /**
+     * gets the loaded image
+     * @return 
+     */
+    public Image getLoadedImage () {
+        return loadedImage ;
     }
     
     /**
      * Actually draws the fetched image onto the canvas
-   * @param g Graphics object
      * @param w width
      * @param h  height
      */
-    public void drawImage(Graphics g, int x, int y, int w, int h) {
-        if (!imageURL.equals("")) {
+    public Image fetchImage(String imageURL, boolean generatePlaceLoaderImage) {
+        Image generatedImage = null ;
+        System.out.println("fetch Image called ");
+        if (!imageURL.equals("") && StringUtils.validateURL(imageURL)) {
+            System.out.println("A ");
             if (cache.contains(imageURL)) {
-                displayedImage = cache.get(imageURL).getImage() ;
-                g.drawImage(displayedImage, x, y, 
-                        Graphics.TOP | Graphics.LEFT);
+                System.out.println("C");
+                generatedImage = cache.get(imageURL).getImage() ;
             } else {
-                drawPlaceHolder(g, LOADING_MESSAGE, w, h) ; 
-                loadImage(imageURL, g, x, y, w, h);
+                System.out.println("D");
+                loadImage(imageURL);
+                if(generatePlaceLoaderImage) {
+                    generatedImage = drawPlaceHolder(LOADING_MESSAGE) ; 
+                }
             }
         } else {
-            drawPlaceHolder(g, NO_IMAGE_SPECIFIED_MESSAGE, w, h);
+            System.out.println("B");
+            if(generatePlaceLoaderImage) {
+                generatedImage = drawPlaceHolder(NO_IMAGE_SPECIFIED_MESSAGE);
+            }
         }
+        return generatedImage ;
     }
     
     /**
@@ -178,29 +112,29 @@ public class DynamicImageLoader {
      * @param g Graphics object
      * @param message place holder text
      */
-    protected void drawPlaceHolder(Graphics g, String message, int width, 
-            int height) {
+    protected Image drawPlaceHolder(String message) {
         
         final int ARC_RADIUS = 5 ; 
-        final int PADDING = 5 ;       
-        
+        final int PADDING = 5 ;   
+        Image placeHolderImage = Image.createImage(width, height) ;        
+        Graphics g = placeHolderImage.getGraphics() ;
+                            
         g.setFont(Theme.getDynamicImageMessageFont());
         g.setColor(Theme.getDynamicImageMessageBgColor()) ;
         
         int startX = width/ 2 - (g.getFont().charsWidth(message.toCharArray(), 
-                0, message.length()) +
-                2 * PADDING) / 2 ;
+                0, message.length()) + 2 * PADDING) / 2 ;
         g.fillRoundRect(startX, 
                 (int) (height / 2), 
                 g.getFont().charsWidth(message.toCharArray(), 0, message.length()) +
-                2 * PADDING, 
-                g.getFont().getHeight() + 2 *  PADDING,
-                ARC_RADIUS,
-                ARC_RADIUS);
+                2 * PADDING, g.getFont().getHeight() + 2 *  PADDING,
+                ARC_RADIUS, ARC_RADIUS);
         
         g.setColor(Theme.getDynamicImageMessageFontColor());
         g.drawString(message, startX + PADDING, 
                 (int) (height / 2) + PADDING, Graphics.TOP | Graphics.LEFT);
+        
+        return placeHolderImage ;
     }
     
     /**
@@ -208,14 +142,16 @@ public class DynamicImageLoader {
      * of fetching an image and redrawing the image
      * @param imageURL the image to be fetched
      */ 
-    protected void loadImage(final String imageURL, final Graphics g, 
-            final int x, final int y, final int w, final int h) {
+    protected void loadImage(final String imageURL) {        
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    displayedImage = createImage(imageURL) ;
-                    cache.addImageEntity(new ImageEntity(imageURL, displayedImage));
-                    drawImage(g, x, y, w, h);
+                    loadedImage = createImage(imageURL) ;
+                    cache.addImageEntity(new ImageEntity(imageURL, loadedImage));
+                    triggerImageLoadingEvent(imageURL, ImageLoadingStatus.LOADED);
+                    System.out.println("Image " + imageURL + " loaded " 
+                            + ImageLoadingStatus.LOADED);
+                    dirty = true ;
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (OutOfMemoryError e) {
@@ -239,6 +175,40 @@ public class DynamicImageLoader {
             return ImageUtils.loadRemoteImage(name) ;
         } else {
             throw new IOException("Unsupported media");
+        }
+    }
+    
+    /**
+     * Adds an image listener
+     * @param imageLoadingListener 
+     */
+    public void addImageLoadingListener(ImageLoadingListener imageLoadingListener) {
+        if (!imageLoadingListeners.contains(imageLoadingListener)) {
+            imageLoadingListeners.addElement(imageLoadingListener);
+        }
+    }
+    
+    /**
+     * Removes an image listener
+     * @param imageLoadingListener 
+     */
+    public void removeImageLoadingListener(ImageLoadingListener imageLoadingListener) {
+        imageLoadingListeners.removeElement(imageLoadingListener);
+    }
+    
+    /**
+     * Triggered when an image loading event occurs
+     * @param imageName
+     * @param loadingStatus 
+     */
+    protected void triggerImageLoadingEvent (String imageName, int loadingStatus) {
+        System.out.println("S " + imageName + "-" + loadingStatus);
+        ImageLoadingEvent imageLoadingEvent 
+                = new ImageLoadingEvent(imageName, loadingStatus) ;
+        for (int listenersCounter = 0 ; listenersCounter < imageLoadingListeners.size();
+                listenersCounter++) {
+            ((ImageLoadingListener) imageLoadingListeners.elementAt(listenersCounter))
+                    .imageLoaded(imageLoadingEvent) ;
         }
     }
 }

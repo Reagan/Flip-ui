@@ -95,7 +95,7 @@ public final class VerticalLayout extends AbstractLayout {
         }
         
         element.setDimensions(x, y);
-        element.render(g, element.getImageURL(), element.getCaption(), x, y);                                    
+        element.render(g, element.getImage(), element.getCaption(), x, y);                                    
     }                
 
     
