@@ -119,7 +119,12 @@ public class DynamicImageLoader {
         g.fillRoundRect(0, 0, width, height, ARC_RADIUS, ARC_RADIUS);
         
         g.setColor(Theme.getDynamicImageMessageFontColor());
-        g.drawString(message, 0, 0, Graphics.TOP | Graphics.LEFT);
+        g.drawString(message, 
+                (width - g.getFont()
+                .charsWidth(message.toCharArray(), 0, 
+                message.length())) / 2,
+                (height - g.getFont().getHeight()) / 2, 
+                Graphics.TOP | Graphics.LEFT);
         
         return placeHolderImage ;
     }
