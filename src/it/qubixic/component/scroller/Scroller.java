@@ -12,7 +12,6 @@ public class Scroller extends CustomItem {
     private int width = 120 ;
     private int topX = 0 ;
     private int topY = 0 ;
-    private final int BUFFER = 10 ;
     
     /**
      * Creates a title-less scroller with a viewer
@@ -83,6 +82,9 @@ public class Scroller extends CustomItem {
      * @return the height
      */
     public int getHeight() {
+        if(!title.equals("")) {
+            height = 144 ;
+        }
         return height;
     }
 
@@ -140,8 +142,7 @@ public class Scroller extends CustomItem {
             g.setFont(Theme.getScrollerTitleFont());
             g.setColor(Theme.getScrollerTitleColor()) ;
             g.drawString(title, topX, topY, Graphics.TOP | Graphics.LEFT);
-            this.topY = g.getFont().getHeight() + BUFFER ;
-            height = 120 + this.topY + BUFFER ;
+            this.topY = g.getFont().getHeight() ;            
         }
     }
     

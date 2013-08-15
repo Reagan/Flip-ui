@@ -59,7 +59,7 @@ public class ScrollerForm extends BaseForm {
         this.midlet = midlet;
     }
     
-    class DisplayViewer extends Viewer {
+    class DisplayViewer implements Viewer {
 
         private final int VIEWER_HEIGHT = 120 ;
         private int currentlyDisplayedNo = 1 ;
@@ -68,7 +68,7 @@ public class ScrollerForm extends BaseForm {
         private final Font UFONT = Font.getFont(Font.FACE_PROPORTIONAL,
                 Font.STYLE_PLAIN, Font.SIZE_LARGE);
         private final Point STRING_POSITION =
-                new Point(0.4f, 0.5f) ;
+                new Point(0.3f, 0.5f) ;
         private Graphics g ;
         private int w ; 
         private int h ; 
@@ -121,6 +121,6 @@ public class ScrollerForm extends BaseForm {
                 currentlyDisplayedNo-- ;
             }
             draw(g, x, y, w, h) ;
-        }        
+        } 
     }
 }
