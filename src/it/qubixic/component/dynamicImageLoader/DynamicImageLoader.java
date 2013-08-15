@@ -1,11 +1,9 @@
 package it.qubixic.component.dynamicImageLoader;
 
 import it.qubixic.component.theme.Theme;
+import it.qubixic.showcase.utils.ImageUtils;
 import it.qubixic.showcase.utils.StringUtils;
-import java.io.DataInputStream;
 import java.io.IOException;
-import javax.microedition.io.Connector;
-import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.CustomItem ;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -19,8 +17,7 @@ public class DynamicImageLoader extends CustomItem {
     private Image displayedImage = null ;
     private ImageCache cache = new ImageCache() ;
     private final String LOADING_MESSAGE = "Loading..." ;
-    
-    private final int BG_COLOR = 0x999999 ;
+    private final String NO_IMAGE_SPECIFIED_MESSAGE = "No Image" ;
     
     /**
      * Creates a new instance of a dynamic image
@@ -162,21 +159,44 @@ public class DynamicImageLoader extends CustomItem {
         drawImage(g, getWidth(), getHeight()) ;
     }    
     
+    /** 
+     * Draws the background to the dynamic Image Loader
+     * @param g Graphics object
+     * @param w width
+     * @param h  height
+     */
     protected void drawBackground(Graphics g, int w, int h) {
-        g.setColor(BG_COLOR);
+        g.setColor(Theme.getDynamicImageBgColor());
         g.fillRect(0, 0, width, height);
     }
     
+    /**
+     * Actually draws the fetched image onto the canvas
+   * @param g Graphics object
+     * @param w width
+     * @param h  height
+     */
     protected void drawImage(Graphics g, int w, int h) {
-        if (cache.contains(imageURL)) {
-            displayedImage = cache.get(imageURL).getImage() ;
-            g.drawImage(displayedImage, 0, 0, Graphics.TOP | Graphics.LEFT);
+        if (!imageURL.equals("")) {
+            if (cache.contains(imageURL)) {
+                displayedImage = cache.get(imageURL).getImage() ;
+                g.drawImage(displayedImage, 0, 0, Graphics.TOP | Graphics.LEFT);
+            } else {
+                drawPlaceHolder(g, LOADING_MESSAGE) ; 
+                loadImage(imageURL);
+            }
         } else {
-            drawPlaceHolder(g, LOADING_MESSAGE) ;
-            loadImage(imageURL) ;                     
+            drawPlaceHolder(g, NO_IMAGE_SPECIFIED_MESSAGE);
         }
     }
     
+    /**
+     * This draws a place holder message
+     * where an image to be fetched has not been
+     * specified or is loading
+     * @param g Graphics object
+     * @param message place holder text
+     */
     protected void drawPlaceHolder(Graphics g, String message) {
         
         final int ARC_RADIUS = 5 ; 
@@ -196,17 +216,23 @@ public class DynamicImageLoader extends CustomItem {
                 ARC_RADIUS,
                 ARC_RADIUS);
         
-        g.setColor(Theme.getOverlayMessageFontColor());
+        g.setColor(Theme.getDynamicImageMessageFontColor());
         g.drawString(message, startX + PADDING, 
                 (int) (getHeight() / 2) + PADDING,
                 Graphics.TOP | Graphics.LEFT);
     }
     
+    /**
+     * This method is delegated the actual responsibility
+     * of fetching an image
+     * @param imageURL the image to be fetched
+     */ 
     protected void loadImage(final String imageURL) {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     displayedImage = createImage(imageURL) ;
+                    cache.addImageEntity(new ImageEntity(imageURL, displayedImage));
                     repaint();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -217,41 +243,18 @@ public class DynamicImageLoader extends CustomItem {
         }).start();
     }
     
+    /**
+     * This method creates an image instance from 
+     * the fetched image content
+     * @param name name of the image
+     * @return image
+     * @throws IOException 
+     */
     private Image createImage(String name) throws IOException {
         if (name.startsWith("/")) {
-            // Load as a resource with Image.createImage
-            return Image.createImage(name);
+            return ImageUtils.loadJarImage(name) ;
         } else if (name.startsWith("http:") || name.startsWith("https:")) {
-            // Load from a ContentConnection
-            HttpConnection c = null;
-	    DataInputStream is = null;
-            try {
-	        c = (HttpConnection)Connector.open(name);
-		int status = c.getResponseCode();
-		if (status != 200) {
-		    throw new IOException("HTTP Response Code = " + status);
-		}
-
-                int len = (int)c.getLength();
-                String type = c.getType();
-		if (!type.equals("image/png")) {
-		    throw new IOException("Expecting image, received " + type);
-		}
-
-                if (len > 0) {
-		    is = c.openDataInputStream();
-		    byte[] data = new byte[len];
-		    is.readFully(data);
-                    return Image.createImage(data, 0, len);
-	        } else {
-		    throw new IOException("Content length is missing");
-	        }
-	    } finally {
-	        if (is != null)
-                    is.close();
-                if (c != null)
-                    c.close();
-            }
+            return ImageUtils.loadRemoteImage(name) ;
         } else {
             throw new IOException("Unsupported media");
         }

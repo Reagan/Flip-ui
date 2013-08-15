@@ -89,7 +89,8 @@ public class ImageCache {
                     imagesEntitiesCounter < cachedImageEntities.size();
                     imagesEntitiesCounter++) {
             String currEntityName 
-                    = ((ImageEntity) cachedImageEntities.elementAt(imagesEntitiesCounter)).getImageName() ;
+                    = ((ImageEntity) cachedImageEntities
+                        .elementAt(imagesEntitiesCounter)).getImageName() ;
             if(imageName.equals(currEntityName)) {
                 return true ;
             }
