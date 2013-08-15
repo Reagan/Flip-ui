@@ -1,4 +1,4 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.form;
 
 import it.qubixic.component.grid.Grid;
 import it.qubixic.component.grid.GridConstraints;
@@ -8,6 +8,9 @@ import it.qubixic.component.grid.event.GridListener;
 import it.qubixic.component.grid.layout.ComponentLayoutType;
 import it.qubixic.component.grid.thumbnail.Thumbnail;
 import it.qubixic.component.grid.thumbnail.ThumbnailCaption;
+import it.qubixic.showcase.grid.thumbnail.HorizontalThumbnail;
+import it.qubixic.showcase.grid.thumbnail.VerticalThumbnail;
+import it.qubixic.showcase.grid.thumbnail.VerticalThumbnailCaption;
 import it.qubixic.showcase.utils.ImageUtils;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.StringItem;

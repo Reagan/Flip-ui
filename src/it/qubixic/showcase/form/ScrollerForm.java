@@ -1,4 +1,4 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.form;
 
 import it.qubixic.component.scroller.Scroller;
 import it.qubixic.component.scroller.ViewAction;

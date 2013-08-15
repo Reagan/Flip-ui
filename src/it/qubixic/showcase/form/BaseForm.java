@@ -1,5 +1,6 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.form;
 
+import it.qubixic.showcase.commands.CommandsService;
 import java.util.Vector;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Command ;

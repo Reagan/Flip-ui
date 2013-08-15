@@ -1,4 +1,4 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.grid.thumbnail;
 
 import it.qubixic.component.grid.thumbnail.ThumbnailCaption;
 import javax.microedition.lcdui.Graphics;

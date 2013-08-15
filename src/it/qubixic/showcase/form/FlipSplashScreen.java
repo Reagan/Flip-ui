@@ -1,4 +1,4 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.form;
 
 import it.qubixic.component.splashscreen.SplashScreen;
 import it.qubixic.showcase.utils.ImageUtils;

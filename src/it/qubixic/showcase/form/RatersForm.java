@@ -1,4 +1,4 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.form;
 
 import it.qubixic.component.rater.Rater;
 import it.qubixic.component.rater.event.RaterEvent;

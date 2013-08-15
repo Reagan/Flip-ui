@@ -1,5 +1,9 @@
-package it.qubixic.showcase;
+package it.qubixic.showcase.commands;
 
+import it.qubixic.showcase.form.GridsForm;
+import it.qubixic.showcase.form.DynamicImageLoaderForm;
+import it.qubixic.showcase.form.ScrollerForm;
+import it.qubixic.showcase.form.RatersForm;
 import java.util.Vector;
 import javax.microedition.lcdui.Command ;
 import javax.microedition.lcdui.Form;

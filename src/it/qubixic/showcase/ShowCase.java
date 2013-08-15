@@ -1,5 +1,7 @@
 package it.qubixic.showcase;
 
+import it.qubixic.showcase.form.GridsForm;
+import it.qubixic.showcase.form.FlipSplashScreen;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.*;
 
