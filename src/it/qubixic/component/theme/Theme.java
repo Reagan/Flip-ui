@@ -34,12 +34,7 @@ public class Theme {
     protected static Font dynamicImageMessageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN,
             Font.SIZE_LARGE) ;
     protected static int dynamicImageMessageFontColor = 0xffffff ;
-    protected static int dynamicImageMessageBgColor = 0x999999 ;
-    protected static int dynamicImageBgColor = 0xcccccc ;
-    
-    protected static int dynamicImageTitleColor = 0x000000 ;
-    protected static Font dynamicImageTitleFont = Font.getFont(Font.FACE_SYSTEM, 
-            Font.STYLE_PLAIN, Font.SIZE_MEDIUM);
+    protected static int dynamicImageMessageBgColor = 0x999999 ;    
     
     protected static int scrollerTitleColor = 0x000000 ;
     protected static Font scrollerTitleFont = Font.getFont(Font.FACE_SYSTEM, 
@@ -125,22 +120,10 @@ public class Theme {
     public static int getDynamicImageMessageBgColor() {
         return dynamicImageMessageBgColor;
     } 
-    
-    public static int getDynamicImageBgColor() {
-        return dynamicImageBgColor ;
-    }
-    
+            
     public static Font getDynamicImageMessageFont() {
         return dynamicImageMessageFont ;
-    }
-    
-    public static int getDynamicImageTitleColor() {
-        return dynamicImageTitleColor;
-    }
-    
-    public static Font getDynamicImageTitleFont() {
-        return dynamicImageTitleFont ;
-    }
+    }        
     
     public static Font getScrollerTitleFont() {
         return scrollerTitleFont ;

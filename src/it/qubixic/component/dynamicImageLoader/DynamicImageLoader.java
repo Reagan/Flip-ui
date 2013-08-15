@@ -4,11 +4,10 @@ import it.qubixic.component.theme.Theme;
 import it.qubixic.showcase.utils.ImageUtils;
 import it.qubixic.showcase.utils.StringUtils;
 import java.io.IOException;
-import javax.microedition.lcdui.CustomItem ;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
         
-public class DynamicImageLoader extends CustomItem {
+public class DynamicImageLoader {
     
     private String title = "" ;
     private String imageURL = "" ;    
@@ -27,7 +26,6 @@ public class DynamicImageLoader extends CustomItem {
      * loader
      */
     public DynamicImageLoader() {
-        super ("") ; 
     }
     
     /**
@@ -35,7 +33,6 @@ public class DynamicImageLoader extends CustomItem {
      * @param title 
      */
     public DynamicImageLoader(String title) {
-        super ("") ;
         setTitle(title);
     }
     
@@ -47,7 +44,6 @@ public class DynamicImageLoader extends CustomItem {
      * @param height 
      */
     public DynamicImageLoader (String title, int width, int height) {
-        super("") ;
         setTitle(title);
         setWidth(width);
         setHeight(height);
@@ -60,7 +56,6 @@ public class DynamicImageLoader extends CustomItem {
      * @param imageURL 
      */
     public DynamicImageLoader(String title, String imageURL) {
-        super ("") ;
         setTitle(title);
         setImageURL(imageURL);
     }
@@ -75,7 +70,6 @@ public class DynamicImageLoader extends CustomItem {
      */
     public DynamicImageLoader(String title, String imageURL, 
             int width, int height) {
-        super("") ;
         setTitle(title);
         setImageURL(imageURL);
         setWidth(width);
@@ -109,7 +103,6 @@ public class DynamicImageLoader extends CustomItem {
     public void setImageURL(String imageURL) {
         if (StringUtils.validateURL(imageURL)) {
             this.imageURL = imageURL;
-            repaint();
         }        
     }
 
@@ -156,39 +149,6 @@ public class DynamicImageLoader extends CustomItem {
     protected int getPrefContentHeight(int width) {
         return getHeight();
     }
-
-    protected void paint(Graphics g, int w, int h) {
-        drawTitle(g, w, h) ;
-        drawBackground(g, getWidth(), getHeight()) ;
-        drawImage(g, getWidth(), getHeight()) ;
-    }    
-    
-    /**
-     * This method draws the dynamic image loader
-    * @param g Graphics object
-     * @param w width
-     * @param h  height
-     */
-    protected void drawTitle(Graphics g, int w, int h) {
-        if(!title.equals("")) {
-            g.setColor(Theme.getDynamicImageTitleColor()) ;
-            g.setFont(Theme.getDynamicImageTitleFont());
-            g.drawString(title, 0, 0, Graphics.TOP | Graphics.LEFT);
-            topY = g.getFont().getHeight() + BUFFER ;
-            height = 120 + topY ;
-        }
-    }
-    
-    /** 
-     * Draws the background to the dynamic Image Loader
-     * @param g Graphics object
-     * @param w width
-     * @param h  height
-     */
-    protected void drawBackground(Graphics g, int w, int h) {
-        g.setColor(Theme.getDynamicImageBgColor());
-        g.fillRect(topX, topY, width, height);
-    }
     
     /**
      * Actually draws the fetched image onto the canvas
@@ -196,15 +156,15 @@ public class DynamicImageLoader extends CustomItem {
      * @param w width
      * @param h  height
      */
-    protected void drawImage(Graphics g, int w, int h) {
+    public void drawImage(Graphics g, int x, int y, int w, int h) {
         if (!imageURL.equals("")) {
             if (cache.contains(imageURL)) {
                 displayedImage = cache.get(imageURL).getImage() ;
-                g.drawImage(displayedImage, topX, topY, 
+                g.drawImage(displayedImage, x, y, 
                         Graphics.TOP | Graphics.LEFT);
             } else {
                 drawPlaceHolder(g, LOADING_MESSAGE, w, h) ; 
-                loadImage(imageURL);
+                loadImage(imageURL, g, x, y, w, h);
             }
         } else {
             drawPlaceHolder(g, NO_IMAGE_SPECIFIED_MESSAGE, w, h);
@@ -245,16 +205,17 @@ public class DynamicImageLoader extends CustomItem {
     
     /**
      * This method is delegated the actual responsibility
-     * of fetching an image
+     * of fetching an image and redrawing the image
      * @param imageURL the image to be fetched
      */ 
-    protected void loadImage(final String imageURL) {
+    protected void loadImage(final String imageURL, final Graphics g, 
+            final int x, final int y, final int w, final int h) {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     displayedImage = createImage(imageURL) ;
                     cache.addImageEntity(new ImageEntity(imageURL, displayedImage));
-                    repaint();
+                    drawImage(g, x, y, w, h);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (OutOfMemoryError e) {

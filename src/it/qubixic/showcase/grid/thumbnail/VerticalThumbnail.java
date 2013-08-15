@@ -9,8 +9,8 @@ public class VerticalThumbnail extends Thumbnail {
 
     private final int focussedColor = 0xff0000 ;
     
-    public VerticalThumbnail(VerticalThumbnailCaption caption, Image image) {
-        setImage(image);
+    public VerticalThumbnail(VerticalThumbnailCaption caption, String imageURL) {
+        setImageURL(imageURL);
         setCaption(caption);
     }
 

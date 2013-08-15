@@ -1,5 +1,6 @@
 package it.qubixic.component.grid.thumbnail;
 
+import it.qubixic.component.dynamicImageLoader.DynamicImageLoader;
 import it.qubixic.component.theme.Theme;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -7,27 +8,29 @@ import javax.microedition.lcdui.Image;
 public class Thumbnail implements IThumbnail {
 
     private ThumbnailCaption caption ;
-    private Image imagePart;    
+    private String imageURL;    
     private boolean selected = false;    
     private int width = 100 ;
     private int height = 100 ;
     private int topX = 0 ; 
     private int topY = 0 ;
     protected boolean focused = false ;
+    private DynamicImageLoader imageLoader ; 
     
     public Thumbnail() {}
     
-    public Thumbnail(ThumbnailCaption caption, Image imagePart) {        
-        this.caption = caption ;
-        this.imagePart = imagePart;
+    public Thumbnail(ThumbnailCaption caption, String imageURL) {        
+        setCaption(caption);
+        setImageURL(imageURL);
     }
 
-    public void setImage(Image image) {
-        this.imagePart = image ;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL ;
+        imageLoader = new DynamicImageLoader("",  imageURL) ;
     }
     
-    public Image getImage() {
-        return imagePart;
+    public String getImageURL() {
+        return imageURL;
     }
     
     public boolean getFocussed () {
@@ -70,12 +73,12 @@ public class Thumbnail implements IThumbnail {
         this.width = width ;
     }
     
-    public void render (Graphics g, Image image, ThumbnailCaption caption, 
+    public void render (Graphics g, String imageURL, ThumbnailCaption caption, 
             int topX, int topY) {    
         
-        if (image != null) {
-            g.drawImage(image, topX, topY,
-                Graphics.LEFT | Graphics.TOP);
+        if (imageURL != null) {
+            imageLoader.drawImage(g, topX, topY, 
+                    getWidth(), getHeight());
         }       
         
         if (null != caption) {
