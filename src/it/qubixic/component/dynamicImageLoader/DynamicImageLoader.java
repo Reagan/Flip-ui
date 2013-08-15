@@ -18,6 +18,9 @@ public class DynamicImageLoader extends CustomItem {
     private ImageCache cache = new ImageCache() ;
     private final String LOADING_MESSAGE = "Loading..." ;
     private final String NO_IMAGE_SPECIFIED_MESSAGE = "No Image" ;
+    private int topX = 0 ;
+    private int topY = 0 ;
+    private int BUFFER = 10; 
     
     /**
      * Creates a new instance of a dynamic image
@@ -155,9 +158,26 @@ public class DynamicImageLoader extends CustomItem {
     }
 
     protected void paint(Graphics g, int w, int h) {
+        drawTitle(g, w, h) ;
         drawBackground(g, getWidth(), getHeight()) ;
         drawImage(g, getWidth(), getHeight()) ;
     }    
+    
+    /**
+     * This method draws the dynamic image loader
+    * @param g Graphics object
+     * @param w width
+     * @param h  height
+     */
+    protected void drawTitle(Graphics g, int w, int h) {
+        if(!title.equals("")) {
+            g.setColor(Theme.getDynamicImageTitleColor()) ;
+            g.setFont(Theme.getDynamicImageTitleFont());
+            g.drawString(title, 0, 0, Graphics.TOP | Graphics.LEFT);
+            topY = g.getFont().getHeight() + BUFFER ;
+            height = 120 + topY ;
+        }
+    }
     
     /** 
      * Draws the background to the dynamic Image Loader
@@ -167,7 +187,7 @@ public class DynamicImageLoader extends CustomItem {
      */
     protected void drawBackground(Graphics g, int w, int h) {
         g.setColor(Theme.getDynamicImageBgColor());
-        g.fillRect(0, 0, width, height);
+        g.fillRect(topX, topY, width, height);
     }
     
     /**
@@ -180,13 +200,14 @@ public class DynamicImageLoader extends CustomItem {
         if (!imageURL.equals("")) {
             if (cache.contains(imageURL)) {
                 displayedImage = cache.get(imageURL).getImage() ;
-                g.drawImage(displayedImage, 0, 0, Graphics.TOP | Graphics.LEFT);
+                g.drawImage(displayedImage, topX, topY, 
+                        Graphics.TOP | Graphics.LEFT);
             } else {
-                drawPlaceHolder(g, LOADING_MESSAGE) ; 
+                drawPlaceHolder(g, LOADING_MESSAGE, w, h) ; 
                 loadImage(imageURL);
             }
         } else {
-            drawPlaceHolder(g, NO_IMAGE_SPECIFIED_MESSAGE);
+            drawPlaceHolder(g, NO_IMAGE_SPECIFIED_MESSAGE, w, h);
         }
     }
     
@@ -197,7 +218,8 @@ public class DynamicImageLoader extends CustomItem {
      * @param g Graphics object
      * @param message place holder text
      */
-    protected void drawPlaceHolder(Graphics g, String message) {
+    protected void drawPlaceHolder(Graphics g, String message, int width, 
+            int height) {
         
         final int ARC_RADIUS = 5 ; 
         final int PADDING = 5 ;       
@@ -205,11 +227,11 @@ public class DynamicImageLoader extends CustomItem {
         g.setFont(Theme.getDynamicImageMessageFont());
         g.setColor(Theme.getDynamicImageMessageBgColor()) ;
         
-        int startX = getWidth() / 2 - (g.getFont().charsWidth(message.toCharArray(), 
+        int startX = width/ 2 - (g.getFont().charsWidth(message.toCharArray(), 
                 0, message.length()) +
                 2 * PADDING) / 2 ;
         g.fillRoundRect(startX, 
-                (int) (getHeight() / 2), 
+                (int) (height / 2), 
                 g.getFont().charsWidth(message.toCharArray(), 0, message.length()) +
                 2 * PADDING, 
                 g.getFont().getHeight() + 2 *  PADDING,
@@ -218,8 +240,7 @@ public class DynamicImageLoader extends CustomItem {
         
         g.setColor(Theme.getDynamicImageMessageFontColor());
         g.drawString(message, startX + PADDING, 
-                (int) (getHeight() / 2) + PADDING,
-                Graphics.TOP | Graphics.LEFT);
+                (int) (height / 2) + PADDING, Graphics.TOP | Graphics.LEFT);
     }
     
     /**

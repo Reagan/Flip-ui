@@ -35,7 +35,11 @@ public class Theme {
             Font.SIZE_LARGE) ;
     protected static int dynamicImageMessageFontColor = 0xffffff ;
     protected static int dynamicImageMessageBgColor = 0x999999 ;
-    protected static int dynamicImageBgColor = 0xffffff ;
+    protected static int dynamicImageBgColor = 0xcccccc ;
+    
+    protected static int dynamicImageTitleColor = 0x000000 ;
+    protected static Font dynamicImageTitleFont = Font.getFont(Font.FACE_SYSTEM, 
+            Font.STYLE_PLAIN, Font.SIZE_MEDIUM);
     
     /*
     protected int textColor = 0xd8dcd8;
@@ -126,6 +130,13 @@ public class Theme {
         return dynamicImageMessageFont ;
     }
     
+    public static int getDynamicImageTitleColor() {
+        return dynamicImageTitleColor;
+    }
+    
+    public static Font getDynamicImageTitleFont() {
+        return dynamicImageTitleFont ;
+    }
     /*
     public void setBackgroundColorFocused(int backgroundColorFocused) {
         this.backgroundColorFocused = backgroundColorFocused;
