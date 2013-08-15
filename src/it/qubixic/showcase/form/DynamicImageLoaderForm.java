@@ -4,6 +4,7 @@ import it.qubixic.component.dynamicImageLoader.DynamicImageLoader;
 import it.qubixic.component.dynamicImageLoader.event.ImageLoadingEvent;
 import it.qubixic.component.dynamicImageLoader.event.ImageLoadingListener;
 import it.qubixic.component.dynamicImageLoader.event.ImageLoadingStatus;
+import it.qubixic.utils.Point;
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Item;
@@ -87,7 +88,7 @@ public class DynamicImageLoaderForm extends BaseForm {
     class DynamicImageLoaderComponent extends CustomItem implements ImageLoadingListener  {
         
         public int loader_width = getWidth();
-        public int loader_height = 200 ;
+        public int loader_height = 120 ;
         private String imageURL = "";
         private String title = "" ;
         private int topX = 0 ;
@@ -99,6 +100,9 @@ public class DynamicImageLoaderForm extends BaseForm {
                 Font.STYLE_PLAIN, Font.SIZE_MEDIUM);        
         private DynamicImageLoader dynamicImageLoader ;
         private Image loadedImage; 
+        private Image statusImage ;
+        private final int STATUS_MESSAGE_WIDTH = 100 ;
+        private final int STATUS_MESSAGE_HEIGHT = 20 ;
         
         DynamicImageLoaderComponent (String title) {
             super("") ;
@@ -112,8 +116,9 @@ public class DynamicImageLoaderForm extends BaseForm {
         }
         
         public void initializeDynamicImageLoader() {
-            dynamicImageLoader = new DynamicImageLoader(getWidth(), loader_height);
-            loadedImage = dynamicImageLoader.fetchImage("", true) ;
+            dynamicImageLoader = new DynamicImageLoader(STATUS_MESSAGE_WIDTH, 
+                    STATUS_MESSAGE_HEIGHT);
+            statusImage = dynamicImageLoader.fetchImage("", true) ;
         }
 
         protected void addImageLoadingListener() {
@@ -125,6 +130,9 @@ public class DynamicImageLoaderForm extends BaseForm {
         }
 
         protected int getMinContentHeight() {
+            if (!title.equals("")) {
+                loader_height = 144;
+            }
             return loader_height ;
         }
 
@@ -133,15 +141,18 @@ public class DynamicImageLoaderForm extends BaseForm {
         }
 
         protected int getPrefContentHeight(int width) {
-            return loader_height ;
+            return getMinContentHeight() ;
         }
         
         protected void paint(Graphics g, int w, int h) {
-            System.out.println("paint called ");
-            System.out.println("A-top " + topX + "," + topY);
+            
             drawTitle(g, topX, topY) ;
             drawBackground(g, topX, topY, getWidth(), loader_height) ;
-            drawLoadedImage(g, loadedImage, topX, topY) ;
+            drawImage(g, loadedImage, topX, topY) ;           
+            drawImage(g, statusImage, 
+                    loader_width / 2 - STATUS_MESSAGE_WIDTH / 2, 
+                    loader_height / 2 - STATUS_MESSAGE_HEIGHT / 2) ; 
+                    statusImage = null ;
             topY = 0 ;
         }
         
@@ -150,20 +161,19 @@ public class DynamicImageLoaderForm extends BaseForm {
                 g.setColor(dynamicImageTitleColor);
                 g.setFont(dynamicImageTitleFont);
                 g.drawString(title, x, y, Graphics.TOP | Graphics.LEFT);
-                topY = g.getFont().getHeight() + BUFFER;
-                loader_height = 120 + topY;
-                System.out.println("Intop " + topX + "," + topY);
+                topY = g.getFont().getHeight() + BUFFER;                
             }
         }
 
         protected void drawBackground(Graphics g, int topX, int topY, int w, int h) {
-            System.out.println("B - top " + topX + "," + topY); 
             g.setColor(dynamicImageBgColor);
             g.fillRect(topX, topY, w, h);
         }
 
-        protected void drawLoadedImage(Graphics g, Image image, int topX, int topY) {
-            g.drawImage(image, topX, topY, Graphics.TOP|Graphics.LEFT);
+        protected void drawImage(Graphics g, Image image, int topX, int topY) {
+            if (null != image) {
+                g.drawImage(image, topX, topY, Graphics.TOP | Graphics.LEFT);
+            }
         }
         
         public String getImageURL() {
@@ -171,18 +181,16 @@ public class DynamicImageLoaderForm extends BaseForm {
         }
 
         public void setImageURL(String imageURL) {
-            System.out.println("Image URL run " + imageURL) ;
             this.imageURL = imageURL;
             boolean createPlaceHolderImage = true ;
-            loadedImage = dynamicImageLoader.fetchImage(imageURL, createPlaceHolderImage);     
+            statusImage = dynamicImageLoader.fetchImage(imageURL, createPlaceHolderImage);     
             repaint();
         }
 
         public void imageLoaded(ImageLoadingEvent e) {
-            System.out.println("imageLoaded called " + e.getLoadedStatus()) ;
             if (e.getLoadedStatus() == ImageLoadingStatus.LOADED) {
-                System.out.println("Image reloaded. Repainting...");
                 loadedImage = dynamicImageLoader.getLoadedImage() ;
+                statusImage = null ;
                 repaint();
             }
         }

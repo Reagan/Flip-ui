@@ -19,7 +19,6 @@ public class DynamicImageLoader {
     private ImageCache cache = new ImageCache() ;
     private final String LOADING_MESSAGE = "Loading..." ;
     private final String NO_IMAGE_SPECIFIED_MESSAGE = "No Image" ;
-    public boolean dirty = false; 
     public Vector imageLoadingListeners = new Vector() ;
     
     /**
@@ -83,21 +82,17 @@ public class DynamicImageLoader {
      */
     public Image fetchImage(String imageURL, boolean generatePlaceLoaderImage) {
         Image generatedImage = null ;
-        System.out.println("fetch Image called ");
         if (!imageURL.equals("") && StringUtils.validateURL(imageURL)) {
-            System.out.println("A ");
             if (cache.contains(imageURL)) {
-                System.out.println("C");
-                generatedImage = cache.get(imageURL).getImage() ;
+                loadedImage = cache.get(imageURL).getImage() ;
+                triggerImageLoadingEvent(imageURL, ImageLoadingStatus.LOADED);
             } else {
-                System.out.println("D");
                 loadImage(imageURL);
                 if(generatePlaceLoaderImage) {
                     generatedImage = drawPlaceHolder(LOADING_MESSAGE) ; 
                 }
             }
         } else {
-            System.out.println("B");
             if(generatePlaceLoaderImage) {
                 generatedImage = drawPlaceHolder(NO_IMAGE_SPECIFIED_MESSAGE);
             }
@@ -115,24 +110,16 @@ public class DynamicImageLoader {
     protected Image drawPlaceHolder(String message) {
         
         final int ARC_RADIUS = 5 ; 
-        final int PADDING = 5 ;   
         Image placeHolderImage = Image.createImage(width, height) ;        
         Graphics g = placeHolderImage.getGraphics() ;
                             
         g.setFont(Theme.getDynamicImageMessageFont());
         g.setColor(Theme.getDynamicImageMessageBgColor()) ;
         
-        int startX = width/ 2 - (g.getFont().charsWidth(message.toCharArray(), 
-                0, message.length()) + 2 * PADDING) / 2 ;
-        g.fillRoundRect(startX, 
-                (int) (height / 2), 
-                g.getFont().charsWidth(message.toCharArray(), 0, message.length()) +
-                2 * PADDING, g.getFont().getHeight() + 2 *  PADDING,
-                ARC_RADIUS, ARC_RADIUS);
+        g.fillRoundRect(0, 0, width, height, ARC_RADIUS, ARC_RADIUS);
         
         g.setColor(Theme.getDynamicImageMessageFontColor());
-        g.drawString(message, startX + PADDING, 
-                (int) (height / 2) + PADDING, Graphics.TOP | Graphics.LEFT);
+        g.drawString(message, 0, 0, Graphics.TOP | Graphics.LEFT);
         
         return placeHolderImage ;
     }
@@ -146,12 +133,10 @@ public class DynamicImageLoader {
         new Thread(new Runnable() {
             public void run() {
                 try {
+                    loadedImage = null ;
                     loadedImage = createImage(imageURL) ;
                     cache.addImageEntity(new ImageEntity(imageURL, loadedImage));
                     triggerImageLoadingEvent(imageURL, ImageLoadingStatus.LOADED);
-                    System.out.println("Image " + imageURL + " loaded " 
-                            + ImageLoadingStatus.LOADED);
-                    dirty = true ;
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (OutOfMemoryError e) {
@@ -202,7 +187,6 @@ public class DynamicImageLoader {
      * @param loadingStatus 
      */
     protected void triggerImageLoadingEvent (String imageName, int loadingStatus) {
-        System.out.println("S " + imageName + "-" + loadingStatus);
         ImageLoadingEvent imageLoadingEvent 
                 = new ImageLoadingEvent(imageName, loadingStatus) ;
         for (int listenersCounter = 0 ; listenersCounter < imageLoadingListeners.size();
