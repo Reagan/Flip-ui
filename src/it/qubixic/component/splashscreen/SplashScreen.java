@@ -157,7 +157,7 @@ public class SplashScreen extends Canvas implements Runnable {
      * by drawLoadingSequence() and a revised loading sequence implemented 
      * to reflect a change in the loading sequence      
      */
-    protected void update(String loadingMessage, int counter) {
+    public void update(String loadingMessage, int counter) {
         this.counter = counter ;
         this.loadingMessage = loadingMessage ; 
         currentState++ ;
